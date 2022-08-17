@@ -1,14 +1,16 @@
-document.addEventListener("DOMContentLoaded", function(){
-    document.getElementById("autos").addEventListener("click", function() {
-        localStorage.setItem("catID", 101);
-        window.location = "products.html"
-    });
-    document.getElementById("juguetes").addEventListener("click", function() {
-        localStorage.setItem("catID", 102);
-        window.location = "products.html"
-    });
-    document.getElementById("muebles").addEventListener("click", function() {
-        localStorage.setItem("catID", 103);
-        window.location = "products.html"
-    });
-});
+const Formulario = document.getElementById("Formulariologin")
+
+Formulario.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  const data = new FormData(Formulario);
+  let usuario = data.get('email')
+
+  let password = data.get('pass')
+  
+  if (password == "" || usuario == "") {
+    alert('Usuario o contraseña incorrecto!!!');
+  } else {
+    window.location.replace("inicio.html")
+  }
+})
