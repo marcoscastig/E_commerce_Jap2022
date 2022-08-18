@@ -7,7 +7,7 @@ const showdata = (data) => {
     
     for(let i = 0; i < data.products.length; i++) {
        let categoria = data.products[i]
-        console.log(data.products[i])
+       // console.log(data.products[i])
         htmlContentToAppend += `
         <div class="list-group-item list-group-item-action">
             <div class="row">
