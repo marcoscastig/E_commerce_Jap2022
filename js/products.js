@@ -1,33 +1,40 @@
-fetch(PRODUCTS_URL)
-.then(response => response.json())
-.then(data => showdata(data))
-.catch(error => console.log(error))
-const showdata = (data) => {
-    let htmlContentToAppend =""
-    
-    for(let i = 0; i < data.products.length; i++) {
-       let categoria = data.products[i]
-       // console.log(data.products[i])
-        htmlContentToAppend += `
-        <div class="list-group-item list-group-item-action">
-            <div class="row">
-                <div class="col-3">
-                <img src="${categoria.image}" alt="${categoria.description}" class="img-thumbnail">
-                </div>
-                <div class="col">
-                    <div class="d-flex w-100 justify-content-between">
-                        <div class="mb-1">
-                        <h4>`+ categoria.name + ` - `+ categoria.currency + ` `+ categoria.cost + `</h4> 
-                        <p> `+ categoria.description +`</p> 
-                        </div>
-                        <small class="text-muted">` + categoria.soldCount + ` vendidos</small> 
-                    </div>
+const url = PRODUCTS_URL
 
-                </div>
-            </div>
-        </div>
-        `
-        document.getElementById("cat-list-container").innerHTML = htmlContentToAppend;
-    }
+function htmlContentToAppend(products) { return `
+ <div class="list-group-item list-group-item-action">
+     <div class="row">
+         <div class="col-3">
+         <img src="${products.image}" alt="${products.description}" class="img-thumbnail">
+         </div>
+         <div class="col">
+             <div class="d-flex w-100 justify-content-between">
+                 <div class="mb-1">
+                 <h4>`+ products.name + ` - `+ products.currency + ` `+ products.cost + `</h4> 
+                 <p> `+ products.description +`</p> 
+                 </div>
+                 <small class="text-muted">` + products.soldCount + ` vendidos</small> 
+             </div>
+         </div>
+     </div>
+ </div>
+ `}
+
+
+ var productos =""
+ document.addEventListener("DOMContentLoaded", async function(){
+    const Lista = document.getElementById("cat-list-container")
     
-}
+    let respuesta= await getJSONData(url)
+    console.log(respuesta)
+    if(respuesta.status === "ok"){
+        
+        productos = respuesta.data
+        console.log(productos.products[0])
+        for(let i = 0; i < productos.products.length; i++){
+            let categoria = productos.products[i]    
+            Lista.innerHTML += htmlContentToAppend(categoria);
+        }      
+    }
+ })
+
+
