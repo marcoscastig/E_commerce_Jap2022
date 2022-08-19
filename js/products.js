@@ -31,8 +31,8 @@ function htmlContentToAppend(products) { return `
         productos = respuesta.data
         console.log(productos.products[0])
         for(let i = 0; i < productos.products.length; i++){
-            let categoria = productos.products[i]    
-            Lista.innerHTML += htmlContentToAppend(categoria);
+            let categoriainterna = productos.products[i]    
+            Lista.innerHTML += htmlContentToAppend(categoriainterna);
         }      
     }
  })
