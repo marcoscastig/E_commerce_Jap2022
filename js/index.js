@@ -7,6 +7,8 @@ Formulario.addEventListener('submit', (event) => {
   let usuario = data.get('email')
 
   let password = data.get('pass')
+
+  localStorage.setItem("usuario",usuario)
   
   if (password == "" || usuario == "") {
     alert('Usuario o contraseña incorrecto!!!');

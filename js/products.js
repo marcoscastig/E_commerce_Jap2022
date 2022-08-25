@@ -9,10 +9,10 @@ function htmlContentToAppend(products) { return `
          <div class="col">
              <div class="d-flex w-100 justify-content-between">
                  <div class="mb-1">
-                 <h4>`+ products.name + ` - `+ products.currency + ` `+ products.cost + `</h4> 
-                 <p> `+ products.description +`</p> 
+                 <h4>${products.name} - ${products.currency} ${products.cost} </h4> 
+                 <p>${products.description} </p> 
                  </div>
-                 <small class="text-muted">` + products.soldCount + ` vendidos</small> 
+                 <small class="text-muted">${products.soldCount} vendidos</small> 
              </div>
          </div>
      </div>
@@ -22,12 +22,9 @@ function htmlContentToAppend(products) { return `
 
  var productos =""
  document.addEventListener("DOMContentLoaded", async function(){
-    const Lista = document.getElementById("cat-list-container")
-    
-    let respuesta= await getJSONData(url)
-    console.log(respuesta)
+    const Lista = document.getElementById("cat-list-container")   
+    let respuesta = await getJSONData(url)
     if(respuesta.status === "ok"){
-        
         productos = respuesta.data
         console.log(productos.products[0])
         for(let i = 0; i < productos.products.length; i++){
