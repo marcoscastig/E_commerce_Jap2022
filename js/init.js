@@ -9,13 +9,18 @@ const CART_INFO_URL = "https://japceibal.github.io/emercado-api/user_cart/";
 const CART_BUY_URL = "https://japceibal.github.io/emercado-api/cart/buy.json";
 const navbariul = document.querySelector('ul') 
 const usuario_name = localStorage.getItem("usuario") 
+const Footer = document.querySelector('footer')
 
 
+let ColorFooter = function(Footer){
+  Footer.classList.remove('text-muted')
+  Footer.classList.add('text-dark','bg-white')
+}
 
 let agregarusuario = function(usuario_name){
     return `
     <li class="nav-item">
-    <a class="nav-link" href="">${usuario_name}</a>
+    <a class="nav-link" href="my-profile.html">${usuario_name}</a>
   </li>`
 }
   
@@ -60,4 +65,5 @@ let getJSONData = function(url){
 
 document.addEventListener("DOMContentLoaded",function(){ 
   ShowUser(usuario_name)
+  ColorFooter(Footer)
 })
