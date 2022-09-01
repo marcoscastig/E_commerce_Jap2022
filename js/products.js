@@ -7,6 +7,19 @@ let currentSortCriteriaProducts = undefined;
 let minCount = undefined;
 let maxCount = undefined;
 const Lista = document.getElementById("cat-list-container")
+const sector_buscador =document.getElementById("sector_buscador")
+
+let agregarbarra = function(){
+    return `<div class="container-fluid ">
+    <form class="d-flex mb-4" role="search">
+      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+  </div>`
+  }
+  let barra_busqueda = function(){ 
+    sector_buscador.insertAdjacentHTML("afterbegin",agregarbarra()) 
+  }
 
 function sortCategoriesProducts(criteria, array){
     let result = [];
@@ -81,7 +94,7 @@ function sortAndShowCategoriesProducts(sortCriteria, categoriesArray){
 
 
  document.addEventListener("DOMContentLoaded", async function() {
-       
+    barra_busqueda()
     getJSONData(url) .then(function(respuesta){
     if(respuesta.status === "ok"){
         productos = respuesta.data

@@ -20,10 +20,19 @@ let ColorFooter = function(Footer){
 let agregarusuario = function(usuario_name){
     return `
     <li class="nav-item">
-    <a class="nav-link" href="my-profile.html">${usuario_name}</a>
-  </li>`
+            <a class="nav-link" href="inicio.html">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="categories.html">Categorías</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="sell.html">Vender</a>
+          </li>
+         <li class="nav-item">
+          <a class="nav-link" href="my-profile.html">${usuario_name}</a>
+   </li>`
 }
-  
+
   let ShowUser = function(){ 
     navbariul.insertAdjacentHTML("beforeend",agregarusuario(usuario_name)) 
   }
