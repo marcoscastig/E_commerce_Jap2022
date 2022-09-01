@@ -9,10 +9,13 @@ let maxCount = undefined;
 const Lista = document.getElementById("cat-list-container")
 const sector_buscador =document.getElementById("sector_buscador")
 
+
+
+
 let agregarbarra = function(){
     return `<div class="container-fluid ">
-    <form class="d-flex mb-4" role="search">
-      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+    <form id="buscador_id" class="d-flex mb-4" role="search">
+      <input class="form-control me-2" type="search" placeholder="Search" name="busqueda" aria-label="Search">
       <button class="btn btn-outline-success" type="submit">Search</button>
     </form>
   </div>`
@@ -20,6 +23,7 @@ let agregarbarra = function(){
   let barra_busqueda = function(){ 
     sector_buscador.insertAdjacentHTML("afterbegin",agregarbarra()) 
   }
+  barra_busqueda()
 
 function sortCategoriesProducts(criteria, array){
     let result = [];
@@ -94,7 +98,8 @@ function sortAndShowCategoriesProducts(sortCriteria, categoriesArray){
 
 
  document.addEventListener("DOMContentLoaded", async function() {
-    barra_busqueda()
+   
+ 
     getJSONData(url) .then(function(respuesta){
     if(respuesta.status === "ok"){
         productos = respuesta.data
@@ -148,4 +153,62 @@ document.getElementById("rangeFilterCount1").addEventListener("click", function(
 
     showCategoriesListProducts();
 });
+
+
+
+
+
+
+
+
+
+})
+
+
+const buscador = document.getElementById("buscador_id")
+const buscar_producto = ()=> {
+    const Busca = new FormData(buscador)
+    let busqueda= Busca.get('busqueda').toLowerCase()
+    Lista.innerHTML =""
+    for(let i = 0; i < productos.products.length; i++){
+        let productos_txt = productos.products[i].name.toLowerCase();
+        let products = productos.products[i]
+        if(productos_txt.indexOf(busqueda) !== -1){
+           
+            Lista.innerHTML += `<div class="list-group-item list-group-item-action">
+            <div class="row">
+                <div class="col-3">
+                <img src="${products.image}" alt="${products.description}" class="img-thumbnail">
+                </div>
+                <div class="col">
+                    <div class="d-flex w-100 justify-content-between">
+                        <div class="mb-1">
+                        <h4>${products.name} - ${products.currency} ${products.cost} </h4> 
+                        <p>${products.description} </p> 
+                        </div>
+                        <small class="text-muted">${products.soldCount} vendidos</small> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        `
+        }
+    }
+    if(Lista.innerHTML === ""){
+        Lista.innerHTML = "No Hay resultados"
+    }
+    else {
+
+    }
+}
+
+buscador.addEventListener('submit', (event) => {
+event.preventDefault();
+buscar_producto()
+
+})
+buscador.addEventListener('keyup', (event) => {
+    event.preventDefault();
+    buscar_producto()
+    
 })
