@@ -1,6 +1,6 @@
 const url = PRODUCTS_URL
-const ORDER_ASC_BY_COST = "AZ";
-const ORDER_DESC_BY_COST = "ZA";
+const ORDER_ASC_BY_COST = "12";
+const ORDER_DESC_BY_COST = "21";
 const ORDER_BY_PROD_SOLD = "Cant.";
 let productos = [];
 let currentSortCriteriaProducts = undefined;
@@ -15,7 +15,7 @@ const sector_buscador =document.getElementById("sector_buscador")
 let agregarbarra = function(){
     return `<div class="container-fluid ">
     <form id="buscador_id" class="d-flex mb-4" role="search">
-      <input class="form-control me-2" type="search" placeholder="Search" name="busqueda" aria-label="Search">
+      <input class="form-control me-2"  placeholder="Search" name="busqueda" aria-label="Search">
       <button class="btn btn-outline-success" type="submit">Search</button>
     </form>
   </div>`
@@ -54,6 +54,27 @@ function sortCategoriesProducts(criteria, array){
     return result;
 }
 
+function HtmlProductos(products) {
+    return `<div class="list-group-item list-group-item-action">
+    <div class="row">
+        <div class="col-xs-2 col-sm-5 col-md-4 col-lg-3">
+        <img src="${products.image}" alt="${products.description}" class="img-fluid img-thumbnail">
+        </div>
+        <div class="col">
+            <div class="d-flex w-100 justify-content-between">
+                <div class="mb-1">
+                <h4>${products.name} - ${products.currency} ${products.cost} </h4> 
+                <p>${products.description} </p> 
+                </div>
+                <small class="text-muted">${products.soldCount} vendidos</small> 
+            </div>
+            </div>
+        
+    </div>
+</div>
+`
+}
+
 function showCategoriesListProducts(){
 let htmlContentToAppend = "";
 for(let i = 0; i < productos.products.length; i++){
@@ -61,23 +82,7 @@ for(let i = 0; i < productos.products.length; i++){
     
     if (((minCount == undefined) || (minCount != undefined && parseInt(products.cost) >= minCount)) &&
     ((maxCount == undefined) || (maxCount != undefined && parseInt(products.cost) <= maxCount))){    
-    htmlContentToAppend += `<div class="list-group-item list-group-item-action">
-     <div class="row">
-         <div class="col-3">
-         <img src="${products.image}" alt="${products.description}" class="img-thumbnail">
-         </div>
-         <div class="col">
-             <div class="d-flex w-100 justify-content-between">
-                 <div class="mb-1">
-                 <h4>${products.name} - ${products.currency} ${products.cost} </h4> 
-                 <p>${products.description} </p> 
-                 </div>
-                 <small class="text-muted">${products.soldCount} vendidos</small> 
-             </div>
-         </div>
-     </div>
- </div>
- `}
+    htmlContentToAppend += HtmlProductos(products)}
  Lista.innerHTML = htmlContentToAppend;
 }
 }
@@ -154,16 +159,7 @@ document.getElementById("rangeFilterCount1").addEventListener("click", function(
     showCategoriesListProducts();
 });
 
-
-
-
-
-
-
-
-
 })
-
 
 const buscador = document.getElementById("buscador_id")
 const buscar_producto = ()=> {
@@ -173,25 +169,9 @@ const buscar_producto = ()=> {
     for(let i = 0; i < productos.products.length; i++){
         let productos_txt = productos.products[i].name.toLowerCase();
         let products = productos.products[i]
-        if(productos_txt.indexOf(busqueda) !== -1){
+        if(productos_txt.indexOf(busqueda) !== -1) {
            
-            Lista.innerHTML += `<div class="list-group-item list-group-item-action">
-            <div class="row">
-                <div class="col-3">
-                <img src="${products.image}" alt="${products.description}" class="img-thumbnail">
-                </div>
-                <div class="col">
-                    <div class="d-flex w-100 justify-content-between">
-                        <div class="mb-1">
-                        <h4>${products.name} - ${products.currency} ${products.cost} </h4> 
-                        <p>${products.description} </p> 
-                        </div>
-                        <small class="text-muted">${products.soldCount} vendidos</small> 
-                    </div>
-                </div>
-            </div>
-        </div>
-        `
+            Lista.innerHTML += HtmlProductos(products)
         }
     }
     if(Lista.innerHTML === ""){
