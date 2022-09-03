@@ -1,11 +1,11 @@
 const url = PRODUCTS_URL
 const ORDER_ASC_BY_COST = "12";
 const ORDER_DESC_BY_COST = "21";
-const ORDER_BY_PROD_SOLD = "Cant.";
+const ORDER_BY_PROD_SOLD = "Sold";
 let productos = [];
 let currentSortCriteriaProducts = undefined;
-let minCount = undefined;
-let maxCount = undefined;
+let minSold = undefined;
+let maxSold = undefined;
 const Lista = document.getElementById("cat-list-container")
 const sector_buscador =document.getElementById("sector_buscador")
 
@@ -80,8 +80,8 @@ let htmlContentToAppend = "";
 for(let i = 0; i < productos.products.length; i++){
     let products = productos.products[i];
     
-    if (((minCount == undefined) || (minCount != undefined && parseInt(products.cost) >= minCount)) &&
-    ((maxCount == undefined) || (maxCount != undefined && parseInt(products.cost) <= maxCount))){    
+    if (((minSold == undefined) || (minSold != undefined && parseInt(products.cost) >= minSold)) &&
+    ((maxSold == undefined) || (maxSold != undefined && parseInt(products.cost) <= maxSold))){    
     htmlContentToAppend += HtmlProductos(products)}
  Lista.innerHTML = htmlContentToAppend;
 }
@@ -114,46 +114,45 @@ function sortAndShowCategoriesProducts(sortCriteria, categoriesArray){
     })
  
 
- document.getElementById("sortAsc1").addEventListener("click", function(){
+ document.getElementById("sortAscProd").addEventListener("click", function(){
     sortAndShowCategoriesProducts(ORDER_ASC_BY_COST);
 });
 
-document.getElementById("sortDesc1").addEventListener("click", function(){
+document.getElementById("sortDescProd").addEventListener("click", function(){
     sortAndShowCategoriesProducts(ORDER_DESC_BY_COST);
 });
 
-document.getElementById("sortByCount1").addEventListener("click", function(){
+document.getElementById("sortByCountProd").addEventListener("click", function(){
     sortAndShowCategoriesProducts(ORDER_BY_PROD_SOLD);
 });
 
-document.getElementById("clearRangeFilter1").addEventListener("click", function(){
-    document.getElementById("rangeFilterCountMinProduct1").value = "";
-    document.getElementById("rangeFilterCountMaxProduct1").value = "";
+document.getElementById("clearRangeFilterCost").addEventListener("click", function(){
+    document.getElementById("rangeFilterCostMinProduct").value = "";
+    document.getElementById("rangeFilterCostMaxProduct").value = "";
 
-    minCount = undefined;
-    maxCount = undefined;
+    minSold = undefined;
+    maxSold = undefined;
 
     showCategoriesListProducts();
 });
 
-document.getElementById("rangeFilterCount1").addEventListener("click", function(){
-    //Obtengo el mínimo y máximo de los intervalos para filtrar por cantidad
-    //de productos por categoría.
-    minCount = document.getElementById("rangeFilterCountMinProduct1").value;
-    maxCount = document.getElementById("rangeFilterCountMaxProduct1").value;
+document.getElementById("rangeFilterCost").addEventListener("click", function(){
+ 
+    minSold = document.getElementById("rangeFilterCostMinProduct").value;
+    maxSold = document.getElementById("rangeFilterCostMaxProduct").value;
 
-    if ((minCount != undefined) && (minCount != "") && (parseInt(minCount)) >= 0){
-        minCount = parseInt(minCount);
+    if ((minSold != undefined) && (minSold != "") && (parseInt(minSold)) >= 0){
+        minSold = parseInt(minSold);
     }
     else{
-        minCount = undefined;
+        minSold = undefined;
     }
 
-    if ((maxCount != undefined) && (maxCount != "") && (parseInt(maxCount)) >= 0){
-        maxCount = parseInt(maxCount);
+    if ((maxSold != undefined) && (maxSold != "") && (parseInt(maxSold)) >= 0){
+        maxSold = parseInt(maxSold);
     }
     else{
-        maxCount = undefined;
+        maxSold = undefined;
     }
 
     showCategoriesListProducts();
@@ -169,7 +168,7 @@ const buscar_producto = ()=> {
     for(let i = 0; i < productos.products.length; i++){
         let productos_txt = productos.products[i].name.toLowerCase();
         let products = productos.products[i]
-        if(productos_txt.indexOf(busqueda) !== -1) {
+        if(productos_txt.indexOf(busqueda) !== -1){
            
             Lista.innerHTML += HtmlProductos(products)
         }
