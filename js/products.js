@@ -1,4 +1,3 @@
-const url = PRODUCTS_URL
 const ORDER_ASC_BY_COST = "12";
 const ORDER_DESC_BY_COST = "21";
 const ORDER_BY_PROD_SOLD = "Sold";
@@ -54,8 +53,13 @@ function sortCategoriesProducts(criteria, array){
     return result;
 }
 
+function setIDProd(id) {
+    localStorage.setItem("productID", id);
+    window.location = "product-info.html"
+}
+
 function HtmlProductos(products) {
-    return `<div class="list-group-item list-group-item-action">
+    return `<div onclick="setIDProd(${products.id})" class="list-group-item list-group-item-action">
     <div class="row">
         <div class="col-xs-2 col-sm-5 col-md-4 col-lg-3">
         <img src="${products.image}" alt="${products.description}" class="img-fluid img-thumbnail">
@@ -74,6 +78,7 @@ function HtmlProductos(products) {
 </div>
 `
 }
+
 
 function showCategoriesListProducts(){
 let htmlContentToAppend = "";
@@ -105,7 +110,7 @@ function sortAndShowCategoriesProducts(sortCriteria, categoriesArray){
  document.addEventListener("DOMContentLoaded", async function() {
    
  
-    getJSONData(url) .then(function(respuesta){
+    getJSONData(PRODUCTS_URL) .then(function(respuesta){
     if(respuesta.status === "ok"){
         productos = respuesta.data
         showCategoriesListProducts()
