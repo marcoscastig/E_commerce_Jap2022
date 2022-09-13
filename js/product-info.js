@@ -1,17 +1,14 @@
 const Productos_info_div = document.getElementById("Productos_info_div")
 const Productos_info_div_2 = document.getElementById("Productos_info_div_2")
+const tablaid = document.getElementById("tabla_comments")
+
 
 function HtmlProductosInfo(productos_info) {
-    Productos_info_div.innerHTML +=`<div  class="list-group-item list-group-item-action">
+  Productos_info_div.innerHTML += `<div  class="list-group-item list-group-item-action">
     <div class="row">
-        <div class="d-flex mb-1 col-xs-2 col-sm-5 col-md-4 col-lg-3 justify-content-between ">
-        <img src="${productos_info.images[0]}" alt="${productos_info.description}" class="img-fluid img-thumbnail">
-        <img src="${productos_info.images[1]}" alt="${productos_info.description}" class="img-fluid img-thumbnail">
-        <img src="${productos_info.images[2]}" alt="${productos_info.description}" class="img-fluid img-thumbnail">
-        <img src="${productos_info.images[3]}" alt="${productos_info.description}" class="img-fluid img-thumbnail">
-
-        </div>
-        <div class="col">
+        
+       
+        <div class="col justify-content-center align-items-center">
             <div class="d-flex w-100 justify-content-between">
                 <div class="mb-1">
                 <h4>${productos_info.name} - ${productos_info.currency} ${productos_info.cost} </h4> 
@@ -20,15 +17,29 @@ function HtmlProductosInfo(productos_info) {
                 <small class="text-muted">${productos_info.soldCount} vendidos</small> 
             </div>
             </div>
-        
-    </div>
+            </div>
+            <div class="row ">
+            <div class="col-xs-2 col-sm-5 col-md-4 col-lg-3">
+            <img src="${productos_info.images[0]}" alt="${productos_info.description}" class="img-fluid img-thumbnail">
+            </div>
+            <div class="col-xs-2 col-sm-5 col-md-4 col-lg-3">
+            <img src="${productos_info.images[1]}" alt="${productos_info.description}" class="img-fluid img-thumbnail">
+            </div>
+            <div class="col-xs-2 col-sm-5 col-md-4 col-lg-3">
+            <img src="${productos_info.images[2]}" alt="${productos_info.description}" class="img-fluid img-thumbnail">
+            </div>
+            <div class="col-xs-2 col-sm-5 col-md-4 col-lg-3">
+            <img src="${productos_info.images[3]}" alt="${productos_info.description}" class="img-fluid img-thumbnail">
+            </div>
+            </div>
+    
 </div>
 `
 }
 
 
 function HtmlProductosComments(productos_comments) {
-    /*Productos_info_div.innerHTML +=*/ return   `<div  class="list-group-item list-group-item-action">
+    /*Productos_info_div.innerHTML +=*/ return `<div  class="list-group-item list-group-item-action">
     <div class="row">
         </div>
         <div class="col">
@@ -40,45 +51,136 @@ function HtmlProductosComments(productos_comments) {
                 <small class="text-muted">${productos_comments.score} puntuacion</small> 
             </div>
             </div>
-        
+            
     </div>
 </div>
 `
+  /*          <span class="fa fa-star checked"></span>
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star checked"></span>
+              <span class="fa fa-star"></span>
+              <span class="fa fa-star"></span>*/
 
 }
-function showHtmlComments(){
-    for(let i = 0; i < productos_comments.length; i++){
-        let comments = productos_comments[i]    
-        Productos_info_div.innerHTML += HtmlProductosComments(comments);
-    }      
+function showHtmlComments() {
+  for (let i = 0; i < productos_comments.length; i++) {
+    let comments = productos_comments[i]
+
+    Productos_info_div_2.innerHTML += HtmlProductosComments(comments);
+  }
 }
 
-function showProduct(){
-    for(let i = 0; i < productos_info.length; i++){
-        let product_content = productos_info[i]    
-        Productos_info_div_2.innerHTML += HtmlProductosInfo(product_content);
-    }      
+function showProduct() {
+  for (let i = 0; i < productos_info.length; i++) {
+    let product_content = productos_info[i]
+
+    Productos_info_div.innerHTML += HtmlProductosInfo(product_content);
+  }
 }
 
 
-    document.addEventListener("DOMContentLoaded", async function() {
-   
- 
-        getJSONData(PRODUCT_INFO_URL) .then(function(respuesta){
-        if(respuesta.status === "ok"){
-            productos_info = respuesta.data
-            console.log(productos_info)
-            console.log(productos_info.images)
-            HtmlProductosInfo(productos_info)
-        }})
-        
-        getJSONData(PRODUCT_INFO_COMMENTS_URL) .then(function(respuesta){
-            if(respuesta.status === "ok"){
-                productos_comments = respuesta.data
-                console.log(productos_comments)
-                showHtmlComments()  
-        }})
-            
+document.addEventListener("DOMContentLoaded", async function () {
+
+  
+
+  getJSONData(PRODUCT_INFO_URL).then(function (respuesta) {
+    if (respuesta.status === "ok") {
+      productos_info = respuesta.data
+      productos_images = respuesta.data.images
+
+
+      HtmlProductosInfo(productos_info)
+    }
+  })
+
+  getJSONData(PRODUCT_INFO_COMMENTS_URL).then(function (respuesta) {
+    if (respuesta.status === "ok") {
+      productos_comments = respuesta.data
+
+    }
+    
+        localStorage.setItem(`"comments"${PRODID}`, JSON.stringify(productos_comments))
+        insertRowEntabla(productos_comments)
+        const myObjarray = JSON.parse(localStorage.getItem(`"comments"${PRODID}`)) || []; 
+    
+      myObjarray.forEach(Formularioelement => {                   
+      insertRowEntabla(Formularioelement)
      
-    })
+   });  
+   const myObjarraycomment = JSON.parse(localStorage.getItem(`"comments_user"${PRODID}`)) || []; 
+   
+   myObjarraycomment.forEach(Formularioelement => {                   
+      insertRowEntabla(Formularioelement)}
+     
+   );    
+  })
+
+})
+
+
+   
+   
+
+FormComent = document.getElementById("FormComent")
+
+FormComent.addEventListener('submit', function (event) {
+  event.preventDefault();
+  const Form_data = new FormData(FormComent)
+  Obj_form = convertirFormComentEnObj(Form_data)
+  GuardarObjenLocalStorage(Obj_form)
+  
+  insertRowEntabla(Obj_form)
+})
+
+
+
+function convertirFormComentEnObj(Form_data) {
+  let product = parseInt(PRODID);
+  let score = parseInt(Form_data.get('score_prod'));
+  let description = Form_data.get('description_prod');
+  let user = usuario_name;
+  let dateTime = new Date;
+  return {
+    "product": product,
+    "score": score,
+    "description": description,
+    "user": user,
+    "dateTime": dateTime
+  }
+
+}
+
+function GuardarObjenLocalStorage(Obj_form) {
+  let arreglo_obj = (JSON.parse(localStorage.getItem(`"comments_user"${PRODID}`))) || []
+  arreglo_obj.push(Obj_form)
+  localStorage.setItem(`"comments_user"${PRODID}`, JSON.stringify(arreglo_obj))
+  console.log(arreglo_obj)
+}
+
+
+
+function insertRowEntabla(Obj_form) {
+  let tablaid = document.getElementById("tabla_comments");
+  let newRowRef = tablaid.insertRow(-1);
+
+  let newCellRef = newRowRef.insertCell(0);
+  newCellRef.textContent = Obj_form["score"];
+  newCellRef.setAttribute("Data-Formulario-Score",Obj_form["score"]) 
+ 
+  newCellRef = newRowRef.insertCell(1);
+  newCellRef.textContent = (Obj_form["description"]);
+ 
+  newCellRef = newRowRef.insertCell(2);
+  newCellRef.textContent = Obj_form["user"];
+
+  newCellRef = newRowRef.insertCell(3);
+  newCellRef.textContent = Obj_form["dateTime"];
+
+}
+
+document.addEventListener("DOMContentLoaded",function(){
+  let estrella5 = document.querySelectorAll('[data-formulario-score="5"]')
+console.log(estrella5)
+})
+
 
