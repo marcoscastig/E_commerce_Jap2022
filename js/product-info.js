@@ -2,7 +2,6 @@ const Productos_info_div = document.getElementById("Productos_info_div")
 const Productos_info_div_2 = document.getElementById("Productos_info_div_2")
 const tablaid = document.getElementById("tabla_comments")
 
-
 function HtmlProductosInfo(productos_info) {
   Productos_info_div.innerHTML += `<div  class="list-group-item list-group-item-action">
     <div class="row">
@@ -37,39 +36,6 @@ function HtmlProductosInfo(productos_info) {
 `
 }
 
-
-function HtmlProductosComments(productos_comments) {
-    /*Productos_info_div.innerHTML +=*/ return `<div  class="list-group-item list-group-item-action">
-    <div class="row">
-        </div>
-        <div class="col">
-            <div class="d-flex w-100 justify-content-between">
-                <div class="mb-1">
-                <h4>${productos_comments.user} - ${productos_comments.user} ${productos_comments.dateTime} </h4> 
-                <p>${productos_comments.description} </p> 
-                </div>
-                <small class="text-muted">${productos_comments.score} puntuacion</small> 
-            </div>
-            </div>
-            
-    </div>
-</div>
-`
-  /*          <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star checked"></span>
-              <span class="fa fa-star"></span>
-              <span class="fa fa-star"></span>*/
-
-}
-function showHtmlComments() {
-  for (let i = 0; i < productos_comments.length; i++) {
-    let comments = productos_comments[i]
-
-    Productos_info_div_2.innerHTML += HtmlProductosComments(comments);
-  }
-}
-
 function showProduct() {
   for (let i = 0; i < productos_info.length; i++) {
     let product_content = productos_info[i]
@@ -78,17 +44,11 @@ function showProduct() {
   }
 }
 
-
 document.addEventListener("DOMContentLoaded", async function () {
-
-  
-
   getJSONData(PRODUCT_INFO_URL).then(function (respuesta) {
     if (respuesta.status === "ok") {
       productos_info = respuesta.data
       productos_images = respuesta.data.images
-
-
       HtmlProductosInfo(productos_info)
     }
   })
@@ -99,9 +59,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     }
     
-        localStorage.setItem(`"comments"${PRODID}`, JSON.stringify(productos_comments))
-        insertRowEntabla(productos_comments)
-        const myObjarray = JSON.parse(localStorage.getItem(`"comments"${PRODID}`)) || []; 
+      localStorage.setItem(`"comments"${PRODID}`, JSON.stringify(productos_comments))
+        
+      const myObjarray = JSON.parse(localStorage.getItem(`"comments"${PRODID}`)) || []; 
     
       myObjarray.forEach(Formularioelement => {                   
       insertRowEntabla(Formularioelement)
@@ -117,10 +77,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 })
 
-
-   
-   
-
 FormComent = document.getElementById("FormComent")
 
 FormComent.addEventListener('submit', function (event) {
@@ -128,11 +84,9 @@ FormComent.addEventListener('submit', function (event) {
   const Form_data = new FormData(FormComent)
   Obj_form = convertirFormComentEnObj(Form_data)
   GuardarObjenLocalStorage(Obj_form)
-  
   insertRowEntabla(Obj_form)
+  FormComent.reset()
 })
-
-
 
 function convertirFormComentEnObj(Form_data) {
   let product = parseInt(PRODID);
@@ -157,15 +111,15 @@ function GuardarObjenLocalStorage(Obj_form) {
   console.log(arreglo_obj)
 }
 
-
-
 function insertRowEntabla(Obj_form) {
   let tablaid = document.getElementById("tabla_comments");
   let newRowRef = tablaid.insertRow(-1);
+  
 
   let newCellRef = newRowRef.insertCell(0);
-  newCellRef.textContent = Obj_form["score"];
+  //newCellRef.textContent = Obj_form["score"];
   newCellRef.setAttribute("Data-Formulario-Score",Obj_form["score"]) 
+  newCellRef.innerHTML = tipo_de_puntuacion (Obj_form["score"])
  
   newCellRef = newRowRef.insertCell(1);
   newCellRef.textContent = (Obj_form["description"]);
@@ -179,8 +133,67 @@ function insertRowEntabla(Obj_form) {
 }
 
 document.addEventListener("DOMContentLoaded",function(){
-  let estrella5 = document.querySelectorAll('[data-formulario-score="5"]')
-console.log(estrella5)
+  let estrella5 = document.querySelectorAll('[data-formulario-score]')
+console.log(estrella5.length)
+
 })
 
 
+function tipo_de_puntuacion (score){
+  if(score===5){
+    return  `
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star checked"></span>
+    `
+  } if(score===4){
+    return  `<span class="fa fa-star checked"></span>
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star"></span>
+    `
+  }
+  if(score===3){
+    return  `
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+    `
+  }
+  if(score===2){
+    return  `
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+    `
+  }
+  if(score===1){
+    return  `
+    <span class="fa fa-star checked"></span>
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+    `
+  }
+  if(score===0){
+    return  `
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+    <span class="fa fa-star"></span>
+    `
+  }
+}
+
+
+let dateTime2 = new Date
+console.log(dateTime2)
