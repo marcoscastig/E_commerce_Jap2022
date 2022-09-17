@@ -11,10 +11,18 @@
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+   h3 {
+  color:orange;
+  font-weight: bold;
+  
+}
 
+
+</style>
 </head>
 
-<body>
+<body >
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
     <div class="container">
       <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -36,10 +44,9 @@
         </div>
         
         <div class="list-group" id="Productos_info_div_2">
-          
         </div>
        <div class="table-responsive">
-         <table id="tabla_comments" class="table ">
+         <table id="tabla_comments" class="table">
        </div> 
           
         </table>
@@ -49,8 +56,11 @@
               <h3 class="">Comentar</h3>
             </div>
             <div class="mb-3">     
-            <label for="FormControlTextarea1" class="form-label"> <h4>Tu opinion</h4></label>
+            <label for="FormControlTextarea1" class="form-label"> <h3>Tu opinion</h3> </label>
               <textarea class="form-control" id="FormControlTextarea1" rows="3" name="description_prod"></textarea>
+            </div>
+            <div class="mb-3">
+              <h3 class="">Tu puntuación</h3>
             </div>
           <select name="score_prod" class="form-select mt-1 mb-3 " aria-label="Default select ">
             <option >Puntuacion</option>
@@ -62,7 +72,7 @@
             <option value="5" >5</option>
           </select>
           <div class="col-12">
-            <button class="btn btn-primary" type="submit">Submit form</button>
+            <button class="btn btn-secondary" type="submit">Submit form</button>
           </div>
         </div>
       </form>

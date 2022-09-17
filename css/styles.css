@@ -194,3 +194,7 @@ background: rgb(85, 84, 84);
 background: linear-gradient(to right, #0087F7, rgb(85, 84, 84)  );
 background-repeat: no-repeat;
 }
+a {
+  text-decoration: none;
+}
+

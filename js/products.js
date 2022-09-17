@@ -101,7 +101,7 @@ function sortAndShowCategoriesProducts(sortCriteria, categoriesArray){
 
     sortCategoriesProducts(currentSortCriteriaProducts, productos.products);
 
-    //Muestro las categorías ordenadas
+    
     showCategoriesListProducts();
 }
 

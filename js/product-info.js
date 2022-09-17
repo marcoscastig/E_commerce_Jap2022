@@ -5,20 +5,26 @@ const tablaid = document.getElementById("tabla_comments")
 function HtmlProductosInfo(productos_info) {
   Productos_info_div.innerHTML += `<div  class="list-group-item list-group-item-action">
     <div class="row">
-        
-       
         <div class="col justify-content-center align-items-center">
             <div class="d-flex w-100 justify-content-between">
                 <div class="mb-1">
-                <h4>${productos_info.name} - ${productos_info.currency} ${productos_info.cost} </h4> 
-                <p>${productos_info.description} </p> 
+                <h1>${productos_info.name} </h1>
+                <h2>Precio</h2>
+                <h3>${productos_info.currency} ${productos_info.cost} </h3>
+                <h2>Descripción</h2>
+                <h4>${productos_info.description} </h4> 
+                <h2>Cantidad de vendidos</h2>
+                <h3>${productos_info.soldCount} vendidos</h3> 
+                <br>
+                <br>
                 </div>
-                <small class="text-muted">${productos_info.soldCount} vendidos</small> 
             </div>
             </div>
             </div>
             <div class="row ">
+            <h1>Imagenes ilustrativas </h1>
             <div class="col-xs-2 col-sm-5 col-md-4 col-lg-3">
+            
             <img src="${productos_info.images[0]}" alt="${productos_info.description}" class="img-fluid img-thumbnail">
             </div>
             <div class="col-xs-2 col-sm-5 col-md-4 col-lg-3">
@@ -58,21 +64,17 @@ document.addEventListener("DOMContentLoaded", async function () {
       productos_comments = respuesta.data
 
     }
-    
-      localStorage.setItem(`"comments"${PRODID}`, JSON.stringify(productos_comments))
-        
-      const myObjarray = JSON.parse(localStorage.getItem(`"comments"${PRODID}`)) || []; 
-    
-      myObjarray.forEach(Formularioelement => {                   
+
+    localStorage.setItem(`"comments"${PRODID}`, JSON.stringify(productos_comments))
+    const myObjarray = JSON.parse(localStorage.getItem(`"comments"${PRODID}`)) || [];
+    productos_comments.forEach(Formularioelement => {
       insertRowEntabla(Formularioelement)
-     
-   });  
-   const myObjarraycomment = JSON.parse(localStorage.getItem(`"comments_user"${PRODID}`)) || []; 
-   
-   myObjarraycomment.forEach(Formularioelement => {                   
-      insertRowEntabla(Formularioelement)}
-     
-   );    
+    });
+    const myObjarraycomment = JSON.parse(localStorage.getItem(`"comments_user"${PRODID}`)) || [];
+    myObjarraycomment.forEach(Formularioelement => {
+      insertRowEntabla(Formularioelement)
+    }
+    );
   })
 
 })
@@ -114,50 +116,31 @@ function GuardarObjenLocalStorage(Obj_form) {
 function insertRowEntabla(Obj_form) {
   let tablaid = document.getElementById("tabla_comments");
   let newRowRef = tablaid.insertRow(-1);
-  
-
   let newCellRef = newRowRef.insertCell(0);
-  //newCellRef.textContent = Obj_form["score"];
-  newCellRef.setAttribute("Data-Formulario-Score",Obj_form["score"]) 
-  newCellRef.innerHTML = tipo_de_puntuacion (Obj_form["score"])
- 
-  newCellRef = newRowRef.insertCell(1);
-  newCellRef.textContent = (Obj_form["description"]);
- 
-  newCellRef = newRowRef.insertCell(2);
-  newCellRef.textContent = Obj_form["user"];
-
-  newCellRef = newRowRef.insertCell(3);
-  newCellRef.textContent = Obj_form["dateTime"];
-
+  newCellRef.setAttribute("Data-Formulario-Score", Obj_form["score"]);
+  newCellRef.innerHTML = (` ${Obj_form["user"]}-${(Obj_form["dateTime"])}-${tipo_de_puntuacion(Obj_form["score"])} <br> 
+  ${(Obj_form["description"])}`)
 }
 
-document.addEventListener("DOMContentLoaded",function(){
-  let estrella5 = document.querySelectorAll('[data-formulario-score]')
-console.log(estrella5.length)
-
-})
-
-
-function tipo_de_puntuacion (score){
-  if(score===5){
-    return  `
+function tipo_de_puntuacion(score) {
+  if (score === 5) {
+    return `
     <span class="fa fa-star checked"></span>
     <span class="fa fa-star checked"></span>
     <span class="fa fa-star checked"></span>
     <span class="fa fa-star checked"></span>
     <span class="fa fa-star checked"></span>
     `
-  } if(score===4){
-    return  `<span class="fa fa-star checked"></span>
+  } if (score === 4) {
+    return `<span class="fa fa-star checked"></span>
     <span class="fa fa-star checked"></span>
     <span class="fa fa-star checked"></span>
     <span class="fa fa-star checked"></span>
     <span class="fa fa-star"></span>
     `
   }
-  if(score===3){
-    return  `
+  if (score === 3) {
+    return `
     <span class="fa fa-star checked"></span>
     <span class="fa fa-star checked"></span>
     <span class="fa fa-star checked"></span>
@@ -165,8 +148,8 @@ function tipo_de_puntuacion (score){
     <span class="fa fa-star"></span>
     `
   }
-  if(score===2){
-    return  `
+  if (score === 2) {
+    return `
     <span class="fa fa-star checked"></span>
     <span class="fa fa-star checked"></span>
     <span class="fa fa-star"></span>
@@ -174,8 +157,8 @@ function tipo_de_puntuacion (score){
     <span class="fa fa-star"></span>
     `
   }
-  if(score===1){
-    return  `
+  if (score === 1) {
+    return `
     <span class="fa fa-star checked"></span>
     <span class="fa fa-star"></span>
     <span class="fa fa-star"></span>
@@ -183,8 +166,8 @@ function tipo_de_puntuacion (score){
     <span class="fa fa-star"></span>
     `
   }
-  if(score===0){
-    return  `
+  if (score === 0) {
+    return `
     <span class="fa fa-star"></span>
     <span class="fa fa-star"></span>
     <span class="fa fa-star"></span>
@@ -194,6 +177,3 @@ function tipo_de_puntuacion (score){
   }
 }
 
-
-let dateTime2 = new Date
-console.log(dateTime2)
