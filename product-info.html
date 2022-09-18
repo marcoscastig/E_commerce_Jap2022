@@ -17,13 +17,14 @@
   font-weight: bold;
   
 }
-
-
+span {
+      font-weight: bold;
+    }
 </style>
 </head>
 
 <body >
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1 bold">
     <div class="container">
       <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,21 +40,18 @@
     <div class="container">
       <div class="row">
         <div class="list-group" id="Productos_info_div">
-          
-
         </div>
-        
         <div class="list-group" id="Productos_info_div_2">
-        </div>
-       <div class="table-responsive">
-         <table id="tabla_comments" class="table">
-       </div> 
-          
-        </table>
-        <div class="list-group" id="">
+          <h3 class="mt-5">Comentarios</h3>
+          <div class=" mt-2 table-responsive rounded list-group-item list-group-item-action">
+            <table id="tabla_comments" class="table  ">
+            </table>
+          </div> 
+         </div>
+         <div class="list-group" id="">
           <form id="FormComent" action="">
              <div class="mb-3">
-              <h3 class="">Comentar</h3>
+              <h3 class="mt-4">Comentar</h3>
             </div>
             <div class="mb-3">     
             <label for="FormControlTextarea1" class="form-label"> <h3>Tu opinion</h3> </label>
@@ -77,6 +75,11 @@
         </div>
       </form>
     </div>
+        </div>
+        <div class="row">
+          
+       
+        
   </main>
   <footer class="text-muted">
     <div class="container">

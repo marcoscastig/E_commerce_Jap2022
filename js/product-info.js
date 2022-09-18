@@ -24,7 +24,6 @@ function HtmlProductosInfo(productos_info) {
             <div class="row ">
             <h1>Imagenes ilustrativas </h1>
             <div class="col-xs-2 col-sm-5 col-md-4 col-lg-3">
-            
             <img src="${productos_info.images[0]}" alt="${productos_info.description}" class="img-fluid img-thumbnail">
             </div>
             <div class="col-xs-2 col-sm-5 col-md-4 col-lg-3">
@@ -118,7 +117,7 @@ function insertRowEntabla(Obj_form) {
   let newRowRef = tablaid.insertRow(-1);
   let newCellRef = newRowRef.insertCell(0);
   newCellRef.setAttribute("Data-Formulario-Score", Obj_form["score"]);
-  newCellRef.innerHTML = (` ${Obj_form["user"]}-${(Obj_form["dateTime"])}-${tipo_de_puntuacion(Obj_form["score"])} <br> 
+  newCellRef.innerHTML = (` <span class="font-weight-bold ">${Obj_form["user"]}- </span>${(Obj_form["dateTime"])}-${tipo_de_puntuacion(Obj_form["score"])} <br> 
   ${(Obj_form["description"])}`)
 }
 
