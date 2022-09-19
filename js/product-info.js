@@ -15,31 +15,17 @@ function HtmlProductosInfo(productos_info) {
                 <h4>${productos_info.description} </h4> 
                 <h2>Cantidad de vendidos</h2>
                 <h3>${productos_info.soldCount} vendidos</h3> 
-                <br>
-                <br>
                 </div>
             </div>
             </div>
             </div>
-            <div class="row ">
-            <h1>Imagenes ilustrativas </h1>
-            <div class="col-xs-2 col-sm-5 col-md-4 col-lg-3">
-            <img src="${productos_info.images[0]}" alt="${productos_info.description}" class="img-fluid img-thumbnail">
+            <div id="imagenes_ilustrativas" class="row ">
+            <h1>Imagenes ilustrativas </h1>  
             </div>
-            <div class="col-xs-2 col-sm-5 col-md-4 col-lg-3">
-            <img src="${productos_info.images[1]}" alt="${productos_info.description}" class="img-fluid img-thumbnail">
-            </div>
-            <div class="col-xs-2 col-sm-5 col-md-4 col-lg-3">
-            <img src="${productos_info.images[2]}" alt="${productos_info.description}" class="img-fluid img-thumbnail">
-            </div>
-            <div class="col-xs-2 col-sm-5 col-md-4 col-lg-3">
-            <img src="${productos_info.images[3]}" alt="${productos_info.description}" class="img-fluid img-thumbnail">
-            </div>
-            </div>
-    
 </div>
 `
 }
+
 
 function showProduct() {
   for (let i = 0; i < productos_info.length; i++) {
@@ -55,17 +41,23 @@ document.addEventListener("DOMContentLoaded", async function () {
       productos_info = respuesta.data
       productos_images = respuesta.data.images
       HtmlProductosInfo(productos_info)
+      let imagenes_ilustrativas = document.getElementById("imagenes_ilustrativas")
+      let imagenes = ""
+      for (let i = 0; i < productos_images.length; i++) {
+        const imagen = productos_images[i];
+        imagenes += `<div class="col-xs-2 col-sm-5 col-md-4 col-lg-3">
+        <img src="${imagen}" alt="${productos_info.description}" class="img-fluid img-thumbnail">
+        </div> 
+        `
+      }
+      imagenes_ilustrativas.innerHTML += imagenes
     }
   })
 
   getJSONData(PRODUCT_INFO_COMMENTS_URL).then(function (respuesta) {
     if (respuesta.status === "ok") {
       productos_comments = respuesta.data
-
     }
-
-    localStorage.setItem(`"comments"${PRODID}`, JSON.stringify(productos_comments))
-    const myObjarray = JSON.parse(localStorage.getItem(`"comments"${PRODID}`)) || [];
     productos_comments.forEach(Formularioelement => {
       insertRowEntabla(Formularioelement)
     });
@@ -120,59 +112,3 @@ function insertRowEntabla(Obj_form) {
   newCellRef.innerHTML = (` <span class="font-weight-bold ">${Obj_form["user"]}- </span>${(Obj_form["dateTime"])}-${tipo_de_puntuacion(Obj_form["score"])} <br> 
   ${(Obj_form["description"])}`)
 }
-
-function tipo_de_puntuacion(score) {
-  if (score === 5) {
-    return `
-    <span class="fa fa-star checked"></span>
-    <span class="fa fa-star checked"></span>
-    <span class="fa fa-star checked"></span>
-    <span class="fa fa-star checked"></span>
-    <span class="fa fa-star checked"></span>
-    `
-  } if (score === 4) {
-    return `<span class="fa fa-star checked"></span>
-    <span class="fa fa-star checked"></span>
-    <span class="fa fa-star checked"></span>
-    <span class="fa fa-star checked"></span>
-    <span class="fa fa-star"></span>
-    `
-  }
-  if (score === 3) {
-    return `
-    <span class="fa fa-star checked"></span>
-    <span class="fa fa-star checked"></span>
-    <span class="fa fa-star checked"></span>
-    <span class="fa fa-star"></span>
-    <span class="fa fa-star"></span>
-    `
-  }
-  if (score === 2) {
-    return `
-    <span class="fa fa-star checked"></span>
-    <span class="fa fa-star checked"></span>
-    <span class="fa fa-star"></span>
-    <span class="fa fa-star"></span>
-    <span class="fa fa-star"></span>
-    `
-  }
-  if (score === 1) {
-    return `
-    <span class="fa fa-star checked"></span>
-    <span class="fa fa-star"></span>
-    <span class="fa fa-star"></span>
-    <span class="fa fa-star"></span>
-    <span class="fa fa-star"></span>
-    `
-  }
-  if (score === 0) {
-    return `
-    <span class="fa fa-star"></span>
-    <span class="fa fa-star"></span>
-    <span class="fa fa-star"></span>
-    <span class="fa fa-star"></span>
-    <span class="fa fa-star"></span>
-    `
-  }
-}
-

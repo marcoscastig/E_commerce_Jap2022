@@ -7,6 +7,7 @@ let minSold = undefined;
 let maxSold = undefined;
 const Lista = document.getElementById("cat-list-container")
 const sector_buscador =document.getElementById("sector_buscador")
+const Lista1 = document.getElementById("Lista1")
 
 
 
@@ -59,7 +60,9 @@ function setIDProd(id) {
 }
 
 function HtmlProductos(products) {
-    return `<div onclick="setIDProd(${products.id})" class="list-group-item list-group-item-action">
+    return `<a  href="product-info.html">
+
+   <div onclick="setIDProd(${products.id})" class="list-group-item list-group-item-action">
     <div class="row">
         <div class="col-xs-2 col-sm-5 col-md-4 col-lg-3">
         <img src="${products.image}" alt="${products.description}" class="img-fluid img-thumbnail">
@@ -76,6 +79,7 @@ function HtmlProductos(products) {
         
     </div>
 </div>
+</a>
 `
 }
 
@@ -179,20 +183,22 @@ const buscar_producto = ()=> {
         }
     }
     if(Lista.innerHTML === ""){
-        Lista.innerHTML = "No Hay resultados"
+        Lista.innerHTML += `<div class="mb-1">
+        <h4 style="color:yellow">Sigue navegando tenemos grandes productos </h4> 
+        </div>`
     }
-    else {
-
-    }
+    
 }
 
 buscador.addEventListener('submit', (event) => {
 event.preventDefault();
 buscar_producto()
-
+buscador.reset()
 })
 buscador.addEventListener('keyup', (event) => {
     event.preventDefault();
     buscar_producto()
     
 })
+
+
