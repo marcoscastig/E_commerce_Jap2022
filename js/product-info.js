@@ -1,6 +1,8 @@
 const Productos_info_div = document.getElementById("Productos_info_div")
 const Productos_info_div_2 = document.getElementById("Productos_info_div_2")
 const tablaid = document.getElementById("tabla_comments")
+const Productos_relacionados = document.getElementById("productos_relacionados")
+
 
 function HtmlProductosInfo(productos_info) {
   Productos_info_div.innerHTML += `<div  class="list-group-item list-group-item-action">
@@ -67,6 +69,23 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
     );
   })
+  getJSONData(PRODUCTS_URL) .then(function(respuesta){
+    if(respuesta.status === "ok"){
+        productos_relacionados = respuesta.data.products
+        console.log(productos_relacionados)
+        let articulos = ""
+        for (let i = 0; i < productos_relacionados.length; i++) {
+          const relacionados = productos_relacionados[i];
+          console.log(relacionados.id)
+          articulos += `
+          <div onclick="setIDProd(${relacionados.id})" class="col-xs-2 col-sm-5 col-md-4 col-lg-3">
+          <img  src="${relacionados.image}"class="img-fluid img-thumbnail">
+          </div>
+          `
+        }
+        Productos_relacionados.innerHTML += articulos
+    }  
+    })
 
 })
 

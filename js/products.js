@@ -54,14 +54,8 @@ function sortCategoriesProducts(criteria, array){
     return result;
 }
 
-function setIDProd(id) {
-    localStorage.setItem("productID", id);
-    window.location = "product-info.html"
-}
-
 function HtmlProductos(products) {
     return `<a  href="product-info.html">
-
    <div onclick="setIDProd(${products.id})" class="list-group-item list-group-item-action">
     <div class="row">
         <div class="col-xs-2 col-sm-5 col-md-4 col-lg-3">
@@ -184,7 +178,7 @@ const buscar_producto = ()=> {
     }
     if(Lista.innerHTML === ""){
         Lista.innerHTML += `<div class="mb-1">
-        <h4 style="color:yellow">Sigue navegando tenemos grandes productos </h4> 
+        <h4 style="color:orange">Sigue navegando, tenemos grandes productos para ti</h4> 
         </div>`
     }
     

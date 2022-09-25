@@ -24,14 +24,21 @@ let agregarusuario = function(usuario_name){
             <a class="nav-link" href="inicio.html">Inicio</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="categories.html">Categorías</a>
+            <a class="nav-link" href="categories.html">Categorías</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="sell.html">Vender</a>
           </li>
-         <li class="nav-item">
-          <a class="nav-link" href="my-profile.html">${usuario_name}</a>
-   </li>`
+   <div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+  ${usuario_name}
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    <li><a class="dropdown-item" href="cart.html">Mi carrito</a></li>
+    <li><a class="dropdown-item" href="my-profile.html">Mi perfil</a></li>
+    <li><a class="dropdown-item" href="index.html">Cerrar sesión</a></li>
+  </ul>
+</div>`
 }
 
   let ShowUser = function(){ 
@@ -130,3 +137,8 @@ document.addEventListener("DOMContentLoaded",function(){
   ShowUser(usuario_name)
   ColorFooter(Footer)
 })
+
+function setIDProd(id) {
+  localStorage.setItem("productID", id);
+  window.location = "product-info.html"
+}
