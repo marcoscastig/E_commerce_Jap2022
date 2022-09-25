@@ -59,12 +59,13 @@ document.addEventListener("DOMContentLoaded", async function () {
   getJSONData(PRODUCT_INFO_COMMENTS_URL).then(function (respuesta) {
     if (respuesta.status === "ok") {
       productos_comments = respuesta.data
+      console.log(productos_comments)
     }
     productos_comments.forEach(Formularioelement => {
       insertRowEntabla(Formularioelement)
     });
     const myObjarraycomment = JSON.parse(localStorage.getItem(`"comments_user"${PRODID}`)) || [];
-    myObjarraycomment.forEach(Formularioelement => {
+     myObjarraycomment.forEach(Formularioelement => {
       insertRowEntabla(Formularioelement)
     }
     );
@@ -72,17 +73,20 @@ document.addEventListener("DOMContentLoaded", async function () {
   getJSONData(PRODUCTS_URL) .then(function(respuesta){
     if(respuesta.status === "ok"){
         productos_relacionados = respuesta.data.products
-        console.log(productos_relacionados)
         let articulos = ""
         for (let i = 0; i < productos_relacionados.length; i++) {
           const relacionados = productos_relacionados[i];
           console.log(relacionados.id)
+          if(relacionados.id != parseInt(PRODID)) {
           articulos += `
+          
           <div onclick="setIDProd(${relacionados.id})" class="col-xs-2 col-sm-5 col-md-4 col-lg-3">
           <img  src="${relacionados.image}"class="img-fluid img-thumbnail">
+          <p>${relacionados.name} </p> 
           </div>
           `
         }
+      }
         Productos_relacionados.innerHTML += articulos
     }  
     })

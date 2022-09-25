@@ -36,7 +36,7 @@ let agregarusuario = function(usuario_name){
   <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
     <li><a class="dropdown-item" href="cart.html">Mi carrito</a></li>
     <li><a class="dropdown-item" href="my-profile.html">Mi perfil</a></li>
-    <li><a class="dropdown-item" href="index.html">Cerrar sesión</a></li>
+    <li><a onclick="resetusuario(id)" class="dropdown-item" href="index.html">Cerrar sesión</a></li>
   </ul>
 </div>`
 }
@@ -141,4 +141,8 @@ document.addEventListener("DOMContentLoaded",function(){
 function setIDProd(id) {
   localStorage.setItem("productID", id);
   window.location = "product-info.html"
+}
+function resetusuario() {
+  localStorage.setItem("usuario", "");
+  window.location = "index.html"
 }
