@@ -2,7 +2,9 @@ const Productos_info_div = document.getElementById("Productos_info_div")
 const Productos_info_div_2 = document.getElementById("Productos_info_div_2")
 const tablaid = document.getElementById("tabla_comments")
 const Productos_relacionados = document.getElementById("productos_relacionados")
-
+const Productos_relacionados_div = document.getElementById("contenedor_productos_relacionados")
+const contenedorComentarios = document.getElementById("contenedorComentarios")
+FormComent = document.getElementById("FormComent")
 
 function HtmlProductosInfo(productos_info) {
   Productos_info_div.innerHTML += `<div  class="list-group-item list-group-item-action">
@@ -27,8 +29,6 @@ function HtmlProductosInfo(productos_info) {
 </div>
 `
 }
-
-
 function showProduct() {
   for (let i = 0; i < productos_info.length; i++) {
     let product_content = productos_info[i]
@@ -36,7 +36,6 @@ function showProduct() {
     Productos_info_div.innerHTML += HtmlProductosInfo(product_content);
   }
 }
-
 document.addEventListener("DOMContentLoaded", async function () {
   getJSONData(PRODUCT_INFO_URL).then(function (respuesta) {
     if (respuesta.status === "ok") {
@@ -55,20 +54,24 @@ document.addEventListener("DOMContentLoaded", async function () {
       imagenes_ilustrativas.innerHTML += imagenes
     }
   })
-
   getJSONData(PRODUCT_INFO_COMMENTS_URL).then(function (respuesta) {
     if (respuesta.status === "ok") {
       productos_comments = respuesta.data
-      console.log(productos_comments)
-    }
-    productos_comments.forEach(Formularioelement => {
+      console.log(productos_comments.length)
+      const myObjarraycomment = JSON.parse(localStorage.getItem(`"comments_user"${PRODID}`)) || [];
+      if((productos_comments.length === 0) && (myObjarraycomment.length === 0) ){
+        contenedorComentarios.classList.add("visually-hidden")
+      } else {contenedorComentarios.classList.remove("visually-hidden")}
+    
+     productos_comments.forEach(Formularioelement => {
       insertRowEntabla(Formularioelement)
-    });
-    const myObjarraycomment = JSON.parse(localStorage.getItem(`"comments_user"${PRODID}`)) || [];
+    })
+   
      myObjarraycomment.forEach(Formularioelement => {
       insertRowEntabla(Formularioelement)
     }
-    );
+    )
+  }
   })
   getJSONData(PRODUCTS_URL) .then(function(respuesta){
     if(respuesta.status === "ok"){
@@ -76,7 +79,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         let articulos = ""
         for (let i = 0; i < productos_relacionados.length; i++) {
           const relacionados = productos_relacionados[i];
-          if(relacionados.id != parseInt(PRODID)) {
+          if((relacionados.length!=0) && (relacionados.id != parseInt(PRODID))) {
+          Productos_relacionados_div.classList.remove("visually-hidden")
           articulos += `
           <div onclick="setIDProd(${relacionados.id})" class="col-xs-2 col-sm-5 col-md-4 col-lg-3">
           <img  src="${relacionados.image}"class="img-fluid img-thumbnail">
@@ -89,18 +93,19 @@ document.addEventListener("DOMContentLoaded", async function () {
     }  
     })
 })
-
-FormComent = document.getElementById("FormComent")
-
 FormComent.addEventListener('submit', function (event) {
   event.preventDefault();
   const Form_data = new FormData(FormComent)
+  if(Form_data.get('description_prod') != ""){
   Obj_form = convertirFormComentEnObj(Form_data)
   GuardarObjenLocalStorage(Obj_form)
   insertRowEntabla(Obj_form)
   FormComent.reset()
+  contenedorComentarios.classList.remove("visually-hidden")
+} else {
+  alert ("Esperamos tu comentario, no seas timd@   ; )")
+}
 })
-
 function convertirFormComentEnObj(Form_data) {
   let product = parseInt(PRODID);
   let score = parseInt(Form_data.get('score_prod'));
@@ -118,16 +123,12 @@ function convertirFormComentEnObj(Form_data) {
     "user": user,
     "dateTime": dateTimeUser
   }
-
 }
-
 function GuardarObjenLocalStorage(Obj_form) {
   let arreglo_obj = (JSON.parse(localStorage.getItem(`"comments_user"${PRODID}`))) || []
   arreglo_obj.push(Obj_form)
   localStorage.setItem(`"comments_user"${PRODID}`, JSON.stringify(arreglo_obj))
-  console.log(arreglo_obj)
 }
-
 function insertRowEntabla(Obj_form) {
   let tablaid = document.getElementById("tabla_comments");
   let newRowRef = tablaid.insertRow(-1);
@@ -137,8 +138,5 @@ function insertRowEntabla(Obj_form) {
   ${(Obj_form["description"])}`)
 }
 
-function convertDateFormat(string) {
-  var info = string.split('/');
-  return info[2] + '-' + info[1] + '-' + info[0];
-}
+
 

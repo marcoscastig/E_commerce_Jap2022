@@ -113,3 +113,7 @@ function resetusuario() {
   localStorage.setItem("usuario", "");
   window.location = "index.html"
 }
+function convertDateFormat(string) {
+  var info = string.split('/');
+  return info[2] + '-' + info[1] + '-' + info[0];
+}
