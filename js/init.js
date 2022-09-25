@@ -46,55 +46,22 @@ let agregarusuario = function(usuario_name){
   }
   function tipo_de_puntuacion(score) {
     if (score === 5) {
-      return `
-      <span class="fa fa-star checked"></span>
-      <span class="fa fa-star checked"></span>
-      <span class="fa fa-star checked"></span>
-      <span class="fa fa-star checked"></span>
-      <span class="fa fa-star checked"></span>
+      return `<span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
       `
     } if (score === 4) {
-      return `<span class="fa fa-star checked"></span>
-      <span class="fa fa-star checked"></span>
-      <span class="fa fa-star checked"></span>
-      <span class="fa fa-star checked"></span>
-      <span class="fa fa-star"></span>
+      return `<span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star"></span>
       `
     }
     if (score === 3) {
-      return `
-      <span class="fa fa-star checked"></span>
-      <span class="fa fa-star checked"></span>
-      <span class="fa fa-star checked"></span>
-      <span class="fa fa-star"></span>
-      <span class="fa fa-star"></span>
+      return `<span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star"></span><span class="fa fa-star"></span>
       `
     }
     if (score === 2) {
-      return `
-      <span class="fa fa-star checked"></span>
-      <span class="fa fa-star checked"></span>
-      <span class="fa fa-star"></span>
-      <span class="fa fa-star"></span>
-      <span class="fa fa-star"></span>
+      return ` <span class="fa fa-star checked"></span> <span class="fa fa-star checked"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span> 
       `
     }
     if (score === 1) {
-      return `
-      <span class="fa fa-star checked"></span>
-      <span class="fa fa-star"></span>
-      <span class="fa fa-star"></span>
-      <span class="fa fa-star"></span>
-      <span class="fa fa-star"></span>
-      `
-    }
-    if (score === 0) {
-      return `
-      <span class="fa fa-star"></span>
-      <span class="fa fa-star"></span>
-      <span class="fa fa-star"></span>
-      <span class="fa fa-star"></span>
-      <span class="fa fa-star"></span>
+      return `<span class="fa fa-star checked"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span>
       `
     }
   }

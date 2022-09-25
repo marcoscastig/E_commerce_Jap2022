@@ -76,10 +76,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         let articulos = ""
         for (let i = 0; i < productos_relacionados.length; i++) {
           const relacionados = productos_relacionados[i];
-          console.log(relacionados.id)
           if(relacionados.id != parseInt(PRODID)) {
           articulos += `
-          
           <div onclick="setIDProd(${relacionados.id})" class="col-xs-2 col-sm-5 col-md-4 col-lg-3">
           <img  src="${relacionados.image}"class="img-fluid img-thumbnail">
           <p>${relacionados.name} </p> 
@@ -90,7 +88,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         Productos_relacionados.innerHTML += articulos
     }  
     })
-
 })
 
 FormComent = document.getElementById("FormComent")
@@ -109,13 +106,17 @@ function convertirFormComentEnObj(Form_data) {
   let score = parseInt(Form_data.get('score_prod'));
   let description = Form_data.get('description_prod');
   let user = usuario_name;
-  let dateTime = new Date;
+  let dateAndTime = new Date
+  let dateTime = dateAndTime.toLocaleString();
+  let fecha = convertDateFormat(dateTime.slice(0,9))
+  let hora = dateTime.slice(11,19)
+  let dateTimeUser = fecha +" "+ hora
   return {
     "product": product,
     "score": score,
     "description": description,
     "user": user,
-    "dateTime": dateTime
+    "dateTime": dateTimeUser
   }
 
 }
@@ -132,6 +133,12 @@ function insertRowEntabla(Obj_form) {
   let newRowRef = tablaid.insertRow(-1);
   let newCellRef = newRowRef.insertCell(0);
   newCellRef.setAttribute("Data-Formulario-Score", Obj_form["score"]);
-  newCellRef.innerHTML = (` <span class="font-weight-bold ">${Obj_form["user"]}- </span>${(Obj_form["dateTime"])}-${tipo_de_puntuacion(Obj_form["score"])} <br> 
+  newCellRef.innerHTML = (` <span class="font-weight-bold ">${Obj_form["user"]}- </span>${Obj_form["dateTime"]}-${tipo_de_puntuacion(Obj_form["score"])} <br> 
   ${(Obj_form["description"])}`)
 }
+
+function convertDateFormat(string) {
+  var info = string.split('/');
+  return info[2] + '-' + info[1] + '-' + info[0];
+}
+
