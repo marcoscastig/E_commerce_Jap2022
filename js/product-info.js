@@ -7,32 +7,32 @@ const contenedorComentarios = document.getElementById("contenedorComentarios")
 FormComent = document.getElementById("FormComent")
 
 function HtmlProductosInfo(productos_info) {
-  Productos_info_div.innerHTML += `<div  class="list-group-item list-group-item-action">
+  Productos_info_div.innerHTML += `<div class="text-center ">
+  <h2>Puede ser tuyo</h2>
+  <p class="lead">Verás aquí todala informacion sobre ${productos_info.name}</p>
+  </div>
+  
+  <div  class=" list-group  rounded-0 px-2 ">
     <div class="row">
         <div class="col justify-content-center align-items-center">
             <div class="d-flex w-100 justify-content-between">
                 <div class="mb-1">
-                <h1>${productos_info.name} </h1>
-                <h2>Precio</h2>
-                <h3>${productos_info.currency} ${productos_info.cost} </h3>
-                <h2>Descripción</h2>
+                <h2>${productos_info.name}</h2>
                 <h4>${productos_info.description} </h4> 
-                <h2>Cantidad de vendidos</h2>
-                <h3>${productos_info.soldCount} vendidos</h3> 
+                <h2>Precio ${productos_info.currency} ${productos_info.cost}</h2>
+                <small class="text-muted">Cantidad de vendidos ${productos_info.soldCount}</small>
                 </div>
             </div>
             </div>
             </div>
             <div id="imagenes_ilustrativas" class="row ">
-            <h1>Imagenes ilustrativas </h1>  
             </div>
-</div>
+            </div>
 `
 }
 function showProduct() {
   for (let i = 0; i < productos_info.length; i++) {
     let product_content = productos_info[i]
-
     Productos_info_div.innerHTML += HtmlProductosInfo(product_content);
   }
 }
@@ -44,29 +44,48 @@ document.addEventListener("DOMContentLoaded", async function () {
       HtmlProductosInfo(productos_info)
       let imagenes_ilustrativas = document.getElementById("imagenes_ilustrativas")
       let imagenes = ""
-      for (let i = 0; i < productos_images.length; i++) {
-        const imagen = productos_images[i];
-        imagenes += `<div class="col-xs-2 col-sm-5 col-md-4 col-lg-3">
-        <img src="${imagen}" alt="${productos_info.description}" class="img-fluid img-thumbnail">
-        </div> 
-        `
-      }
+      imagenes +=`<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+  <ol class="carousel-indicators">
+    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+  </ol>
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img class="d-block w-100" src="${productos_images[0]}" alt="First slide">
+    </div>
+    <div class="carousel-item">
+      <img class=" w-100" src="${productos_images[1]}" alt="Second slide">
+    </div>
+    <div class="carousel-item">
+      <img class=" w-100" src="${productos_images[2]}" alt="Third slide">
+    </div>
+    <div class="carousel-item">
+      <img class=" w-100" src="${productos_images[3]}" alt="Third slide">
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>`
       imagenes_ilustrativas.innerHTML += imagenes
     }
   })
   getJSONData(PRODUCT_INFO_COMMENTS_URL).then(function (respuesta) {
     if (respuesta.status === "ok") {
       productos_comments = respuesta.data
-      console.log(productos_comments.length)
       const myObjarraycomment = JSON.parse(localStorage.getItem(`"comments_user"${PRODID}`)) || [];
       if((productos_comments.length === 0) && (myObjarraycomment.length === 0) ){
         contenedorComentarios.classList.add("visually-hidden")
       } else {contenedorComentarios.classList.remove("visually-hidden")}
-    
      productos_comments.forEach(Formularioelement => {
       insertRowEntabla(Formularioelement)
     })
-   
      myObjarraycomment.forEach(Formularioelement => {
       insertRowEntabla(Formularioelement)
     }
@@ -82,8 +101,8 @@ document.addEventListener("DOMContentLoaded", async function () {
           if((relacionados.length!=0) && (relacionados.id != parseInt(PRODID))) {
           Productos_relacionados_div.classList.remove("visually-hidden")
           articulos += `
-          <div onclick="setIDProd(${relacionados.id})" class="col-xs-2 col-sm-5 col-md-4 col-lg-3">
-          <img  src="${relacionados.image}"class="img-fluid img-thumbnail">
+          <div onclick="setIDProd(${relacionados.id})" class="col-xs-2 col-sm-5 col-md-4 col-lg-3 ">
+          <img  src="${relacionados.image}"class="img-fluid img-thumbnail px-2">
           <p>${relacionados.name} </p> 
           </div>
           `
@@ -134,8 +153,8 @@ function insertRowEntabla(Obj_form) {
   let newRowRef = tablaid.insertRow(-1);
   let newCellRef = newRowRef.insertCell(0);
   newCellRef.setAttribute("Data-Formulario-Score", Obj_form["score"]);
-  newCellRef.innerHTML = (` <span class="font-weight-bold ">${Obj_form["user"]}- </span>${Obj_form["dateTime"]}-${tipo_de_puntuacion(Obj_form["score"])} <br> 
-  ${(Obj_form["description"])}`)
+  newCellRef.innerHTML = (` <div class="p-0"><span class="font-weight-bold ">${Obj_form["user"]}- </span>${Obj_form["dateTime"]}-${tipo_de_puntuacion(Obj_form["score"])} <br> 
+  ${(Obj_form["description"])}</div>`)
 }
 
 

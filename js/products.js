@@ -57,8 +57,8 @@ function sortCategoriesProducts(criteria, array){
 function HtmlProductos(products) {
     return `<a  href="product-info.html">
    <div onclick="setIDProd(${products.id})" class="list-group-item list-group-item-action">
-    <div class="row">
-        <div class="col-xs-2 col-sm-5 col-md-4 col-lg-3">
+    <div class="row ">
+        <div class="col-xs-2 col-sm-5 col-md-4 col-lg-3 ">
         <img src="${products.image}" alt="${products.description}" class="img-fluid img-thumbnail">
         </div>
         <div class="col">
@@ -70,7 +70,6 @@ function HtmlProductos(products) {
                 <small class="text-muted">${products.soldCount} vendidos</small> 
             </div>
             </div>
-        
     </div>
 </div>
 </a>

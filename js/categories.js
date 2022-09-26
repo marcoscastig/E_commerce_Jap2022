@@ -31,7 +31,6 @@ function sortCategories(criteria, array){
             return 0;
         });
     }
-
     return result;
 }
 
@@ -49,38 +48,36 @@ function showCategoriesList(){
         if (((minCount == undefined) || (minCount != undefined && parseInt(category.productCount) >= minCount)) &&
             ((maxCount == undefined) || (maxCount != undefined && parseInt(category.productCount) <= maxCount))){
 
-            htmlContentToAppend += `
-            <div onclick="setCatID(${category.id})" class="list-group-item list-group-item-action cursor-active">
+            htmlContentToAppend += `<a  href="products.html">
+            <div onclick="setCatID(${category.id})" class="list-group-item list-group-item-action">
                 <div class="row">
                     <div class="col-xs-2 col-sm-5 col-md-4 col-lg-3">
-                        <img src="${category.imgSrc}" alt="${category.description}" class="img-thumbnail">
+                        <img src="${category.imgSrc}" alt="${category.description}" class="img-fluid img-thumbnail">
                     </div>
                     <div class="col">
                         <div class="d-flex w-100 justify-content-between">
-                            <h4 class="mb-1">${category.name}</h4>
+                        <div class="mb-1">
+                            <h4 class="">${category.name}</h4>
+                            <p class="">${category.description}</p>
+                            </div>
                             <small class="text-muted">${category.productCount} artículos</small>
-                        </div>
-                        <p class="mb-1">${category.description}</p>
+                            </div>
                     </div>
                 </div>
             </div>
+            </a>
             `
         }
-
         document.getElementById("cat-list-container").innerHTML = htmlContentToAppend;
     }
 }
 
 function sortAndShowCategories(sortCriteria, categoriesArray){
     currentSortCriteria = sortCriteria;
-
     if(categoriesArray != undefined){
         currentCategoriesArray = categoriesArray;
     }
-
     currentCategoriesArray = sortCategories(currentSortCriteria, currentCategoriesArray);
-
-    //Muestro las categorías ordenadas
     showCategoriesList();
 }
 
@@ -92,18 +89,14 @@ document.addEventListener("DOMContentLoaded", function(e){
         if (resultObj.status === "ok"){
             currentCategoriesArray = resultObj.data
             showCategoriesList()
-            //sortAndShowCategories(ORDER_ASC_BY_NAME, resultObj.data);
         }
     });
-
     document.getElementById("sortAsc").addEventListener("click", function(){
         sortAndShowCategories(ORDER_ASC_BY_NAME);
     });
-
     document.getElementById("sortDesc").addEventListener("click", function(){
         sortAndShowCategories(ORDER_DESC_BY_NAME);
     });
-
     document.getElementById("sortByCount").addEventListener("click", function(){
         sortAndShowCategories(ORDER_BY_PROD_COUNT);
     });
@@ -130,14 +123,12 @@ document.addEventListener("DOMContentLoaded", function(e){
         else{
             minCount = undefined;
         }
-
         if ((maxCount != undefined) && (maxCount != "") && (parseInt(maxCount)) >= 0){
             maxCount = parseInt(maxCount);
         }
         else{
             maxCount = undefined;
         }
-
         showCategoriesList();
     });
 });
