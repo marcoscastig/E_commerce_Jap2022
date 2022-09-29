@@ -92,13 +92,13 @@ document.addEventListener("DOMContentLoaded", async function () {
     )
   }
   })
-  getJSONData(PRODUCTS_URL) .then(function(respuesta){
+  getJSONData(PRODUCT_INFO_URL) .then(function(respuesta){
     if(respuesta.status === "ok"){
-        productos_relacionados = respuesta.data.products
+        productos_relacionados = respuesta.data.relatedProducts
         let articulos = ""
         for (let i = 0; i < productos_relacionados.length; i++) {
           const relacionados = productos_relacionados[i];
-          if((relacionados.length!=0) && (relacionados.id != parseInt(PRODID))) {
+           
           Productos_relacionados_div.classList.remove("visually-hidden")
           articulos += `
           <div onclick="setIDProd(${relacionados.id})" class="col-xs-2 col-sm-5 col-md-4 col-lg-3 ">
@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", async function () {
           <p>${relacionados.name} </p> 
           </div>
           `
-        }
+        
       }
         Productos_relacionados.innerHTML += articulos
     }  
