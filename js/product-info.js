@@ -9,7 +9,7 @@ FormComent = document.getElementById("FormComent")
 function HtmlProductosInfo(productos_info) {
   Productos_info_div.innerHTML += `<div class="text-center ">
   <h2>Puede ser tuyo</h2>
-  <p class="lead">Verás aquí todala informacion sobre ${productos_info.name}</p>
+  <p class="lead">Verás aquí toda la informacion sobre ${productos_info.name}</p>
   </div>
   
   <div  class=" list-group  rounded-0 px-2 ">
@@ -18,9 +18,9 @@ function HtmlProductosInfo(productos_info) {
             <div class="d-flex w-100 justify-content-between">
                 <div class="mb-1">
                 <h2>${productos_info.name}</h2>
-                <h4>${productos_info.description} </h4> 
+                <p class="lead" >${productos_info.description} </p> 
                 <h2>Precio ${productos_info.currency} ${productos_info.cost}</h2>
-                <small class="text-muted">Cantidad de vendidos ${productos_info.soldCount}</small>
+                <small class="text-muted pb-1">Cantidad de vendidos ${productos_info.soldCount}</small>
                 </div>
             </div>
             </div>
@@ -50,18 +50,18 @@ document.addEventListener("DOMContentLoaded", async function () {
     <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
     <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
   </ol>
-  <div class="carousel-inner">
+  <div class="carousel-inner align-items-center">
     <div class="carousel-item active">
-      <img class="d-block w-100" src="${productos_images[0]}" alt="First slide">
+      <img class="rounded mx-auto d-block img-fluid img-thumbnail" src="${productos_images[0]}" alt="First slide">
     </div>
     <div class="carousel-item">
-      <img class=" w-100" src="${productos_images[1]}" alt="Second slide">
+      <img class="rounded mx-auto d-block img-fluid img-thumbnail" src="${productos_images[1]}" alt="Second slide">
     </div>
     <div class="carousel-item">
-      <img class=" w-100" src="${productos_images[2]}" alt="Third slide">
+      <img class="rounded mx-auto d-block img-fluid img-thumbnail" src="${productos_images[2]}" alt="Third slide">
     </div>
     <div class="carousel-item">
-      <img class=" w-100" src="${productos_images[3]}" alt="Third slide">
+      <img class="rounded mx-auto d-block img-fluid img-thumbnail" src="${productos_images[3]}" alt="Third slide">
     </div>
   </div>
   <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -102,8 +102,9 @@ document.addEventListener("DOMContentLoaded", async function () {
           Productos_relacionados_div.classList.remove("visually-hidden")
           articulos += `
           <div onclick="setIDProd(${relacionados.id})" class="col-xs-2 col-sm-5 col-md-4 col-lg-3 ">
-          <img  src="${relacionados.image}"class="img-fluid img-thumbnail px-2">
-          <p>${relacionados.name} </p> 
+          <a  href="#"><img  src="${relacionados.image}"class="img-fluid img-thumbnail px-2">
+          </a>
+          <p class="text-center">${relacionados.name} </p> 
           </div>
           `
         
