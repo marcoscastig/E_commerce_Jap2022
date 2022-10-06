@@ -168,9 +168,10 @@ const buscar_producto = ()=> {
     let busqueda= Busca.get('busqueda').toLowerCase()
     Lista.innerHTML =""
     for(let i = 0; i < productos.products.length; i++){
-        let productos_txt = productos.products[i].name.toLowerCase();
         let products = productos.products[i]
-        if(productos_txt.indexOf(busqueda) !== -1){
+        let productos_txt = products.name.toLowerCase();
+        let productos_desc = products.description.toLowerCase()
+        if((productos_txt.indexOf(busqueda) !== -1 )|| (productos_desc.indexOf(busqueda)!== -1)){
            
             Lista.innerHTML += HtmlProductos(products)
         }
@@ -187,9 +188,11 @@ buscador.addEventListener('submit', (event) => {
 event.preventDefault();
 buscar_producto()
 buscador.reset()
+
 })
 buscador.addEventListener('keyup', (event) => {
     event.preventDefault();
+   
     buscar_producto()
     
 })
