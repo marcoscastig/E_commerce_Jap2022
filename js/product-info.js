@@ -5,7 +5,6 @@ const Productos_relacionados = document.getElementById("productos_relacionados")
 const Productos_relacionados_div = document.getElementById("contenedor_productos_relacionados")
 const contenedorComentarios = document.getElementById("contenedorComentarios")
 FormComent = document.getElementById("FormComent")
-let cartstorage = []
 let usesrscart = [PRODID]
 
 
@@ -44,29 +43,20 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (respuesta.status === "ok") {
       productos_info = respuesta.data
       productos_images = respuesta.data.images
-      console.log(typeof(productos_info.id))
-      console.log((PRODID))
       HtmlProductosInfo(productos_info)
       let btn_buy =  document.getElementById('btn_buy')
         
       btn_buy.addEventListener("click", function (){
-        let cartstoragesaved = (JSON.parse(localStorage.getItem(`"user_cart"${usuario_name}`))) || []
         if (cartstoragesaved.length === 0){
           localStorage.setItem(`"user_cart"${usuario_name}`, JSON.stringify(usesrscart))
         }  else {
           const idprod = (element) => element  === PRODID
           let ferifycart = cartstoragesaved.some(idprod)
-          if(ferifycart=== false)
+          if(ferifycart === false)
           cartstoragesaved.push(PRODID)
-          console.log(cartstoragesaved)
           localStorage.setItem(`"user_cart"${usuario_name}`, JSON.stringify(cartstoragesaved))
         }
         })
-        
-      
-      
-   
-      
       let imagenes_ilustrativas = document.getElementById("imagenes_ilustrativas")
       let imagenes = ""
       imagenes +=`<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -132,7 +122,6 @@ document.addEventListener("DOMContentLoaded", async function () {
           <p class="text-center">${relacionados.name} </p> 
           </div>
           `
-        
       }
         Productos_relacionados.innerHTML += articulos
     }  
@@ -185,37 +174,3 @@ function insertRowEntabla(Obj_form) {
 }
 
   
-
-
-
-
-/*
- let btn_buy = document.getElementById('btn_buy')
-    
-      btn_buy.addEventListener("click", function(){
-       createcart()
-      
-      })
-
-
-function createcart(){
-  let Cart = (JSON.parse(localStorage.getItem(`"user_cart"${usuario_name}`))) || []
-  
-  if (Cart.length === 0){
-    Cart.push(PRODID)
-  for (let i = 0; i < Cart.length; i++) {
-    const element = Cart[i];
-  
-    if(element.toLocaleString().indexOf(PRODID) === -1)
-    console.log(productos_info.id)
-    Cart.push(PRODID)
-  }
-}
-
-  localStorage.setItem(`"user_cart"${usuario_name}`, JSON.stringify(Cart))
-  console.log(Cart)
-}
-
-
-
-*/

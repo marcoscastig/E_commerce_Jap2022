@@ -12,7 +12,7 @@ const CART_BUY_URL = "https://japceibal.github.io/emercado-api/cart/buy.json";
 const navbariul = document.querySelector('ul') 
 const usuario_name = localStorage.getItem("usuario") 
 const Footer = document.querySelector('footer')
-
+const cartstoragesaved = (JSON.parse(localStorage.getItem(`"user_cart"${usuario_name}`))) || []
 
 let ColorFooter = function(Footer){
   Footer.classList.remove('text-muted')
