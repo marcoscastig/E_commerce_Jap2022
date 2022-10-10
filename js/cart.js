@@ -13,26 +13,20 @@ document.addEventListener("DOMContentLoaded", async function(){
     }
     console.log(array_cart[0])
     
-    celda(array_cart)
+    celda(array_cart) 
     let idauto  = document.getElementById(`${array_cart[0].id}`)
     let subtot  = document.getElementById(`subtotal${array_cart[0].id}`)
-    idauto.addEventListener("keyup", function(event){
-      let num = event.path[0].value
-      console.log(num)
-      console.log(idauto.valueAsNumber)
-      subtot.innerHTML = `${num * array_cart[0].unitCost }`
-    })
+    cartstoragesaved.forEach(idproducto => {
+      getJSONData(`https://japceibal.github.io/emercado-api/products/${idproducto}${EXT_TYPE}`).then(function (respuesta){
+        if(respuesta.status === "ok"){
+          cartOfProducts = respuesta.data
+          //console.log(cartOfProducts)
+          celdacarro(cartOfProducts)
+        }
+      })
 
+    });
 })})
-
-function insertRowEntabla() {
-    let newRowRef = tabla_cart.insertRow(-1);
-    let newCellRef = newRowRef.insertCell(0);
-    newCellRef.setAttribute("Data-Default-Item", ["default_item"]);
-    newCellRef.innerHTML = (` <div class="p-0"><span class="font-weight-bold ">${array_cart[0].name}- </span>${array_cart[0].count}-${array_cart[0].unitCost} <br> 
-    ${array_cart[0].name}</div>`)
-  }
-
 
   function celda(array_cart) { 
     table_body.innerHTML =
@@ -40,7 +34,8 @@ function insertRowEntabla() {
     `<tr >
     <td class=""><img height="100px" src="${array_cart[0].image}" alt=""></td>
     <td class="">${array_cart[0].name}</td>
-    <td ><input id="${array_cart[0].id}" class="form-control" min="0" value="1"type="number"></input></td>
+    <td ><input onkeyup="hola()" id="${array_cart[0].id}" class="form-control" min="0" value="1"type="number"></input></td>
+    <td class="">${array_cart[0].currency}</td>
     <td class="">${array_cart[0].unitCost} - ${array_cart[0].currency}</td>
     <td id="subtotal${array_cart[0].id}" class="">${array_cart[0].unitCost}</td>
   </tr>
@@ -52,9 +47,29 @@ function multiplicar (a,b) {
     return a*b
 }
 
-
+function celdacarro(cartOfProducts) { 
+    table_body.innerHTML +=
+    
+    `<tr>
+    <td><img height="100px" src="${cartOfProducts.images[0]}" alt=""></td>
+    <td>${cartOfProducts.name}</td>
+    <td><input onkeyup="hola(${cartOfProducts.id})" id="${cartOfProducts.id}" class="form-control" min="0" value="1"type="number"></input></td>
+    <td id="unitcost${cartOfProducts.id}">${cartOfProducts.cost}</td>
+    <td>${cartOfProducts.currency}</td>
+    <td id="subtotal${cartOfProducts.id}" class="">${cartOfProducts.cost}</td>
+  </tr>
+      
+    ` 
+  }
 
 /* </div>
 
 */
 
+function hola(id) {
+  let num = event.path[0].value
+  console.log(num)
+  console.log(document.getElementById(`subtotal${id}`))
+  console.log(parseInt((document.getElementById(`unitcost${id}`).textContent)))
+  document.getElementById(`subtotal${id}`).innerHTML = num * (parseInt((document.getElementById(`unitcost${id}`).textContent)))
+}
