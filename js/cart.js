@@ -62,10 +62,6 @@ function celdacarro(cartOfProducts) {
     ` 
   }
 
-/* </div>
-
-*/
-
 function hola(id) {
   let num = event.path[0].value
   console.log(num)
