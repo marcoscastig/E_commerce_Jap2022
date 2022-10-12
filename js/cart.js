@@ -51,7 +51,7 @@ function celdacarro(cartOfProducts) {
     `<tr>
     <td><img height="100px" src="${cartOfProducts.images[0]}" alt=""></td>
     <td>${cartOfProducts.name}</td>
-    <td><input onkeyup="hola(${cartOfProducts.id})" id="${cartOfProducts.id}" class="form-control" min="0" type="number"></input></td>
+    <td><input onkeyup="inputTxt(${cartOfProducts.id})" id="${cartOfProducts.id}" class="form-control" min="1" value="1"  type="number"></input></td>
     <td id="unitcost${cartOfProducts.id}">${cartOfProducts.cost}</td>
     <td>${cartOfProducts.currency}</td>
     <td id="subtotal${cartOfProducts.id}" class="">${cartOfProducts.cost}</td>
@@ -62,27 +62,26 @@ function celdacarro(cartOfProducts) {
     `
         <ul class="list-group list-group-flush">
           <li class="list-group-item"><img class="img-fluid" src="${cartOfProducts.images[0]}" alt=""></li>
-          <li class="list-group-item">${cartOfProducts.name}</li>
-          <li class="list-group-item"><input onkeyup="hola(${cartOfProducts.id})" id="md${cartOfProducts.id}" class="form-control" min="0" type="number"></input></li>
-          <li id="mdunitcost${cartOfProducts.id}" class="list-group-item">${cartOfProducts.cost}</li>
-          <li class="list-group-item">${cartOfProducts.currency}</li>
-          <li id="mdsubtotal${cartOfProducts.id}" class="list-group-item">${cartOfProducts.cost}</li>
+          <li class="list-group-item"> <span class="font-weight-bold">Nombre</span> - ${cartOfProducts.name}</li>
+          <li class="list-group-item d-flex "><input onkeyup="inputTxt(${cartOfProducts.id})" id="md${cartOfProducts.id}"  class="form-control" min="1" value="1" type="number"></input></li>
+          
+          <li id="mdunitcost${cartOfProducts.id}" class="list-group-item ">${cartOfProducts.cost} ${cartOfProducts.currency}</li>
+          
+          <li  class="list-group-item"><span style="font-weigth: bold;">Subtotal</span> <span id="mdsubtotal${cartOfProducts.id}" class="font-weight-bold">${cartOfProducts.cost}</span> </li>
         </ul>
       `
   }
 
-function hola(id) {
+function inputTxt(id) {
   let num = event.path[0].value
-  //document.getElementById(`md${cartOfProducts.id}`).innerHTML += document.getElementById(`${id}`).value
-  //console.log(document.getElementById(`md${id}`).value)
-  //console.log(document.getElementById(`${id}`).value)
+  let inputLg = document.getElementById(`${id}`)
+  let inputMd = document.getElementById(`md${id}`)
+  if((inputLg.value != inputMd.value)){
+    inputLg.value = num
+  } if((inputMd.value != inputLg.value)) {
+    inputMd.value = inputLg.value
+  }
   document.getElementById(`subtotal${id}`).innerHTML = num * (parseInt((document.getElementById(`unitcost${id}`).textContent))) 
   document.getElementById(`mdsubtotal${id}`).innerHTML = num * (parseInt((document.getElementById(`mdunitcost${id}`).textContent)))
-  
 }
 
-
-/*function igualdad (id) {
-  if ((document.getElementById(`md${cartOfProducts.id}`).value) != (document.getElementById(`${id}`).value)) {
-    (document.getElementById(`md${cartOfProducts.id}`).value) === (document.getElementById(`${id}`).value) }}
-    */
