@@ -51,8 +51,8 @@ document.addEventListener("DOMContentLoaded", async function () {
           localStorage.setItem(`"user_cart"${usuario_name}`, JSON.stringify(usesrscart))
         }  else {
           const idprod = (element) => element  === PRODID
-          let ferifycart = cartstoragesaved.some(idprod)
-          if(ferifycart === false)
+          let verifycart = cartstoragesaved.some(idprod)
+          if(verifycart === false)
           cartstoragesaved.push(PRODID)
           localStorage.setItem(`"user_cart"${usuario_name}`, JSON.stringify(cartstoragesaved))
         }
