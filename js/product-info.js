@@ -10,12 +10,15 @@ let usesrscart = [PRODID]
 
 function HtmlProductosInfo(productos_info) {
   Productos_info_div.innerHTML += `<div class="text-center ">
-  <h2>Puede ser tuyo</h2> <button id="btn_buy" type="button" class="btn btn-success text-end">Success</button>
+  <h2>Puede ser tuyo</h2> 
   <p class="lead">Verás aquí toda la informacion sobre ${productos_info.name}</p>
   </div>
   
   <div  class=" list-group  rounded-0 px-2 ">
     <div class="row">
+    <div class= col-lg-3" >
+  <button id="btn_buy" type="button" class="btn btn-success">Comprar</button>
+  </div>
         <div class="col justify-content-center align-items-center">
             <div class="d-flex w-100 justify-content-between">
                 <div class="mb-1">
