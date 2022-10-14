@@ -5,7 +5,7 @@ const Productos_relacionados = document.getElementById("productos_relacionados")
 const Productos_relacionados_div = document.getElementById("contenedor_productos_relacionados")
 const contenedorComentarios = document.getElementById("contenedorComentarios")
 FormComent = document.getElementById("FormComent")
-let usesrscart = [PRODID]
+let userCart = [PRODID]
 
 
 function HtmlProductosInfo(productos_info) {
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         
       btn_buy.addEventListener("click", function (){
         if (cartstoragesaved.length === 0){
-          localStorage.setItem(`"user_cart"${usuario_name}`, JSON.stringify(usesrscart))
+          localStorage.setItem(`"user_cart"${usuario_name}`, JSON.stringify(userCart))
         }  else {
           const idprod = (element) => element  === PRODID
           let verifycart = cartstoragesaved.some(idprod)
