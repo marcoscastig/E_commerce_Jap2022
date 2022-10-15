@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async function(){
      let cart2= cartstoragesaved.filter(element=> element !=defaultCart )
      cart2.unshift(defaultCart)
      cartstoragesaved = cart2
-     console.log(cartstoragesaved)
+     //localStorage.setItem(`"user_cart"${usuario_name}`, JSON.stringify(cartstoragesaved))
     }
     cartstoragesaved.forEach(idproducto => {
       getJSONData(`https://japceibal.github.io/emercado-api/products/${idproducto}${EXT_TYPE}`).then(function (respuesta){
