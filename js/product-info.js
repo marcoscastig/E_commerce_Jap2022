@@ -62,11 +62,11 @@ document.addEventListener("DOMContentLoaded", async function () {
         })
       let imagenes_ilustrativas = document.getElementById("imagenes_ilustrativas")
       let imagenes = ""
-      imagenes +=`<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+      imagenes +=`<div id="carouselproducts" class="carousel slide" data-ride="carousel">
   <ol class="carousel-indicators">
-    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    <li data-target="#carouselproducts" data-slide-to="0" class="active"></li>
+    <li data-target="#carouselproducts" data-slide-to="1"></li>
+    <li data-target="#carouselproducts" data-slide-to="2"></li>
   </ol>
   <div class="carousel-inner align-items-center">
     <div class="carousel-item active">
@@ -82,11 +82,11 @@ document.addEventListener("DOMContentLoaded", async function () {
       <img class="rounded mx-auto d-block img-fluid img-thumbnail" src="${productos_images[3]}" alt="Third slide">
     </div>
   </div>
-  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+  <a class="carousel-control-prev" href="#carouselproducts" role="button" data-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="sr-only">Previous</span>
   </a>
-  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+  <a class="carousel-control-next" href="#carouselproducts" role="button" data-slide="next">
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="sr-only">Next</span>
   </a>
