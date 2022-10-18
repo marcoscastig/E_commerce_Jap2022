@@ -27,6 +27,7 @@
   <div class="text-center p-4">
     <h2 style="color: orange;" >Carrito de compras</h2>
     <p style="color: orange;" class="lead">Aquí puedes completar tu compra.</p>
+    <p id="usdPrice" class="text-end">41.2356</p>
   </div>
     <div class="container">
       <div class=" list-group-item list-group-item-action mt-4 ">
@@ -84,7 +85,37 @@
             <input class="form-control" type="text">
           </div>
           </div>
-          
+          <div class="row justify-content-start" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" style="border: 1px solid grey;">
+            <div class="col-6 align-self-start">
+              <p class="resaltado mb-0">Subtotal</p>      
+            </div> 
+            <div class="col-6 text-end">
+                <p class="mb-0"><span>USD</span> <span id="subtotalGeneral">654</span></p>      
+            </div>
+            <div class="col align-self-start mb-3 mt-0">
+            <p class="text-muted"> Costo unitario del producto por cantidad</p>      
+            </div>
+            </div>  
+            <div class="row justify-content-start" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" style="border: 1px solid grey;">
+              <div class="col-6 align-self-start">
+                <p class="resaltado mb-0">Costo de envío</p>      
+              </div>
+              <div class="col-6 text-end">
+                  <p class="mb-0"><span>USD</span> 43</p>      
+              </div>
+              <div class="col align-self-start mb-3 mt-0">
+              <p class="text-muted"> Según el tipo de envío</p>      
+              </div>
+              </div>  
+              <div class="row justify-content-start" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" style="border: 1px solid grey;">
+                <div class="col-6 align-self-start">
+                  <p class="resaltado mb-0">Total en usd </p>      
+                </div>
+                <div class="col-6 text-end">
+                    <p class="mb-0"><span>USD</span> 1607</p>      
+                </div>
+                
+                </div>  
           </div>
 
         </div>
