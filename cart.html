@@ -9,8 +9,18 @@
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/font-awesome.min.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
-</head>
+  <style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
 
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
+</head>
 <body class="">
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
     <div class="container">
@@ -39,6 +49,7 @@
           <th scope="col">Cantidad</th>
           <th scope="col">Costo Por Unidad</th>
           <th scope="col">SubTotal</th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody id="table_body">
@@ -85,18 +96,18 @@
             <input class="form-control" type="text">
           </div>
           </div>
-          <div class="row justify-content-start" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" style="border: 1px solid grey;">
+          <div class="row justify-content-start"  style="border: 1px solid grey;">
             <div class="col-6 align-self-start">
               <p class="resaltado mb-0">Subtotal</p>      
             </div> 
             <div class="col-6 text-end">
-                <p class="mb-0"><span>USD</span> <span id="subtotalGeneral">654</span></p>      
+                <p class="mb-0"><span>USD</span> <span id="subtotalGeneral"></span></p>      
             </div>
             <div class="col align-self-start mb-3 mt-0">
             <p class="text-muted"> Costo unitario del producto por cantidad</p>      
             </div>
             </div>  
-            <div class="row justify-content-start" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" style="border: 1px solid grey;">
+            <div class="row justify-content-start"  style="border: 1px solid grey;">
               <div class="col-6 align-self-start">
                 <p class="resaltado mb-0">Costo de envío</p>      
               </div>
@@ -107,7 +118,7 @@
               <p class="text-muted"> Según el tipo de envío</p>      
               </div>
               </div>  
-              <div class="row justify-content-start" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" style="border: 1px solid grey;">
+              <div class="row justify-content-start"  style="border: 1px solid grey;">
                 <div class="col-6 align-self-start">
                   <p class="resaltado mb-0">Total en usd </p>      
                 </div>
@@ -117,6 +128,8 @@
                 
                 </div>  
           </div>
+
+
 
         </div>
   <footer class="text-muted">

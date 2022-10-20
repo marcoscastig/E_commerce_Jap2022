@@ -4,15 +4,16 @@ const table_body = document.getElementById('table_body')
 const carro_md = document.getElementById('carro_d-md')
 const usdPrice = document.getElementById('usdPrice')
 const subtotalGeneral = document.getElementById('subtotalGeneral')
+const USDvalue = 41.5
 
 document.addEventListener("DOMContentLoaded", async function(){
     getJSONData(CART_INFO_URL).then(function (respuesta) {
       if(respuesta.status === "ok"){
         cartOfProducts = respuesta.data
         let idDefault= cartOfProducts.articles[0].id
-        console.log(cartOfProducts.articles[0].id)
+        
         defaultCart = (idDefault.toString())
-    const car = (element) => element  === defaultCart
+   const car = (element) => element  === defaultCart
     let cartValidation = cartstoragesaved.some(car)
     if(cartValidation === false){
       cartstoragesaved.unshift(defaultCart)
@@ -23,138 +24,114 @@ document.addEventListener("DOMContentLoaded", async function(){
      cartstoragesaved = cart2
      localStorage.setItem(`"user_cart"${usuario_name}`, JSON.stringify(cartstoragesaved))
     }
-    cartstoragesaved.forEach(idproducto => {
-      getJSONData(`https://japceibal.github.io/emercado-api/products/${idproducto}${EXT_TYPE}`).then(function (respuesta){
-        if(respuesta.status === "ok"){
-          cartOfProducts = respuesta.data
-          celdacarro(cartOfProducts)
-        }
-      })
-      
-    });
+    cargarProductos()
+    
   }
 })})
 
+
 function celdacarro(cartOfProducts) { 
+  if(cartOfProducts.currency === "UYU"){
+    cartOfProducts.currency = "USD"
+    cartOfProducts.cost = parseInt(cartOfProducts.cost/USDvalue).toFixed(2)
+
+  }
     table_body.innerHTML +=
     
     `<tr>
     <td><img height="100px" src="${cartOfProducts.images[0]}" alt=""></td>
     <td>${cartOfProducts.name}</td>
-    <td><input onkeyup="inputTxt(${cartOfProducts.id})" style="width: 81px;" id="${cartOfProducts.id}" class="form-control" min="1" value="1"  type="number"></input></td>
+    <td><input onkeyup="inputTxt(${cartOfProducts.id})" style="width: 81px;" placeholder="1" id="${cartOfProducts.id}" class="form-control" min="0"  type="number"  ></input></td>
     <td ><span id="unitcost${cartOfProducts.id}"> ${cartOfProducts.cost}</span> ${cartOfProducts.currency}</td>
     <td style="font-weight: bold"><span id="subtotal${cartOfProducts.id}">${cartOfProducts.cost}</span>  <span id="moneda${cartOfProducts.id}">${cartOfProducts.currency}</span></td>
-  </tr>
-      
+    <td><button onclick="borrar(${cartOfProducts.id})" id="btn_buy" type="button" class="btn btn-danger"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+    <line x1="4" y1="7" x2="20" y2="7" />
+    <line x1="10" y1="11" x2="10" y2="17" />
+    <line x1="14" y1="11" x2="14" y2="17" />
+    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+  </svg></button><td>  
+    </tr>
     ` 
     carro_md.innerHTML +=
     `
         <ul class="list-group list-group-flush">
           <li class="list-group-item"><img class="img-fluid" src="${cartOfProducts.images[0]}" alt=""></li>
           <li style="font-weight: bold" class="list-group-item"> <span >Nombre</span> - ${cartOfProducts.name}</li>
-          <li class="list-group-item d-flex "><input onkeyup="inputTxt(${cartOfProducts.id})" id="md${cartOfProducts.id}"  class="form-control" min="1" value="1" type="number"></input></li>
+          <li class="list-group-item d-flex "><input onkeyup="inputTxt(${cartOfProducts.id})" id="md${cartOfProducts.id}"  placeholder="1" class="form-control" min="0"  type="number" ></input></li>
       
           <li  class="list-group-item "><span style="font-weight: bold">Costo por unidad:</span> ${cartOfProducts.currency} 
           <span id="mdunitcost${cartOfProducts.id}"> ${cartOfProducts.cost}</span> </li>
           
           <li  class="list-group-item"><span style="font-weight: bold">Subtotal</span> <span style="font-weight: bold" id="mdsubtotal${cartOfProducts.id}" >${cartOfProducts.cost}</span>
           <span id="mdmoneda${cartOfProducts.id}">${cartOfProducts.currency}</span> </li>
+          <li  class="list-group-item"><button onclick="borrar(${cartOfProducts.id})" id="btn_buy" type="button" class="btn btn-danger"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+          <line x1="4" y1="7" x2="20" y2="7" />
+          <line x1="10" y1="11" x2="10" y2="17" />
+          <line x1="14" y1="11" x2="14" y2="17" />
+          <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+          <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+        </svg> <span> Eliminar ${cartOfProducts.name}</span> </button></li>
         </ul>
       `
+      
   }
 
-function inputTxt(id) {
+  function inputTxt(id) {
   let num = event.path[0].value
+ 
   let idproducto = document.getElementById(`${cartOfProducts.id}`)
   let inputLg = document.getElementById(`${id}`)
   let inputMd = document.getElementById(`md${id}`)
   let unitxcost = (num * (parseInt((document.getElementById(`unitcost${id}`).textContent)))) 
   
-
-  //let mdunitxcost = num * (parseInt((document.getElementById(`mdunitcost${id}`).textContent)))
-  if((inputLg.value != inputMd.value)){
-    inputLg.value = num
-  } if((inputMd.value != inputLg.value)) {
-    inputMd.value = inputLg.value
-  }
-  let inputobj = {
-    id: id,
-    precio: unitxcost
-  }
-  let arrayunitxcost = []
-  arrayunitxcost.push(inputobj)
-  console.log(arrayunitxcost)
-  
-  
+if((num < 1)){    
+  unitxcost = (1 * (parseInt((document.getElementById(`unitcost${id}`).textContent)))) 
   document.getElementById(`subtotal${id}`).innerHTML = unitxcost
   document.getElementById(`mdsubtotal${id}`).innerHTML = unitxcost
-  //showSubtotal (unitxcost)
+  inputLg.value = ""
+  inputMd.value = ""
 }
-
-var myHeaders = new Headers();
-myHeaders.append("apikey", "wRdc91FF6D5jCTfI6V4FzIGp8mk3F9OW");
-
-var requestOptions = {
-  method: 'GET',
-  redirect: 'follow',
-  headers: myHeaders
-};
-
-/*fetch("https://api.apilayer.com/exchangerates_data/latest?symbols=uyu&base=usd", requestOptions)
-  .then(response => response.json())
-  .then(result => imprimirTipoDeCambio(result))
-  .catch(error => console.log('error', error));
-  function imprimirTipoDeCambio (rate){
-    //console.log(typeof(rate.rates.UYU))
-    //console.log((rate.rates.UYU))
-    usdPrice.innerHTML = rate.rates.UYU
-   }*/
-
- 
-
- /*function showSubtotal (unitxcost){
-  subtotalGeneral.innerHTML = unitxcost
-  innersubtotal(arrayunitxcost)
- }*/
-
-
-function innersubtotal() {
-  element=50924
-console.log(arrayunitxcost.lastIndexOf(element))
   
+  if((inputLg.value != inputMd.value)){
+    inputLg.value = num
+  } 
+  if((inputMd.value != inputLg.value)) {
+    inputMd.value = num
+  }
+  document.getElementById(`subtotal${id}`).innerHTML = unitxcost
+  document.getElementById(`mdsubtotal${id}`).innerHTML = unitxcost
+
+  buscarenarray ()
 }
-
-
-
- /*const buscar_producto = ()=> {
-    const Busca = new FormData(buscador)
-    let busqueda= Busca.get('busqueda').toLowerCase()
-    Lista.innerHTML =""
-    for(let i = 0; i < productos.products.length; i++){
-        let products = productos.products[i]
-        let productos_txt = products.name.toLowerCase();
-        let productos_desc = products.description.toLowerCase()
-        if((productos_txt.indexOf(busqueda) !== -1 )|| (productos_desc.indexOf(busqueda)!== -1)){
-           
-            Lista.innerHTML += HtmlProductos(products)
-        }
-    }
-    if(Lista.innerHTML === ""){
-        Lista.innerHTML += `<div class="mb-1">
-        <h4 style="color:orange">Sigue navegando, tenemos grandes productos para ti</h4> 
-        </div>`
-    }
+function buscarenarray (){
+  let arrayunitxcost = []
+  for (let i = 0; i < cartstoragesaved.length; i++) {
+    const element = cartstoragesaved[i];
+    let selector = document.getElementById(`subtotal${element}`).textContent
+    console.log(document.getElementById(`subtotal${element}`))
+    arrayunitxcost.push(parseInt(selector))
     
+  }
+let total = arrayunitxcost.reduce((a, b) => a + b, 0);
+subtotalGeneral.innerHTML=total
 }
-const animals = ['Dodo', 'Tiger', 'Penguin', 'Dodo'];
-
-console.log(animals.lastIndexOf('ewr'));
-// expected output: 3
-
-console.log(animals.lastIndexOf('Tiger'));
-// expected output: 1
-
-
-
-*/
+function borrar(id){
+  let arrayEliminado = cartstoragesaved.filter(element => element != id)
+  localStorage.setItem(`"user_cart"${usuario_name}`, JSON.stringify(arrayEliminado))
+  window.location.reload()
+}
+function cargarProductos() {
+  cartstoragesaved.forEach(idproducto => {
+    getJSONData(`https://japceibal.github.io/emercado-api/products/${idproducto}${EXT_TYPE}`).then(function (respuesta){
+      if(respuesta.status === "ok"){
+        cartOfProducts = respuesta.data
+        celdacarro(cartOfProducts)
+        
+      }
+    })
+  });
+}
 console.log(cartstoragesaved)
