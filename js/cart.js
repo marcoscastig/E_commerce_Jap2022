@@ -4,7 +4,12 @@ const table_body = document.getElementById('table_body')
 const carro_md = document.getElementById('carro_d-md')
 const usdPrice = document.getElementById('usdPrice')
 const subtotalGeneral = document.getElementById('subtotalGeneral')
+const envio = document.getElementById('envio')
+const suma = document.getElementById('suma')
 const USDvalue = 41.5
+const mayor = document.getElementById('mayor')
+const mediano = document.getElementById('mediano')
+const barato = document.getElementById('barato')
 
 document.addEventListener("DOMContentLoaded", async function(){
     getJSONData(CART_INFO_URL).then(function (respuesta) {
@@ -12,7 +17,7 @@ document.addEventListener("DOMContentLoaded", async function(){
         cartOfProducts = respuesta.data
         let idDefault= cartOfProducts.articles[0].id
         
-        defaultCart = (idDefault.toString())
+      defaultCart = (idDefault.toString())
    const car = (element) => element  === defaultCart
     let cartValidation = cartstoragesaved.some(car)
     if(cartValidation === false){
@@ -27,6 +32,7 @@ document.addEventListener("DOMContentLoaded", async function(){
     cargarProductos()
     
   }
+  
 })})
 
 
@@ -34,14 +40,13 @@ function celdacarro(cartOfProducts) {
   if(cartOfProducts.currency === "UYU"){
     cartOfProducts.currency = "USD"
     cartOfProducts.cost = parseInt(cartOfProducts.cost/USDvalue).toFixed(2)
-
   }
     table_body.innerHTML +=
     
     `<tr>
     <td><img height="100px" src="${cartOfProducts.images[0]}" alt=""></td>
     <td>${cartOfProducts.name}</td>
-    <td><input onkeyup="inputTxt(${cartOfProducts.id})" style="width: 81px;" placeholder="1" id="${cartOfProducts.id}" class="form-control" min="0"  type="number"  ></input></td>
+    <td><input  onkeyup="inputTxt(${cartOfProducts.id})" style="width: 81px;" placeholder="1" id="${cartOfProducts.id}" class="form-control" min="0"  value="1" type="number" required ></input></td>
     <td ><span id="unitcost${cartOfProducts.id}"> ${cartOfProducts.cost}</span> ${cartOfProducts.currency}</td>
     <td style="font-weight: bold"><span id="subtotal${cartOfProducts.id}">${cartOfProducts.cost}</span>  <span id="moneda${cartOfProducts.id}">${cartOfProducts.currency}</span></td>
     <td><button onclick="borrar(${cartOfProducts.id})" id="btn_buy" type="button" class="btn btn-danger"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -59,7 +64,7 @@ function celdacarro(cartOfProducts) {
         <ul class="list-group list-group-flush">
           <li class="list-group-item"><img class="img-fluid" src="${cartOfProducts.images[0]}" alt=""></li>
           <li style="font-weight: bold" class="list-group-item"> <span >Nombre</span> - ${cartOfProducts.name}</li>
-          <li class="list-group-item d-flex "><input onkeyup="inputTxt(${cartOfProducts.id})" id="md${cartOfProducts.id}"  placeholder="1" class="form-control" min="0"  type="number" ></input></li>
+          <li class="list-group-item d-flex "><input   onkeyup="inputTxt(${cartOfProducts.id})" id="md${cartOfProducts.id}"  placeholder="1" class="form-control" min="0"  value="1" type="number" ></input></li>
       
           <li  class="list-group-item "><span style="font-weight: bold">Costo por unidad:</span> ${cartOfProducts.currency} 
           <span id="mdunitcost${cartOfProducts.id}"> ${cartOfProducts.cost}</span> </li>
@@ -76,7 +81,6 @@ function celdacarro(cartOfProducts) {
         </svg> <span> Eliminar ${cartOfProducts.name}</span> </button></li>
         </ul>
       `
-      
   }
 
   function inputTxt(id) {
@@ -93,8 +97,9 @@ if((num < 1)){
   document.getElementById(`mdsubtotal${id}`).innerHTML = unitxcost
   inputLg.value = ""
   inputMd.value = ""
+  console.log("es menor a 1")
 }
-  
+
   if((inputLg.value != inputMd.value)){
     inputLg.value = num
   } 
@@ -111,27 +116,75 @@ function buscarenarray (){
   for (let i = 0; i < cartstoragesaved.length; i++) {
     const element = cartstoragesaved[i];
     let selector = document.getElementById(`subtotal${element}`).textContent
-    console.log(document.getElementById(`subtotal${element}`))
     arrayunitxcost.push(parseInt(selector))
     
   }
 let total = arrayunitxcost.reduce((a, b) => a + b, 0);
 subtotalGeneral.innerHTML=total
+if(mayor.checked){
+envio.innerHTML= (total*0.15).toFixed(2)
+subtotalMasEnvio()
+}
+if(mediano.checked){
+  envio.innerHTML= (total*0.07).toFixed(2)
+  subtotalMasEnvio()
+  } 
+  if(barato.checked){
+    envio.innerHTML= (total*0.05).toFixed(2)
+    subtotalMasEnvio()
+    }  
+
 }
 function borrar(id){
   let arrayEliminado = cartstoragesaved.filter(element => element != id)
   localStorage.setItem(`"user_cart"${usuario_name}`, JSON.stringify(arrayEliminado))
   window.location.reload()
 }
+let array2 = []
 function cargarProductos() {
   cartstoragesaved.forEach(idproducto => {
     getJSONData(`https://japceibal.github.io/emercado-api/products/${idproducto}${EXT_TYPE}`).then(function (respuesta){
       if(respuesta.status === "ok"){
         cartOfProducts = respuesta.data
         celdacarro(cartOfProducts)
-        
       }
+      if(cartOfProducts.currency === "UYU"){
+        cartOfProducts.currency = "USD"
+        cartOfProducts.cost = parseInt(cartOfProducts.cost/USDvalue).toFixed(2)
+      }
+      array2.push(parseInt(cartOfProducts.cost))
+      let subtotal = array2.reduce((a, b) => a + b, 0);
+      subtotalGeneral.innerHTML=subtotal
+      envio.innerHTML= (subtotal * 0.15).toFixed(2)
+      subtotalMasEnvio()
     })
   });
 }
-console.log(cartstoragesaved)
+
+mayor.addEventListener("click",function(){
+  let subtotal = subtotalGeneral.textContent
+  envio.innerHTML=(subtotal*0.15.toFixed(2))
+  subtotalMasEnvio ()
+})
+
+mediano.addEventListener("click",function(){
+  let subtotal = subtotalGeneral.textContent
+  envio.innerHTML=(subtotal*0.07).toFixed(2)
+  subtotalMasEnvio ()
+})
+barato.addEventListener("click",function(){
+  let subtotal = subtotalGeneral.textContent
+  envio.innerHTML=(subtotal*0.05).toFixed(2)
+  subtotalMasEnvio ()
+})
+
+function subtotalMasEnvio () {
+  suma.innerHTML=(parseInt(envio.textContent)+parseInt(subtotalGeneral.textContent))
+}
+
+
+/*let prueba =document.getElementById('prueba')
+prueba.addEventListener("click", function(){
+  if(((document.getElementById('50924')).value === "") || ((document.getElementById('50924')).value === 0)  )
+  console.log("llenar input")
+})*/

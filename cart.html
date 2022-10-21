@@ -67,16 +67,16 @@
       <div class="list-group-item list-group-item-actiond-block ">
             <h5 class="list-group-item list-group-item-actionmb-3">Tipo de envío </h5>
             <div class="custom-control custom-radio">
-              <input id="goldradio" name="publicationType" type="radio" class="custom-control-input" checked=""
+              <input id="mayor" name="publicationType" type="radio" class="custom-control-input" checked=""
                 required="">
               <label class="custom-control-label" for="goldradio">2 a 15 días (15%)</label>
             </div>
             <div class="custom-control custom-radio">
-              <input id="premiumradio" name="publicationType" type="radio" class="custom-control-input" required="">
+              <input id="mediano" name="publicationType" type="radio" class="custom-control-input" required="">
               <label class="custom-control-label" for="premiumradio">Express 5 a 8 días (7%)</label>
             </div>
             <div class="custom-control custom-radio">
-              <input id="standardradio" name="publicationType" type="radio" class="custom-control-input" required="">
+              <input id="barato" name="publicationType" type="radio" class="custom-control-input" required="">
               <label class="custom-control-label" for="standardradio">Standard 12 a 15 días (5%)</label>
             </div>
             <h5 class="mt-2">Dirección de envío</h5>
@@ -112,7 +112,7 @@
                 <p class="resaltado mb-0">Costo de envío</p>      
               </div>
               <div class="col-6 text-end">
-                  <p class="mb-0"><span>USD</span> 43</p>      
+                  <p class="mb-0"><span>USD</span><span id="envio"></span></p>      
               </div>
               <div class="col align-self-start mb-3 mt-0">
               <p class="text-muted"> Según el tipo de envío</p>      
@@ -123,9 +123,9 @@
                   <p class="resaltado mb-0">Total en usd </p>      
                 </div>
                 <div class="col-6 text-end">
-                    <p class="mb-0"><span>USD</span> 1607</p>      
+                    <p class="mb-0"><span>USD</span> <span id="suma"></span></p>      
                 </div>
-                
+                <button id="prueba">sadffsadfsd</button>
                 </div>  
           </div>
 
