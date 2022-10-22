@@ -11,6 +11,11 @@ const mayor = document.getElementById('mayor')
 const mediano = document.getElementById('mediano')
 const barato = document.getElementById('barato')
 const validacion = document.getElementById('validacion')
+const comprar = document.getElementById('comprar')
+const calle = document.getElementById('calle')
+const numero = document.getElementById('numero')
+const esquina = document.getElementById('esquina')
+
 
 document.addEventListener("DOMContentLoaded", async function(){
     getJSONData(CART_INFO_URL).then(function (respuesta) {
@@ -216,8 +221,10 @@ tarjeta1.addEventListener('input', function(){
   
   if( tarjeta1.value.length != 12){
     tarjeta1.setCustomValidity('invalid');
+    
   } else {
     event.target.setCustomValidity('')
+    console.log("bien")
   }
 })
 tarjeta2.addEventListener('input', function(){
@@ -226,19 +233,43 @@ tarjeta2.addEventListener('input', function(){
     tarjeta2.setCustomValidity('invalid');
   } else {
     event.target.setCustomValidity('')
+    console.log("bien")
+  }
+})
+transfer.addEventListener('input', function (){
+  if(transfer.value.length <=4) {
+    transfer.setCustomValidity('invalid');
+  } else {
+    event.target.setCustomValidity('')
+    console.log("bien")
+  }
+})
+calle.addEventListener('input', function (){
+  if(calle.value.length ===0) {
+    calle.setCustomValidity('invalid');
+  } else {
+    event.target.setCustomValidity('')
+    console.log("bien")
   }
 })
 
+comprar.addEventListener("click",function(event){
+  event.preventDefault()
+  if((calle.value.length !=0) &&(esquina.value.length !=0) &&(numero.value.length !=0) ){
+    if((tarjeta.checked) && (tarjeta1.value.length === 12) && (tarjeta2.value.length === 3)){
+      console.log("tarjeta de credito elegida")
+      console.log(calle.value)
+    }if ((banco.checked) && (transfer.value.length >=4)){
+      console.log("transferencia elegida")
+      console.log(calle.value)
+    }
+  }
+   
+  })
+  
 
 
 
 
-
-
-/*let prueba =document.getElementById('prueba')
-prueba.addEventListener("click", function(){
-  if(((document.getElementById('50924')).value === "") || ((document.getElementById('50924')).value === 0)  )
-  console.log("llenar input")
-})*/
 
 

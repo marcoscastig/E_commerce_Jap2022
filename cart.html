@@ -63,7 +63,7 @@
       </div>
     </div>
 
-      
+    <form class="was-validated">
       <div class="list-group-item list-group-item-actiond-block ">
             <h5 class="list-group-item list-group-item-actionmb-3">Tipo de envío </h5>
             <div class="custom-control custom-radio">
@@ -82,20 +82,24 @@
             <h5 class="mt-2">Dirección de envío</h5>
             <div class="row">
               <div class="col-lg-8 col-md-8 col-sm-8">
-            <label for="">Calle</label>
-            <input class="form-control" type="text">
+            <label for="calle">Calle</label>
+            <input id="calle" class="form-control" type="" required>
+            <div class="invalid-feedback">
+              pon tu calle
+            </div>
           </div>
           <div class="col-5 col-lg-2 col-md-2 col-sm-4">
-            <label for="">Numero</label>
-            <input class="form-control col-2" type="text">
+            <label for="numero">Numero</label>
+            <input id="numero" class="form-control col-2" type="" required>
           </div>
         </div>
           <div class="row">
             <div class="col-lg-8 col-md-8">
-            <label for="">Esquina</label>
-            <input class="form-control" type="text">
+            <label for="esquina">Esquina</label>
+            <input id="esquina" class="form-control" type="" required>
           </div>
           </div>
+        </form>
 
 
 
@@ -141,6 +145,7 @@
   Forma de pago
 </a>
 
+
 <!-- Modal -->
 <div class="modal fade" id="FormaDePagoModal" tabindex="-1" aria-labelledby="FormaDePagoModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -158,7 +163,7 @@
           </div>
           <div class="form-check mb-3">
             <label class="" for="cardnumber">Número de tarjeta</label>
-            <input  type="number" placeholder="xxxx-xxxx-xxxx-xxxx" class="form-control" id="cardnumber1" name="cardnumber" readonly>
+            <input  type="number" placeholder="xxxx-xxxx-xxxx-xxxx" class="form-control" id="cardnumber1" name="cardnumber" required readonly>
             <div class="invalid-feedback">
               Debe introducir los 12 digitos de la tarjeta
             </div>
@@ -166,23 +171,23 @@
           
           <div class="form-check mb-3">
             <label class="" for="cardnumber">Codigo de seguridad</label>
-            <input  type="number" class="form-control"placeholder="xxx" id="cardnumber2" name="cardnumber" minlength="3" readonly>
+            <input  type="number" class="form-control"placeholder="xxx" id="cardnumber2" name="cardnumber" minlength="3"  required readonly>
             <div class="invalid-feedback">
               Son los 3 digitos en el reverso de la tarjeta
             </div>
           </div>
           <div class="form-check mb-3">
             <label class="" for="cardnumber">Fecha de vencimiento</label>
-            <input  type="date" class="form-control  " id="cardnumber3" name="cardnumber" readonly>
+            <input  type="date" class="form-control  " id="cardnumber3" name="cardnumber" required readonly>
           </div>
           <div class="form-check mb-3">
-            <input type="radio" class="form-check-input" id="validationFormCheck3" name="radio-stacked" required>
+            <input type="radio" class="form-check-input" id="validationFormCheck3" name="radio-stacked"  required>
             <label class="form-check-label" for="validationFormCheck3">Transferencia bancaria</label>
             
           </div>  
           <div class="form-check mb-3">
             <label class="" for="transfer">Número de cuenta</label>
-            <input  type="number" class="form-control  " id="transfer" name="transfer" readonly>
+            <input  type="number" class="form-control  " id="transfer" name="transfer" required readonly>
           </div> 
 
 
@@ -195,12 +200,13 @@
   </div>
 </div>
      <!-- hasta aca va el modal --> 
-     <button id="comprar">comprar</button>
+     
           </div>
-        
-
+        <br>
+          <button class="btn-primary mx-auto" type="button" id="comprar">comprar</button>
 
         </div>
+     
   <footer class="text-muted">
     <div class="container">
       <p class="float-end">
