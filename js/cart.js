@@ -10,6 +10,7 @@ const USDvalue = 41.5
 const mayor = document.getElementById('mayor')
 const mediano = document.getElementById('mediano')
 const barato = document.getElementById('barato')
+const validacion = document.getElementById('validacion')
 
 document.addEventListener("DOMContentLoaded", async function(){
     getJSONData(CART_INFO_URL).then(function (respuesta) {
@@ -182,9 +183,62 @@ function subtotalMasEnvio () {
   suma.innerHTML=(parseInt(envio.textContent)+parseInt(subtotalGeneral.textContent))
 }
 
+let tarjeta = document.getElementById('validationFormCheck2')
+let banco = document.getElementById('validationFormCheck3')
+let tarjeta1 = document.getElementById('cardnumber1')
+let tarjeta2 = document.getElementById('cardnumber2')
+let tarjeta3 = document.getElementById('cardnumber3')
+let transfer = document.getElementById('transfer')
+banco.addEventListener("click", function (){
+  if(banco.checked){
+    tarjeta1.setAttribute('readonly', true)
+    tarjeta2.setAttribute('readonly', true)
+    tarjeta3.setAttribute('readonly', true)
+    transfer.setAttribute('required', true)
+    transfer.removeAttribute('readonly')
+  }
+})
+tarjeta.addEventListener("click", function (){
+  if(tarjeta.checked){
+    
+    transfer.setAttribute('readonly',true)
+    tarjeta1.removeAttribute('readonly')
+    tarjeta2.removeAttribute('readonly')
+    tarjeta3.removeAttribute('readonly')
+    tarjeta1.setAttribute('required', true)
+    tarjeta2.setAttribute('required', true)
+    tarjeta3.setAttribute('required', true)
+    
+    
+  }
+})
+tarjeta1.addEventListener('input', function(){
+  
+  if( tarjeta1.value.length != 12){
+    tarjeta1.setCustomValidity('invalid');
+  } else {
+    event.target.setCustomValidity('')
+  }
+})
+tarjeta2.addEventListener('input', function(){
+  
+  if( tarjeta2.value.length != 3){
+    tarjeta2.setCustomValidity('invalid');
+  } else {
+    event.target.setCustomValidity('')
+  }
+})
+
+
+
+
+
+
 
 /*let prueba =document.getElementById('prueba')
 prueba.addEventListener("click", function(){
   if(((document.getElementById('50924')).value === "") || ((document.getElementById('50924')).value === 0)  )
   console.log("llenar input")
 })*/
+
+

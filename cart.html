@@ -96,6 +96,15 @@
             <input class="form-control" type="text">
           </div>
           </div>
+
+
+
+          
+
+
+
+
+
           <div class="row justify-content-start"  style="border: 1px solid grey;">
             <div class="col-6 align-self-start">
               <p class="resaltado mb-0">Subtotal</p>      
@@ -125,10 +134,70 @@
                 <div class="col-6 text-end">
                     <p class="mb-0"><span>USD</span> <span id="suma"></span></p>      
                 </div>
-                <button id="prueba">sadffsadfsd</button>
-                </div>  
-          </div>
+                
+                </div> 
+                       <!-- Button trigger modal -->
+<a href="#" class="b" data-bs-toggle="modal" data-bs-target="#FormaDePagoModal">
+  Forma de pago
+</a>
 
+<!-- Modal -->
+<div class="modal fade" id="FormaDePagoModal" tabindex="-1" aria-labelledby="FormaDePagoModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="FormaDePagoModalLabel">Forma de pago</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="was-validated">
+        
+          <div class="form-check mb-3">
+            <input type="radio" class="form-check-input" id="validationFormCheck2" name="radio-stacked" required>
+            <label class="form-check-label" for="validationFormCheck2">Tarjeta de credito</label>
+          </div>
+          <div class="form-check mb-3">
+            <label class="" for="cardnumber">Número de tarjeta</label>
+            <input  type="number" placeholder="xxxx-xxxx-xxxx-xxxx" class="form-control" id="cardnumber1" name="cardnumber" readonly>
+            <div class="invalid-feedback">
+              Debe introducir los 12 digitos de la tarjeta
+            </div>
+          </div>
+          
+          <div class="form-check mb-3">
+            <label class="" for="cardnumber">Codigo de seguridad</label>
+            <input  type="number" class="form-control"placeholder="xxx" id="cardnumber2" name="cardnumber" minlength="3" readonly>
+            <div class="invalid-feedback">
+              Son los 3 digitos en el reverso de la tarjeta
+            </div>
+          </div>
+          <div class="form-check mb-3">
+            <label class="" for="cardnumber">Fecha de vencimiento</label>
+            <input  type="date" class="form-control  " id="cardnumber3" name="cardnumber" readonly>
+          </div>
+          <div class="form-check mb-3">
+            <input type="radio" class="form-check-input" id="validationFormCheck3" name="radio-stacked" required>
+            <label class="form-check-label" for="validationFormCheck3">Transferencia bancaria</label>
+            
+          </div>  
+          <div class="form-check mb-3">
+            <label class="" for="transfer">Número de cuenta</label>
+            <input  type="number" class="form-control  " id="transfer" name="transfer" readonly>
+          </div> 
+
+
+          
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
+     <!-- hasta aca va el modal --> 
+     <button id="comprar">comprar</button>
+          </div>
+        
 
 
         </div>
