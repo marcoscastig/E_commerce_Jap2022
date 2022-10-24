@@ -85,30 +85,27 @@
             <label for="calle">Calle</label>
             <input id="calle" class="form-control" type="" required>
             <div class="invalid-feedback">
-              pon tu calle
+              Indica una calle
             </div>
           </div>
           <div class="col-5 col-lg-2 col-md-2 col-sm-4">
             <label for="numero">Numero</label>
-            <input id="numero" class="form-control col-2" type="" required>
+            <input id="numero" class="form-control col-2" type="number" required>
+            <div class="invalid-feedback">
+              Indica numero de la dirección
+            </div>
           </div>
         </div>
           <div class="row">
             <div class="col-lg-8 col-md-8">
             <label for="esquina">Esquina</label>
             <input id="esquina" class="form-control" type="" required>
+            <div class="invalid-feedback">
+              Indica esquina
+            </div>
           </div>
           </div>
         </form>
-
-
-
-          
-
-
-
-
-
           <div class="row justify-content-start"  style="border: 1px solid grey;">
             <div class="col-6 align-self-start">
               <p class="resaltado mb-0">Subtotal</p>      
@@ -142,8 +139,8 @@
                 </div> 
                        <!-- Button trigger modal -->
 <a href="#" class="b" data-bs-toggle="modal" data-bs-target="#FormaDePagoModal">
-  Forma de pago
-</a>
+  Forma de pago 
+</a><span id="spanFormaDePago" class="d-none" style="color:red">Debes elegir una forma de pago</span>
 
 
 <!-- Modal -->
@@ -178,7 +175,7 @@
           </div>
           <div class="form-check mb-3">
             <label class="" for="cardnumber">Fecha de vencimiento</label>
-            <input  type="date" class="form-control  " id="cardnumber3" name="cardnumber" required readonly>
+            <input  type="date" class="form-control  " id="cardnumber3" name="cardnumber" minlength="8" required readonly>
           </div>
           <div class="form-check mb-3">
             <input type="radio" class="form-check-input" id="validationFormCheck3" name="radio-stacked"  required>
@@ -188,6 +185,9 @@
           <div class="form-check mb-3">
             <label class="" for="transfer">Número de cuenta</label>
             <input  type="number" class="form-control  " id="transfer" name="transfer" required readonly>
+            <div class="invalid-feedback">
+              Minimo 5 digitos
+            </div>
           </div> 
 
 

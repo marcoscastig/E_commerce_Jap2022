@@ -15,7 +15,7 @@ const comprar = document.getElementById('comprar')
 const calle = document.getElementById('calle')
 const numero = document.getElementById('numero')
 const esquina = document.getElementById('esquina')
-
+const spanFormaDePago = document.getElementById('spanFormaDePago')
 
 document.addEventListener("DOMContentLoaded", async function(){
     getJSONData(CART_INFO_URL).then(function (respuesta) {
@@ -205,7 +205,6 @@ banco.addEventListener("click", function (){
 })
 tarjeta.addEventListener("click", function (){
   if(tarjeta.checked){
-    
     transfer.setAttribute('readonly',true)
     tarjeta1.removeAttribute('readonly')
     tarjeta2.removeAttribute('readonly')
@@ -213,63 +212,71 @@ tarjeta.addEventListener("click", function (){
     tarjeta1.setAttribute('required', true)
     tarjeta2.setAttribute('required', true)
     tarjeta3.setAttribute('required', true)
-    
-    
   }
 })
-tarjeta1.addEventListener('input', function(){
-  
+tarjeta1.addEventListener('input', function(event){
   if( tarjeta1.value.length != 12){
     tarjeta1.setCustomValidity('invalid');
-    
   } else {
-    event.target.setCustomValidity('')
-    console.log("bien")
+    event.target.setCustomValidity('');
   }
 })
-tarjeta2.addEventListener('input', function(){
+tarjeta2.addEventListener('input', function(event){
   
   if( tarjeta2.value.length != 3){
     tarjeta2.setCustomValidity('invalid');
   } else {
-    event.target.setCustomValidity('')
-    console.log("bien")
+    event.target.setCustomValidity('');
   }
 })
-transfer.addEventListener('input', function (){
+transfer.addEventListener('input', function (event){
   if(transfer.value.length <=4) {
     transfer.setCustomValidity('invalid');
   } else {
-    event.target.setCustomValidity('')
-    console.log("bien")
+    event.target.setCustomValidity('');
   }
 })
-calle.addEventListener('input', function (){
+calle.addEventListener('input', function (event){
   if(calle.value.length ===0) {
     calle.setCustomValidity('invalid');
   } else {
-    event.target.setCustomValidity('')
-    console.log("bien")
+    event.target.setCustomValidity('');
+  }
+})
+numero.addEventListener('input', function (event){
+  if(calle.value.length ===0) {
+    calle.setCustomValidity('invalid');
+  } else {
+    event.target.setCustomValidity('');
+  }
+})
+esquina.addEventListener('input', function (event){
+  if(calle.value.length ===0) {
+    calle.setCustomValidity('invalid');
+  } else {
+    event.target.setCustomValidity('');
   }
 })
 
 comprar.addEventListener("click",function(event){
   event.preventDefault()
-  if((calle.value.length !=0) &&(esquina.value.length !=0) &&(numero.value.length !=0) ){
-    if((tarjeta.checked) && (tarjeta1.value.length === 12) && (tarjeta2.value.length === 3)){
-      console.log("tarjeta de credito elegida")
-      console.log(calle.value)
-    }if ((banco.checked) && (transfer.value.length >=4)){
-      console.log("transferencia elegida")
-      console.log(calle.value)
-    }
+  
+  ocultarSpan ()
+  if ((ocultarSpan(true)) && (((calle.value.length !=0) &&(esquina.value.length !=0) &&(numero.value.length !=0)))) {
+   console.log("comprarealizada")
   }
-   
+ 
   })
   
 
-
-
-
+function ocultarSpan () {
+  if(((tarjeta.checked) && (tarjeta1.value.length === 12) && (tarjeta2.value.length === 3)) || ((banco.checked) && (transfer.value.length >4))){
+    spanFormaDePago.classList.add('d-none')
+    return true
+  }
+  else {
+    spanFormaDePago.classList.remove('d-none')
+  }
+}
 
 
