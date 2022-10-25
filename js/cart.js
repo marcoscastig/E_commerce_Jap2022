@@ -52,7 +52,7 @@ function celdacarro(cartOfProducts) {
     `<tr>
     <td><img height="100px" src="${cartOfProducts.images[0]}" alt=""></td>
     <td>${cartOfProducts.name}</td>
-    <td><input  onkeyup="inputTxt(${cartOfProducts.id})" style="width: 81px;" placeholder="1" id="${cartOfProducts.id}" class="form-control" min="0"  value="1" type="number" required ></input></td>
+    <td><input  onkeyup="inputTxt(${cartOfProducts.id})" style="width: 81px;"  id="${cartOfProducts.id}" class="form-control" min="1"  value="1" type="number" required ></input></td>
     <td ><span id="unitcost${cartOfProducts.id}"> ${cartOfProducts.cost}</span> ${cartOfProducts.currency}</td>
     <td style="font-weight: bold"><span id="subtotal${cartOfProducts.id}">${cartOfProducts.cost}</span>  <span id="moneda${cartOfProducts.id}">${cartOfProducts.currency}</span></td>
     <td><button onclick="borrar(${cartOfProducts.id})" id="btn_buy" type="button" class="btn btn-danger"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -70,7 +70,7 @@ function celdacarro(cartOfProducts) {
         <ul class="list-group list-group-flush">
           <li class="list-group-item"><img class="img-fluid" src="${cartOfProducts.images[0]}" alt=""></li>
           <li style="font-weight: bold" class="list-group-item"> <span >Nombre</span> - ${cartOfProducts.name}</li>
-          <li class="list-group-item d-flex "><input   onkeyup="inputTxt(${cartOfProducts.id})" id="md${cartOfProducts.id}"  placeholder="1" class="form-control" min="0"  value="1" type="number" ></input></li>
+          <li class="list-group-item d-flex "><input   onkeyup="inputTxt(${cartOfProducts.id})" id="md${cartOfProducts.id}"   class="form-control" min="1"  value="1" type="number" ></input></li>
       
           <li  class="list-group-item "><span style="font-weight: bold">Costo por unidad:</span> ${cartOfProducts.currency} 
           <span id="mdunitcost${cartOfProducts.id}"> ${cartOfProducts.cost}</span> </li>
@@ -97,13 +97,12 @@ function celdacarro(cartOfProducts) {
   let inputMd = document.getElementById(`md${id}`)
   let unitxcost = (num * (parseInt((document.getElementById(`unitcost${id}`).textContent)))) 
   
-if((num < 1)){    
+if((num === 0)){    
   unitxcost = (1 * (parseInt((document.getElementById(`unitcost${id}`).textContent)))) 
   document.getElementById(`subtotal${id}`).innerHTML = unitxcost
   document.getElementById(`mdsubtotal${id}`).innerHTML = unitxcost
   inputLg.value = ""
   inputMd.value = ""
-  console.log("es menor a 1")
 }
 
   if((inputLg.value != inputMd.value)){
@@ -113,8 +112,7 @@ if((num < 1)){
     inputMd.value = num
   }
   document.getElementById(`subtotal${id}`).innerHTML = unitxcost
-  document.getElementById(`mdsubtotal${id}`).innerHTML = unitxcost
-
+  document.getElementById(`mdsubtotal${id}`).innerHTML = unitxcost  
   buscarenarray ()
 }
 function buscarenarray (){
@@ -260,10 +258,17 @@ esquina.addEventListener('input', function (event){
 
 comprar.addEventListener("click",function(event){
   event.preventDefault()
-  
+  let inputs=document.querySelectorAll('td > input')
+  console.log(inputs)
+  inputs.forEach(element =>
+  validarInput(element))
   ocultarSpan ()
   if ((ocultarSpan(true)) && (((calle.value.length !=0) &&(esquina.value.length !=0) &&(numero.value.length !=0)))) {
    console.log("comprarealizada")
+   
+  } else {
+    
+    
   }
  
   })
@@ -279,4 +284,19 @@ function ocultarSpan () {
   }
 }
 
+
+
+function validarInput(input){
+ 
+  if(input.value.length === 0){
+    console.log("vacio2")
+    document.getElementById('alerta_carrito').innerHTML = `
+    <div class="alert alert-warning alert-dismissible "  role="alert">
+            <strong>Hay articulos en 0!</strong> Elige una cantidad valida de articulos.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>`
+  } else {
+   console.log("todo OK")
+  }
+}
 
