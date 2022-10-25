@@ -11,6 +11,12 @@ const mayor = document.getElementById('mayor')
 const mediano = document.getElementById('mediano')
 const barato = document.getElementById('barato')
 const validacion = document.getElementById('validacion')
+let tarjeta = document.getElementById('validationFormCheck2')
+let banco = document.getElementById('validationFormCheck3')
+let tarjeta1 = document.getElementById('cardnumber1')
+let tarjeta2 = document.getElementById('cardnumber2')
+let tarjeta3 = document.getElementById('cardnumber3')
+let transfer = document.getElementById('transfer')
 const comprar = document.getElementById('comprar')
 const calle = document.getElementById('calle')
 const numero = document.getElementById('numero')
@@ -20,6 +26,10 @@ const tarjetaRadio = document.getElementById('validationFormCheck2')
 const transferenciaRadio = document.getElementById('validationFormCheck3')
 const cerrarModal = document.getElementById('cerrarModal')
 const cerrarModal2 = document.getElementById('cerrarModal2')
+let dateAndTime = new Date
+let dateTime = dateAndTime.toLocaleString();
+let fecha = convertDateFormat(dateTime.slice(0,10))
+const msjsCarrito = document.getElementById('alerta_carrito')
 
 document.addEventListener("DOMContentLoaded", async function(){
     getJSONData(CART_INFO_URL).then(function (respuesta) {
@@ -189,13 +199,6 @@ barato.addEventListener("click",function(){
 function subtotalMasEnvio () {
   suma.innerHTML=(parseInt(envio.textContent)+parseInt(subtotalGeneral.textContent))
 }
-
-let tarjeta = document.getElementById('validationFormCheck2')
-let banco = document.getElementById('validationFormCheck3')
-let tarjeta1 = document.getElementById('cardnumber1')
-let tarjeta2 = document.getElementById('cardnumber2')
-let tarjeta3 = document.getElementById('cardnumber3')
-let transfer = document.getElementById('transfer')
 banco.addEventListener("click", function (){
   if(banco.checked){
     tarjeta1.setAttribute('readonly', true)
@@ -227,6 +230,14 @@ tarjeta2.addEventListener('input', function(event){
   
   if( tarjeta2.value.length != 3){
     tarjeta2.setCustomValidity('invalid');
+  } else {
+    event.target.setCustomValidity('');
+  }
+})
+tarjeta3.addEventListener('input', function(event){
+  
+  if((fecha > tarjeta3.value) ){
+    tarjeta3.setCustomValidity('invalid');
   } else {
     event.target.setCustomValidity('');
   }
@@ -266,23 +277,30 @@ comprar.addEventListener("click",function(event){
   let inputs=document.querySelectorAll('td > input')
   inputs.forEach(element =>
   validarInput(element))
-  console.log(arrayinput)
+  alertaInput ()
   ocultarSpan ()
   if ((ocultarSpan(true)) && (((calle.value.length !=0) &&(esquina.value.length !=0) &&(numero.value.length !=0)&&(arrayinput.length ===0)))) {
     document.getElementById('alerta_carrito').innerHTML = ""
-    alert("comprarealizada")
+    msjsCarrito.classList.remove('d-none')
+    msjsCarrito.innerHTML = `
+    <div class="alert alert-success alert-dismissible " id="alertaArticulos" role="alert">
+            <strong>Compra realizada!</strong> Su compra ha finalizado.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>`
+         
+          setTimeout(function(){ msjsCarrito.classList.add('d-none') }, (2500) )
   } 
   })
   
   cerrarModal.addEventListener('click', function(){
-    ocultarSpan ()
+    ocultarSpan () 
   })
   cerrarModal2.addEventListener('click', function(){
     ocultarSpan ()
   })
 
 function ocultarSpan () {
-  if(((tarjeta.checked) && (tarjeta1.value.length === 12) && (tarjeta2.value.length === 3)) || ((banco.checked) && (transfer.value.length >4))){
+  if(((tarjeta.checked) && (tarjeta1.value.length === 12) && (tarjeta2.value.length === 3) && (tarjeta3.value.length ===10) && (fecha < tarjeta3.value )) || ((banco.checked) && (transfer.value.length >4))){
     spanFormaDePago.classList.add('d-none')
     return true
   }
@@ -290,20 +308,22 @@ function ocultarSpan () {
     spanFormaDePago.classList.remove('d-none')
   }
 }
-
-
-
 function validarInput(input){
   if((input.value.length === 0) || (input.value === "0")){
      arrayinput.push("1")
-    document.getElementById('alerta_carrito').innerHTML = `
-    <div class="alert alert-warning alert-dismissible "  role="alert">
+     
+  } 
+}
+function alertaInput(){
+  if(arrayinput.length !=0){
+    msjsCarrito.classList.remove('d-none')
+    msjsCarrito.innerHTML = `
+    <div class="alert alert-warning alert-dismissible " id="alertaArticulos" role="alert">
             <strong>Hay articulos en 0!</strong> Elige una cantidad valida de articulos.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>`
-          
+          setTimeout(function(){ msjsCarrito.classList.add('d-none') }, (2500) )
   } else {
-    document.getElementById('alerta_carrito').innerHTML = ""
+    msjsCarrito.innerHTML = ""
   }
 }
-
