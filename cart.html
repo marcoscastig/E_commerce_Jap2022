@@ -40,7 +40,7 @@
     <p id="usdPrice" class="text-end">41.2356</p>
   </div>
     <div class="container">
-      <div class=" list-group-item list-group-item-action mt-4 ">
+      <div class=" list-group-item list-group-item mt-4 ">
     <table class="d-none d-md-table table table-responsive">
       <thead>
         <tr >
@@ -143,12 +143,12 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="FormaDePagoModal" tabindex="-1" aria-labelledby="FormaDePagoModalLabel" aria-hidden="true">
+<div class="modal fade" id="FormaDePagoModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="FormaDePagoModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="FormaDePagoModalLabel">Forma de pago</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" id="cerrarModal2" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form class="was-validated">
@@ -192,7 +192,7 @@
 
           
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" id="cerrarModal" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         
       </div>
     </div>

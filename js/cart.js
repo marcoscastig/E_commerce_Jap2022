@@ -16,6 +16,10 @@ const calle = document.getElementById('calle')
 const numero = document.getElementById('numero')
 const esquina = document.getElementById('esquina')
 const spanFormaDePago = document.getElementById('spanFormaDePago')
+const tarjetaRadio = document.getElementById('validationFormCheck2')
+const transferenciaRadio = document.getElementById('validationFormCheck3')
+const cerrarModal = document.getElementById('cerrarModal')
+const cerrarModal2 = document.getElementById('cerrarModal2')
 
 document.addEventListener("DOMContentLoaded", async function(){
     getJSONData(CART_INFO_URL).then(function (respuesta) {
@@ -255,24 +259,27 @@ esquina.addEventListener('input', function (event){
     event.target.setCustomValidity('');
   }
 })
-
+let arrayinput = []
 comprar.addEventListener("click",function(event){
+  arrayinput = []
   event.preventDefault()
   let inputs=document.querySelectorAll('td > input')
-  console.log(inputs)
   inputs.forEach(element =>
   validarInput(element))
+  console.log(arrayinput)
   ocultarSpan ()
-  if ((ocultarSpan(true)) && (((calle.value.length !=0) &&(esquina.value.length !=0) &&(numero.value.length !=0)))) {
-   console.log("comprarealizada")
-   
-  } else {
-    
-    
-  }
- 
+  if ((ocultarSpan(true)) && (((calle.value.length !=0) &&(esquina.value.length !=0) &&(numero.value.length !=0)&&(arrayinput.length ===0)))) {
+    document.getElementById('alerta_carrito').innerHTML = ""
+    alert("comprarealizada")
+  } 
   })
   
+  cerrarModal.addEventListener('click', function(){
+    ocultarSpan ()
+  })
+  cerrarModal2.addEventListener('click', function(){
+    ocultarSpan ()
+  })
 
 function ocultarSpan () {
   if(((tarjeta.checked) && (tarjeta1.value.length === 12) && (tarjeta2.value.length === 3)) || ((banco.checked) && (transfer.value.length >4))){
@@ -287,16 +294,16 @@ function ocultarSpan () {
 
 
 function validarInput(input){
- 
-  if(input.value.length === 0){
-    console.log("vacio2")
+  if((input.value.length === 0) || (input.value === "0")){
+     arrayinput.push("1")
     document.getElementById('alerta_carrito').innerHTML = `
     <div class="alert alert-warning alert-dismissible "  role="alert">
             <strong>Hay articulos en 0!</strong> Elige una cantidad valida de articulos.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>`
+          
   } else {
-   console.log("todo OK")
+    document.getElementById('alerta_carrito').innerHTML = ""
   }
 }
 
