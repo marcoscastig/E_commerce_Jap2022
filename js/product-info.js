@@ -20,8 +20,11 @@ function HtmlProductosInfo(productos_info) {
     
     <div class= col " >
     <div class="d-grid d-md-grid  justify-content-lg-end ">
-  <button id="btn_buy" type="button" class="btn btn-success ">Comprar</button>
+  <button id="btn_buy" type="button" class="btn btn-success ">Agregar al carrito</button>
   </div>
+  <div class="d-grid d-md-grid mt-2 justify-content-lg-end">
+            <a class="btn btn-secondary btn-block" href="categories.html">Ir a Categorias</a>
+          </div>
   <div class="col justify-content-center align-items-center">
             <div class="d-flex w-100 justify-content-between">
                 <div class="mb-1">

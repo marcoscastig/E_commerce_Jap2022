@@ -21,7 +21,7 @@
     }
 </style>
 </head>
-<body class="">
+<body >
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
     <div class="container">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -34,13 +34,12 @@
       </div>
     </div>
   </nav>
-  <div class="text-center p-4">
+  <div id="paginaPrincipal" class="text-center p-4">
     <h2 style="color: orange;" >Carrito de compras</h2>
     <p style="color: orange;" class="lead">Aquí puedes completar tu compra.</p>
-    <p id="usdPrice" class="text-end">41.5</p>
   </div>
     <div class="container">
-      <div class="list-group-item  m-0 p-o border-0 " style="
+      <div id="cabeceraTabla" class="list-group-item  m-0 p-o border-0 " style="
       padding-top: 0px;">
     <table class="d-none d-md-table table table-responsive">
       <thead>
@@ -61,7 +60,7 @@
       <div id="carro_d-md" class="col  d-md-none" style="width: 18rem;">  
       </div>
     </div>
-    <form class="was-validated">
+    <form  id="formulario"class="was-validated">
       <div class="list-group-item list-group-item-actiond-block ">
             <h5 class="list-group-item list-group-item-actionmb-3">Tipo de envío </h5>
             <div class="custom-control custom-radio">
@@ -198,7 +197,7 @@
           </div>
         <br>
         <div class="d-grid gap-2 ">
-          <button class="btn btn-primary mt-2"type="button" id="comprar">Comprar</button>
+          <button class="btn btn-primary mt-2"type="button" id="comprar">Finalizar Compra</button>
         </div>
         </div>
         <div id="alerta_carrito">

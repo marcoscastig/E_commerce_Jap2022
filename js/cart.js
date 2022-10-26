@@ -1,4 +1,4 @@
-const tabla_cart=document.getElementById('tabla_cart')
+const tabla_cart = document.getElementById('tabla_cart')
 let defaultCart = ""  
 const table_body = document.getElementById('table_body')
 const carro_md = document.getElementById('carro_d-md')
@@ -30,9 +30,24 @@ let dateAndTime = new Date
 let dateTime = dateAndTime.toLocaleString();
 let fecha = convertDateFormat(dateTime.slice(0,10))
 const msjsCarrito = document.getElementById('alerta_carrito')
+const formulario = document.getElementById('formulario')
+const cabeceraTabla = document.getElementById('cabeceraTabla')
+const paginaPrincipal = document.getElementById('paginaPrincipal')
+
 let arrayinput = []
 
 document.addEventListener("DOMContentLoaded", async function(){
+  if(cartstoragesaved.length===0){
+    console.log("carro en 0")
+    formulario.classList.add('d-none')
+    cabeceraTabla.classList.add('d-none')
+    paginaPrincipal.innerHTML=`<h2 style="color: orange;" >Carrito de compras</h2>
+    <p style="color: orange;" class="lead">No tienes compras por completar, clickea abajo y ve nuestros productos.</p>
+    <button onclick="categories()" class="btn btn-success" style="color: orange;">Categorias</button>
+    `
+    
+  }
+  
     getJSONData(CART_INFO_URL).then(function (respuesta) {
       if(respuesta.status === "ok"){
         cartOfProducts = respuesta.data
@@ -56,6 +71,9 @@ document.addEventListener("DOMContentLoaded", async function(){
   
 })})
 
+function categories(){
+  window.location.replace("categories.html")
+}
 
 function celdacarro(cartOfProducts) { 
   if(cartOfProducts.currency === "UYU"){
@@ -160,6 +178,7 @@ function borrar(id){
 }
 
 function cargarProductos() {
+  
   cartstoragesaved.forEach(idproducto => {
     getJSONData(`https://japceibal.github.io/emercado-api/products/${idproducto}${EXT_TYPE}`).then(function (respuesta){
       if(respuesta.status === "ok"){
@@ -183,7 +202,7 @@ function subtotalMasEnvio () {
 }
 mayor.addEventListener("click",function(){
   let subtotal = subtotalGeneral.textContent
-  envio.innerHTML=(subtotal*0.15.toFixed(2))
+  envio.innerHTML=(subtotal*0.15).toFixed(2)
   subtotalMasEnvio ()
 })
 
@@ -327,3 +346,5 @@ function alertaInput(){
     msjsCarrito.innerHTML = ""
   }
 }
+
+
