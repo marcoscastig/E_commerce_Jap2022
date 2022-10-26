@@ -15,11 +15,14 @@ function HtmlProductosInfo(productos_info) {
   </div>
   
   <div  class=" list-group  rounded-0 px-2 ">
+  
     <div class="row">
-    <div class= col-lg-3" >
-  <button id="btn_buy" type="button" class="btn btn-success">Comprar</button>
+    
+    <div class= col " >
+    <div class="d-grid d-md-grid  justify-content-lg-end ">
+  <button id="btn_buy" type="button" class="btn btn-success ">Comprar</button>
   </div>
-        <div class="col justify-content-center align-items-center">
+  <div class="col justify-content-center align-items-center">
             <div class="d-flex w-100 justify-content-between">
                 <div class="mb-1">
                 <h2>${productos_info.name}</h2>
@@ -33,6 +36,8 @@ function HtmlProductosInfo(productos_info) {
             <div id="imagenes_ilustrativas" class="row ">
             </div>
             </div>
+  </div>
+        
 `
 }
 function showProduct() {

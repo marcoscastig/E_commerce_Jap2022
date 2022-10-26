@@ -2,7 +2,6 @@ const tabla_cart=document.getElementById('tabla_cart')
 let defaultCart = ""  
 const table_body = document.getElementById('table_body')
 const carro_md = document.getElementById('carro_d-md')
-const usdPrice = document.getElementById('usdPrice')
 const subtotalGeneral = document.getElementById('subtotalGeneral')
 const envio = document.getElementById('envio')
 const suma = document.getElementById('suma')
@@ -13,6 +12,7 @@ const barato = document.getElementById('barato')
 const validacion = document.getElementById('validacion')
 let tarjeta = document.getElementById('validationFormCheck2')
 let banco = document.getElementById('validationFormCheck3')
+let array2 = []
 let tarjeta1 = document.getElementById('cardnumber1')
 let tarjeta2 = document.getElementById('cardnumber2')
 let tarjeta3 = document.getElementById('cardnumber3')
@@ -30,13 +30,14 @@ let dateAndTime = new Date
 let dateTime = dateAndTime.toLocaleString();
 let fecha = convertDateFormat(dateTime.slice(0,10))
 const msjsCarrito = document.getElementById('alerta_carrito')
+let arrayinput = []
 
 document.addEventListener("DOMContentLoaded", async function(){
     getJSONData(CART_INFO_URL).then(function (respuesta) {
       if(respuesta.status === "ok"){
         cartOfProducts = respuesta.data
-        let idDefault= cartOfProducts.articles[0].id
         
+      /*  let idDefault= cartOfProducts.articles[0].id
       defaultCart = (idDefault.toString())
    const car = (element) => element  === defaultCart
     let cartValidation = cartstoragesaved.some(car)
@@ -48,7 +49,7 @@ document.addEventListener("DOMContentLoaded", async function(){
      cart2.unshift(defaultCart)
      cartstoragesaved = cart2
      localStorage.setItem(`"user_cart"${usuario_name}`, JSON.stringify(cartstoragesaved))
-    }
+    }*/
     cargarProductos()
     
   }
@@ -81,17 +82,16 @@ function celdacarro(cartOfProducts) {
     ` 
     carro_md.innerHTML +=
     `
-        <ul class="list-group list-group-flush">
+        <ul class="list-group list-group-flush pb-2">
           <li class="list-group-item"><img class="img-fluid" src="${cartOfProducts.images[0]}" alt=""></li>
           <li style="font-weight: bold" class="list-group-item"> <span >Nombre</span> - ${cartOfProducts.name}</li>
-          <li class="list-group-item d-flex "><input   onkeyup="inputTxt(${cartOfProducts.id})" id="md${cartOfProducts.id}"   class="form-control" min="1"  value="1" type="number" ></input></li>
-      
+          <li class="list-group-item d-flex "><input   onkeyup="inputTxt(${cartOfProducts.id})" id="md${cartOfProducts.id}" class="form-control" min="1" value="1" type="number"></input></li>
           <li  class="list-group-item "><span style="font-weight: bold">Costo por unidad:</span> ${cartOfProducts.currency} 
           <span id="mdunitcost${cartOfProducts.id}"> ${cartOfProducts.cost}</span> </li>
-          
           <li  class="list-group-item"><span style="font-weight: bold">Subtotal</span> <span style="font-weight: bold" id="mdsubtotal${cartOfProducts.id}" >${cartOfProducts.cost}</span>
           <span id="mdmoneda${cartOfProducts.id}">${cartOfProducts.currency}</span> </li>
-          <li  class="list-group-item"><button onclick="borrar(${cartOfProducts.id})" id="btn_buy" type="button" class="btn btn-danger"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          
+          <li  class="list-group-item d-grid"><button onclick="borrar(${cartOfProducts.id})" id="btn_buy" type="button" class="btn  btn-danger"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
           <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
           <line x1="4" y1="7" x2="20" y2="7" />
           <line x1="10" y1="11" x2="10" y2="17" />
@@ -99,14 +99,14 @@ function celdacarro(cartOfProducts) {
           <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
           <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
         </svg> <span> Eliminar ${cartOfProducts.name}</span> </button></li>
+          
         </ul>
       `
   }
 
   function inputTxt(id) {
   let num = event.path[0].value
- 
-  let idproducto = document.getElementById(`${cartOfProducts.id}`)
+  //let idproducto = document.getElementById(`${cartOfProducts.id}`)
   let inputLg = document.getElementById(`${id}`)
   let inputMd = document.getElementById(`md${id}`)
   let unitxcost = (num * (parseInt((document.getElementById(`unitcost${id}`).textContent)))) 
@@ -158,7 +158,7 @@ function borrar(id){
   localStorage.setItem(`"user_cart"${usuario_name}`, JSON.stringify(arrayEliminado))
   window.location.reload()
 }
-let array2 = []
+
 function cargarProductos() {
   cartstoragesaved.forEach(idproducto => {
     getJSONData(`https://japceibal.github.io/emercado-api/products/${idproducto}${EXT_TYPE}`).then(function (respuesta){
@@ -172,13 +172,15 @@ function cargarProductos() {
       }
       array2.push(parseInt(cartOfProducts.cost))
       let subtotal = array2.reduce((a, b) => a + b, 0);
-      subtotalGeneral.innerHTML=subtotal
+      subtotalGeneral.innerHTML=subtotal.toFixed(2)
       envio.innerHTML= (subtotal * 0.15).toFixed(2)
       subtotalMasEnvio()
     })
   });
 }
-
+function subtotalMasEnvio () {
+  suma.innerHTML=(parseInt(envio.textContent)+parseInt(subtotalGeneral.textContent)).toFixed(2)
+}
 mayor.addEventListener("click",function(){
   let subtotal = subtotalGeneral.textContent
   envio.innerHTML=(subtotal*0.15.toFixed(2))
@@ -196,9 +198,7 @@ barato.addEventListener("click",function(){
   subtotalMasEnvio ()
 })
 
-function subtotalMasEnvio () {
-  suma.innerHTML=(parseInt(envio.textContent)+parseInt(subtotalGeneral.textContent))
-}
+
 banco.addEventListener("click", function (){
   if(banco.checked){
     tarjeta1.setAttribute('readonly', true)
@@ -270,7 +270,7 @@ esquina.addEventListener('input', function (event){
     event.target.setCustomValidity('');
   }
 })
-let arrayinput = []
+
 comprar.addEventListener("click",function(event){
   arrayinput = []
   event.preventDefault()
@@ -319,10 +319,10 @@ function alertaInput(){
     msjsCarrito.classList.remove('d-none')
     msjsCarrito.innerHTML = `
     <div class="alert alert-warning alert-dismissible " id="alertaArticulos" role="alert">
-            <strong>Hay articulos en 0!</strong> Elige una cantidad valida de articulos.
+            <strong>Hay articulos cuya cantidad es cero!</strong> Elige una cantidad valida de articulos.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>`
-          setTimeout(function(){ msjsCarrito.classList.add('d-none') }, (2500) )
+          setTimeout(function(){ msjsCarrito.classList.add('d-none') }, (3200) )
   } else {
     msjsCarrito.innerHTML = ""
   }
