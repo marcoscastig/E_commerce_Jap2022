@@ -38,7 +38,6 @@ let arrayinput = []
 
 document.addEventListener("DOMContentLoaded", async function(){
   if(cartstoragesaved.length===0){
-    console.log("carro en 0")
     formulario.classList.add('d-none')
     cabeceraTabla.classList.add('d-none')
     paginaPrincipal.innerHTML=`<h2 style="color: orange;" >Carrito de compras</h2>
@@ -78,14 +77,14 @@ function categories(){
 function celdacarro(cartOfProducts) { 
   if(cartOfProducts.currency === "UYU"){
     cartOfProducts.currency = "USD"
-    cartOfProducts.cost = parseInt(cartOfProducts.cost/USDvalue).toFixed(2)
+    cartOfProducts.cost = parseFloat(cartOfProducts.cost/USDvalue).toFixed(2)
   }
     table_body.innerHTML +=
     
     `<tr>
     <td><img height="100px" src="${cartOfProducts.images[0]}" alt=""></td>
     <td>${cartOfProducts.name}</td>
-    <td><input  onkeyup="inputTxt(${cartOfProducts.id})" style="width: 81px;"  id="${cartOfProducts.id}" class="form-control" min="1"  value="1" type="number" required ></input></td>
+    <td><input maxlength="6" onkeyup="inputTxt(${cartOfProducts.id})" style="width: 81px;"  id="${cartOfProducts.id}" class="form-control" min="1"  value="1" type="number" required ></input></td>
     <td ><span id="unitcost${cartOfProducts.id}"> ${cartOfProducts.cost}</span> ${cartOfProducts.currency}</td>
     <td style="font-weight: bold"><span id="subtotal${cartOfProducts.id}">${cartOfProducts.cost}</span>  <span id="moneda${cartOfProducts.id}">${cartOfProducts.currency}</span></td>
     <td><button onclick="borrar(${cartOfProducts.id})" id="btn_buy" type="button" class="btn btn-danger"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -103,7 +102,7 @@ function celdacarro(cartOfProducts) {
         <ul class="list-group list-group-flush pb-2">
           <li class="list-group-item"><img class="img-fluid" src="${cartOfProducts.images[0]}" alt=""></li>
           <li style="font-weight: bold" class="list-group-item"> <span >Nombre</span> - ${cartOfProducts.name}</li>
-          <li class="list-group-item d-flex "><input   onkeyup="inputTxt(${cartOfProducts.id})" id="md${cartOfProducts.id}" class="form-control" min="1" value="1" type="number"></input></li>
+          <li class="list-group-item d-flex "><input   onkeyup="inputTxt(${cartOfProducts.id})" id="md${cartOfProducts.id}" class="form-control" maxlength="6" min="1" value="1" type="number"></input></li>
           <li  class="list-group-item "><span style="font-weight: bold">Costo por unidad:</span> ${cartOfProducts.currency} 
           <span id="mdunitcost${cartOfProducts.id}"> ${cartOfProducts.cost}</span> </li>
           <li  class="list-group-item"><span style="font-weight: bold">Subtotal</span> <span style="font-weight: bold" id="mdsubtotal${cartOfProducts.id}" >${cartOfProducts.cost}</span>
@@ -127,10 +126,10 @@ function celdacarro(cartOfProducts) {
   //let idproducto = document.getElementById(`${cartOfProducts.id}`)
   let inputLg = document.getElementById(`${id}`)
   let inputMd = document.getElementById(`md${id}`)
-  let unitxcost = (num * (parseInt((document.getElementById(`unitcost${id}`).textContent)))) 
+  let unitxcost = (num * (parseFloat((document.getElementById(`unitcost${id}`).textContent)))).toFixed(2) 
   
 if((num === 0)){    
-  unitxcost = (1 * (parseInt((document.getElementById(`unitcost${id}`).textContent)))) 
+  unitxcost = (1 * (parseFloat((document.getElementById(`unitcost${id}`).textContent)))).toFixed(2) 
   document.getElementById(`subtotal${id}`).innerHTML = unitxcost
   document.getElementById(`mdsubtotal${id}`).innerHTML = unitxcost
   inputLg.value = ""
@@ -152,11 +151,12 @@ function buscarenarray (){
   for (let i = 0; i < cartstoragesaved.length; i++) {
     const element = cartstoragesaved[i];
     let selector = document.getElementById(`subtotal${element}`).textContent
-    arrayunitxcost.push(parseInt(selector))
+    console.log(selector)
+    arrayunitxcost.push(parseFloat(selector)).toFixed(2)
     
   }
 let total = arrayunitxcost.reduce((a, b) => a + b, 0);
-subtotalGeneral.innerHTML=total
+subtotalGeneral.innerHTML=total.toFixed(2)
 if(mayor.checked){
 envio.innerHTML= (total*0.15).toFixed(2)
 subtotalMasEnvio()
@@ -187,18 +187,18 @@ function cargarProductos() {
       }
       if(cartOfProducts.currency === "UYU"){
         cartOfProducts.currency = "USD"
-        cartOfProducts.cost = parseInt(cartOfProducts.cost/USDvalue).toFixed(2)
+        cartOfProducts.cost = parseFloat(cartOfProducts.cost/USDvalue).toFixed(2)
       }
-      array2.push(parseInt(cartOfProducts.cost))
+      array2.push(parseFloat(cartOfProducts.cost))
       let subtotal = array2.reduce((a, b) => a + b, 0);
-      subtotalGeneral.innerHTML=subtotal.toFixed(2)
-      envio.innerHTML= (subtotal * 0.15).toFixed(2)
+      subtotalGeneral.innerHTML=parseFloat(subtotal).toFixed(2)
+      envio.innerHTML= parseFloat(subtotal * 0.15).toFixed(2)
       subtotalMasEnvio()
     })
   });
 }
 function subtotalMasEnvio () {
-  suma.innerHTML=(parseInt(envio.textContent)+parseInt(subtotalGeneral.textContent)).toFixed(2)
+  suma.innerHTML=(parseFloat(envio.textContent)+parseFloat(subtotalGeneral.textContent)).toFixed(2)
 }
 mayor.addEventListener("click",function(){
   let subtotal = subtotalGeneral.textContent
