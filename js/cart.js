@@ -319,7 +319,7 @@ comprar.addEventListener("click",function(event){
   })
 
 function ocultarSpan () {
-  if(((tarjeta.checked) && (tarjeta1.value.length === 12) && (tarjeta2.value.length === 3) && (tarjeta3.value.length ===10) && (fecha < tarjeta3.value )) || ((banco.checked) && (transfer.value.length >4))){
+  if(((tarjeta.checked) && (tarjeta1.value.length === 12) && (tarjeta2.value.length === 3) && (tarjeta3.value.length ===10) && (fecha <= tarjeta3.value )) || ((banco.checked) && (transfer.value.length >4))){
     spanFormaDePago.classList.add('d-none')
     return true
   }
