@@ -18,7 +18,7 @@ function HtmlProductosInfo(productos_info) {
   
     <div class="row">
     
-    <div class= col " >
+    <div class= "col " >
     <div class="d-grid d-md-grid  justify-content-lg-end ">
   <button id="btn_buy" type="button" class="btn btn-success ">Agregar al carrito</button>
   </div>

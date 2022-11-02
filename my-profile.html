@@ -41,7 +41,76 @@
   </nav>
   <main>
     <div class="container">
-      
+      <form  id="formularioPerfil"class="was-validated">
+        <div class="list-group-item list-group-item-actiond-block ">
+          <div class="row">
+            <div class="col">
+              <h2 class="list-item mb-3">Perfil </h2>
+            </div>
+            <div class="col d-grid d-md-grid  justify-content-end ">
+              <img style="height: 65px;" class="justify-content-end" src="img/img_perfil.png" alt="">
+            </div>
+            </div>
+              <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+              <label for="calle">Primer nombre*</label>
+              <input onkeypress="return soloLetras(event)" id="primerNombre" class="form-control" type="text" required>
+              <div class="invalid-feedback">
+                Indica tu nombre
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <label for="numero">Segundo nombre</label>
+              <input onkeypress="return soloLetras(event)" id="segundoNombre" class="form-control-plaintext col-2 inputs_perfil" type="text">
+              <div class="invalid-feedback">
+                Indica tu segundo nombre (si tíenes)
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+          <label for="calle">Primer apellido*</label>
+          <input onkeypress="return soloLetras(event)" id="primerApellido" class="form-control" type="text" required>
+          <div class="invalid-feedback">
+            Indica tu apellido
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6">
+          <label for="numero">Segundo apellido</label>
+          <input onkeypress="return soloLetras(event)" id="segundoApellido" class="form-control-plaintext col-2 inputs_perfil " type="text">
+          <div class="invalid-feedback">
+            Indica apellido (Si tíenes)
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6">
+      <label for="calle">E-mail*</label>
+      <input id="email" class="form-control" type="email" required>
+      <div class="invalid-feedback">
+        Indica un e-mail
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6">
+      <label for="numero">Teléfono</label>
+      <input id="telefono" class="form-control col-2  " min="0" type="number" required>
+      <div class="invalid-feedback">
+        Indica un telefono de contacto
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    
+    <div class= "col " >
+    <div class="d-grid d-md-grid mt-2  justify-content-lg-start ">
+  <button id="btn_buy" type="submit" class="btn btn-primary ">Guardar cambios</button>
+  </div>
+</div>
+</div>
+  
+
+
+          </form>
     </div>
   </main>
   <footer class="text-muted">

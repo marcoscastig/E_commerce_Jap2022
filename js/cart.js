@@ -28,7 +28,7 @@ const cerrarModal = document.getElementById('cerrarModal')
 const cerrarModal2 = document.getElementById('cerrarModal2')
 let dateAndTime = new Date
 let dateTime = dateAndTime.toLocaleString();
-let fecha = convertDateFormat(dateTime.slice(0,10))
+let fecha = convertDateFormat(dateTime.slice(0,9))
 const msjsCarrito = document.getElementById('alerta_carrito')
 const formulario = document.getElementById('formulario')
 const cabeceraTabla = document.getElementById('cabeceraTabla')
@@ -254,7 +254,10 @@ tarjeta2.addEventListener('input', function(event){
   }
 })
 tarjeta3.addEventListener('input', function(event){
-  
+  if(fecha.length === 9){ 
+    fecha = fecha.slice(0,8)+"0"+fecha.slice(8,9)
+    console.log(fecha)
+  }
   if((fecha > tarjeta3.value) ){
     tarjeta3.setCustomValidity('invalid');
   } else {
