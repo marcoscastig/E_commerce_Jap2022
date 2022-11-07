@@ -13,42 +13,41 @@ function HtmlProductosInfo(productos_info) {
   <h2>Puede ser tuyo</h2> 
   <p class="lead">Verás aquí toda la informacion sobre ${productos_info.name}</p>
   </div>
-  
   <div  class=" list-group  rounded-0 px-2 ">
-  
-    <div class="row">
-    
-    <div class= "col " >
-    <div class="d-grid d-md-grid  justify-content-lg-end ">
+  <div class="row">
+  <div class= "col " >
+  <div class="d-grid d-md-grid  justify-content-lg-end ">
   <button id="btn_buy" type="button" class="btn btn-success ">Agregar al carrito</button>
   </div>
   <div class="d-grid d-md-grid mt-2 justify-content-lg-end">
-            <a class="btn btn-secondary btn-block" href="categories.html">Ir a Categorias</a>
-          </div>
-  <div class="col justify-content-center align-items-center">
-            <div class="d-flex w-100 justify-content-between">
-                <div class="mb-1">
-                <h2>${productos_info.name}</h2>
-                <p class="lead" >${productos_info.description} </p> 
-                <h2>Precio ${productos_info.currency} ${productos_info.cost}</h2>
-                <small class="text-muted pb-1">Cantidad de vendidos ${productos_info.soldCount}</small>
-                </div>
-            </div>
-            </div>
-            </div>
-            <div id="imagenes_ilustrativas" class="row ">
-            </div>
-            </div>
+  <a class="btn btn-secondary btn-block" href="categories.html">Ir a Categorias</a>
   </div>
-        
+  <div class="col justify-content-center align-items-center">
+  <div class="d-flex w-100 justify-content-between">
+  <div class="mb-1">
+  <h2>${productos_info.name}</h2>
+  <p class="lead" >${productos_info.description} </p> 
+  <h2>Precio ${productos_info.currency} ${productos_info.cost}</h2>
+  small class="text-muted pb-1">Cantidad de vendidos ${productos_info.soldCount}</small>
+  </div>
+  </div>
+  </div>
+  </div>
+  <div id="imagenes_ilustrativas" class="row ">
+  </div>
+  </div>
+  </div>       
 `
 }
+
 function showProduct() {
   for (let i = 0; i < productos_info.length; i++) {
     let product_content = productos_info[i]
     Productos_info_div.innerHTML += HtmlProductosInfo(product_content);
   }
 }
+
+
 document.addEventListener("DOMContentLoaded", async function () {
   getJSONData(PRODUCT_INFO_URL).then(function (respuesta) {
     if (respuesta.status === "ok") {
@@ -102,6 +101,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       imagenes_ilustrativas.innerHTML += imagenes
     }
   })
+
+
   getJSONData(PRODUCT_INFO_COMMENTS_URL).then(function (respuesta) {
     if (respuesta.status === "ok") {
       productos_comments = respuesta.data
@@ -118,6 +119,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     )
   }
   })
+
+
   getJSONData(PRODUCT_INFO_URL) .then(function(respuesta){
     if(respuesta.status === "ok"){
         productos_relacionados = respuesta.data.relatedProducts
@@ -137,8 +140,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         Productos_relacionados.innerHTML += articulos
     }  
     })
-    
 })
+
+
 FormComent.addEventListener('submit', function (event) {
   event.preventDefault();
   const Form_data = new FormData(FormComent)
@@ -152,6 +156,7 @@ FormComent.addEventListener('submit', function (event) {
   alert ("Esperamos tu comentario, no seas timd@   ; )")
 }
 })
+
 function convertirFormComentEnObj(Form_data) {
   let product = parseInt(PRODID);
   let score = parseInt(Form_data.get('score_prod'));
@@ -170,11 +175,13 @@ function convertirFormComentEnObj(Form_data) {
     "dateTime": dateTimeUser
   }
 }
+
 function GuardarObjenLocalStorage(Obj_form) {
   let arreglo_obj = (JSON.parse(localStorage.getItem(`"comments_user"${PRODID}`))) || []
   arreglo_obj.push(Obj_form)
   localStorage.setItem(`"comments_user"${PRODID}`, JSON.stringify(arreglo_obj))
 }
+
 function insertRowEntabla(Obj_form) {
   let tablaid = document.getElementById("tabla_comments");
   let newRowRef = tablaid.insertRow(-1);

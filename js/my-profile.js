@@ -44,6 +44,8 @@ document.addEventListener('DOMContentLoaded', ()=> {
     telefono: ""
 }
 
+//cuando el usuario da click en guardar cambios se almacenan los datos y la imagen.
+
 formularioPerfil.addEventListener("submit", (event)=>{
     event.preventDefault()
     
@@ -76,7 +78,7 @@ function cambiarImagenJS(){
 
   }
 
-
+// con la Api FileReader, el archivo subido por el usuario se puede transformar a texto para ser utilizado en el src de la imagen.
 async function encodeFileAsBase64URL(file) {
 
         return new Promise((resolve) => {
@@ -90,10 +92,11 @@ async function encodeFileAsBase64URL(file) {
             });
 
             reader.readAsDataURL(file);
-            
+
         });
    };
 
+//cuando se cargue una imagen al input, la ruta a esa imagen sera codificada en base64 y puesta en la pagina para que el usuario la vea.
    inputFile.addEventListener('input', async (event) => {
    
     const base64URL = await encodeFileAsBase64URL(inputFile.files[0]);

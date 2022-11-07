@@ -19,6 +19,7 @@ let ColorFooter = function(Footer){
   Footer.classList.add('text-dark','bg-white')
 }
 
+//agrega en el navar al usuario logeado
 let agregarusuario = function(usuario_name){
     return `
     <li class="nav-item">
@@ -110,10 +111,12 @@ function setIDProd(id) {
   localStorage.setItem("productID", id);
   window.location = "product-info.html"
 }
+
 function resetusuario() {
   localStorage.setItem("usuario", "");
   window.location = "index.html"
 }
+
 function convertDateFormat(string) {
   var info = string.split('/');
   return info[2] + '-' + info[1] + '-' + info[0];
@@ -137,9 +140,11 @@ function soloLetras(e) {
     return false;
   }
 }
+
 function siempreHayQueLogearse () {
   if((usuario_name ===null) || (usuario_name === "")){
     window.location.replace("index.html")
   }
 }
+
 siempreHayQueLogearse()

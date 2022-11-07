@@ -8,9 +8,7 @@ let maxSold = undefined;
 const Lista = document.getElementById("cat-list-container")
 const sector_buscador =document.getElementById("sector_buscador")
 const Lista1 = document.getElementById("Lista1")
-
-
-
+const buscador = document.getElementById("buscador_id")
 
 let agregarbarra = function(){
     return `<div class="container-fluid ">
@@ -56,23 +54,23 @@ function sortCategoriesProducts(criteria, array){
 
 function HtmlProductos(products) {
     return `<a  href="product-info.html">
-   <div onclick="setIDProd(${products.id})" class="list-group-item list-group-item-action">
+    <div onclick="setIDProd(${products.id})" class="list-group-item list-group-item-action">
     <div class="row ">
-        <div class="col-xs-2 col-sm-5 col-md-4 col-lg-3 ">
-        <img src="${products.image}" alt="${products.description}" class="img-fluid img-thumbnail">
-        </div>
-        <div class="col">
-            <div class="d-flex w-100 justify-content-between">
-                <div class="mb-1">
-                <h4>${products.name} - ${products.currency} ${products.cost} </h4> 
-                <p>${products.description} </p> 
-                </div>
-                <small class="text-muted">${products.soldCount} vendidos</small> 
-            </div>
-            </div>
+    <div class="col-xs-2 col-sm-5 col-md-4 col-lg-3 ">
+    <img src="${products.image}" alt="${products.description}" class="img-fluid img-thumbnail">
     </div>
-</div>
-</a>
+    <div class="col">
+    <div class="d-flex w-100 justify-content-between">
+    <div class="mb-1">
+    <h4>${products.name} - ${products.currency} ${products.cost} </h4> 
+    <p>${products.description} </p> 
+    </div>
+    <small class="text-muted">${products.soldCount} vendidos</small> 
+    </div>
+    </div>
+    </div>
+    </div>
+    </a>
 `
 }
 
@@ -162,7 +160,7 @@ document.getElementById("rangeFilterCost").addEventListener("click", function(){
 
 })
 
-const buscador = document.getElementById("buscador_id")
+
 const buscar_producto = ()=> {
     const Busca = new FormData(buscador)
     let busqueda= Busca.get('busqueda').toLowerCase()
