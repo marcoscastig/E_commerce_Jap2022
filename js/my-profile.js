@@ -6,10 +6,16 @@ let email = document.getElementById('email')
 let telefono = document.getElementById('telefono')
 const formularioPerfil = document.getElementById('formularioPerfil')
 let validarInfo = (JSON.parse(localStorage.getItem(`"user_data"${usuario_name}`))) || []
+let imagenPerfil = document.getElementById('imagenPerfil')
+const inputFile = document.getElementById('formFile');
+const traerImagen = (JSON.parse(localStorage.getItem(`"user_image"${usuario_name}`))) || ""
 
 function cargarDatosIniciales (){
+
     if((validarInfo.nombre === undefined)){
+
          email.value = usuario_name
+
     }
         else {
             primerNombre.value = validarInfo.nombre
@@ -22,7 +28,11 @@ function cargarDatosIniciales (){
     }
     
 document.addEventListener('DOMContentLoaded', ()=> {
-cargarDatosIniciales()
+
+    cargarDatosIniciales()
+
+    cambiarImagenJS()
+
 })
 
   let usuario_datos =  {
@@ -47,25 +57,49 @@ formularioPerfil.addEventListener("submit", (event)=>{
     }
     
     localStorage.setItem(`"user_data"${usuario_name}`, JSON.stringify(usuario_datos))
-    validarDatos()
-    
+   
+    localStorage.setItem(`"user_image"${usuario_name}`, JSON.stringify(imagenPerfil.src))
 
 })
 
-function validarDatos(){
-    
-    
 
-}
-validarDatos()
+function cambiarImagenJS(){
+    if(traerImagen !=""){
+
+        imagenPerfil.src = traerImagen
+
+    } else {
+        
+        imagenPerfil.src ="img/img_perfil.png"
+
+    }
+
+  }
 
 
+async function encodeFileAsBase64URL(file) {
 
-/*
-primerNombre.value = usuario_datos.nombre
-    segundoNombre.value = usuario_datos.segundoNombre
-    primerApellido.value = usuario_datos.apellido
-    segundoApellido.value = usuario_datos.segundoApellido
-    email = usuario_name
-    telefono.value = usuario_datos.telefono
-    */
+        return new Promise((resolve) => {
+
+            const reader = new FileReader();
+
+            reader.addEventListener('loadend', () => {
+
+                resolve(reader.result);
+
+            });
+
+            reader.readAsDataURL(file);
+            
+        });
+   };
+
+   inputFile.addEventListener('input', async (event) => {
+   
+    const base64URL = await encodeFileAsBase64URL(inputFile.files[0]);
+
+    imagenPerfil.setAttribute('src', base64URL);
+
+});
+
+

@@ -1,3 +1,4 @@
+//Variables
 const tabla_cart = document.getElementById('tabla_cart')
 let defaultCart = ""  
 const table_body = document.getElementById('table_body')
@@ -33,22 +34,27 @@ const msjsCarrito = document.getElementById('alerta_carrito')
 const formulario = document.getElementById('formulario')
 const cabeceraTabla = document.getElementById('cabeceraTabla')
 const paginaPrincipal = document.getElementById('paginaPrincipal')
-
 let arrayinput = []
 
+//Se carga el documento, si se hicieron compras se cargan los articulos sino se carga la opcion de ir a comprar
+
 document.addEventListener("DOMContentLoaded", async function(){
+ 
   if(cartstoragesaved.length===0){
+    
     formulario.classList.add('d-none')
+    
     cabeceraTabla.classList.add('d-none')
+    
     paginaPrincipal.innerHTML=`<h2 style="color: orange;" >Carrito de compras</h2>
     <p style="color: orange;" class="lead">No tienes compras por completar, clickea abajo y ve nuestros productos.</p>
     <button onclick="categories()" class="btn btn-success" style="color: orange;">Categorias</button>
-    `
-    
-  }
+    ` 
+  } else {
   
     getJSONData(CART_INFO_URL).then(function (respuesta) {
       if(respuesta.status === "ok"){
+       
         cartOfProducts = respuesta.data
         
       /*  let idDefault= cartOfProducts.articles[0].id
@@ -68,15 +74,39 @@ document.addEventListener("DOMContentLoaded", async function(){
     
   }
   
-})})
+})}})
 
-function categories(){
-  window.location.replace("categories.html")
+//Trae los datos de los productos comprados, los carga en el html con la funcion celdaCarro.Convierte los pesos a dolares y activa los tipos de envio
+function cargarProductos() {
+  
+  cartstoragesaved.forEach(idproducto => {
+
+    getJSONData(`https://japceibal.github.io/emercado-api/products/${idproducto}${EXT_TYPE}`).then(function (respuesta){
+      
+    if(respuesta.status === "ok"){
+        cartOfProducts = respuesta.data
+        celdaCarro(cartOfProducts)
+      }
+
+      if(cartOfProducts.currency === "UYU"){
+        cartOfProducts.currency = "USD"
+        cartOfProducts.cost = parseFloat(cartOfProducts.cost/USDvalue).toFixed(2)
+      }
+      array2.push(parseFloat(cartOfProducts.cost))
+      let subtotal = array2.reduce((a, b) => a + b, 0);
+      subtotalGeneral.innerHTML=parseFloat(subtotal).toFixed(2)
+      envio.innerHTML= parseFloat(subtotal * 0.15).toFixed(2)
+      subtotalMasEnvio()
+    })
+  });
 }
 
-function celdacarro(cartOfProducts) { 
+//Diseño del html para diferentes pantallas
+function celdaCarro(cartOfProducts) { 
   if(cartOfProducts.currency === "UYU"){
+    
     cartOfProducts.currency = "USD"
+    
     cartOfProducts.cost = parseFloat(cartOfProducts.cost/USDvalue).toFixed(2)
   }
     table_body.innerHTML +=
@@ -94,45 +124,54 @@ function celdacarro(cartOfProducts) {
     <line x1="14" y1="11" x2="14" y2="17" />
     <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
     <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-  </svg></button><td>  
+    </svg></button><td>  
     </tr>
     ` 
+    
     carro_md.innerHTML +=
-    `
-        <ul class="list-group list-group-flush pb-2">
-          <li class="list-group-item"><img class="img-fluid" src="${cartOfProducts.images[0]}" alt=""></li>
-          <li style="font-weight: bold" class="list-group-item"> <span >Nombre</span> - ${cartOfProducts.name}</li>
-          <li class="list-group-item d-flex "><input   onkeyup="inputTxt(${cartOfProducts.id})" id="md${cartOfProducts.id}" class="form-control" maxlength="6" min="1" value="1" type="number"></input></li>
-          <li  class="list-group-item "><span style="font-weight: bold">Costo por unidad:</span> ${cartOfProducts.currency} 
-          <span id="mdunitcost${cartOfProducts.id}"> ${cartOfProducts.cost}</span> </li>
-          <li  class="list-group-item"><span style="font-weight: bold">Subtotal</span> <span style="font-weight: bold" id="mdsubtotal${cartOfProducts.id}" >${cartOfProducts.cost}</span>
-          <span id="mdmoneda${cartOfProducts.id}">${cartOfProducts.currency}</span> </li>
-          
-          <li  class="list-group-item d-grid"><button onclick="borrar(${cartOfProducts.id})" id="btn_buy" type="button" class="btn  btn-danger"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
-          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-          <line x1="4" y1="7" x2="20" y2="7" />
-          <line x1="10" y1="11" x2="10" y2="17" />
-          <line x1="14" y1="11" x2="14" y2="17" />
-          <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-          <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-        </svg> <span> Eliminar ${cartOfProducts.name}</span> </button></li>
-          
-        </ul>
-      `
+    
+    `<ul class="list-group list-group-flush pb-2">
+     <li class="list-group-item"><img class="img-fluid" src="${cartOfProducts.images[0]}" alt=""></li>
+     <li style="font-weight: bold" class="list-group-item"> <span >Nombre</span> - ${cartOfProducts.name}</li>
+     <li class="list-group-item d-flex "><input   onkeyup="inputTxt(${cartOfProducts.id})" id="md${cartOfProducts.id}" class="form-control" maxlength="6" min="1" value="1" type="number"></input></li>
+     <li  class="list-group-item "><span style="font-weight: bold">Costo por unidad:</span> ${cartOfProducts.currency} 
+     <span id="mdunitcost${cartOfProducts.id}"> ${cartOfProducts.cost}</span> </li>
+     <li  class="list-group-item"><span style="font-weight: bold">Subtotal</span> <span style="font-weight: bold" id="mdsubtotal${cartOfProducts.id}" >${cartOfProducts.cost}</span>
+     <span id="mdmoneda${cartOfProducts.id}">${cartOfProducts.currency}</span> </li>   
+     <li  class="list-group-item d-grid"><button onclick="borrar(${cartOfProducts.id})" id="btn_buy" type="button" class="btn  btn-danger"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+     <line x1="4" y1="7" x2="20" y2="7" />
+     <line x1="10" y1="11" x2="10" y2="17" />
+     <line x1="14" y1="11" x2="14" y2="17" />
+     <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+     <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+     </svg> <span> Eliminar ${cartOfProducts.name}</span> </button></li>     
+    </ul>
+     `
   }
 
+//Coordina los inputs
+
   function inputTxt(id) {
+    
   let num = event.path[0].value
-  //let idproducto = document.getElementById(`${cartOfProducts.id}`)
+  
+ 
   let inputLg = document.getElementById(`${id}`)
+
   let inputMd = document.getElementById(`md${id}`)
+
   let unitxcost = (num * (parseFloat((document.getElementById(`unitcost${id}`).textContent)))).toFixed(2) 
   
 if((num === 0)){    
   unitxcost = (1 * (parseFloat((document.getElementById(`unitcost${id}`).textContent)))).toFixed(2) 
+  
   document.getElementById(`subtotal${id}`).innerHTML = unitxcost
+
   document.getElementById(`mdsubtotal${id}`).innerHTML = unitxcost
+  
   inputLg.value = ""
+  
   inputMd.value = ""
 }
 
@@ -142,81 +181,110 @@ if((num === 0)){
   if((inputMd.value != inputLg.value)) {
     inputMd.value = num
   }
+
   document.getElementById(`subtotal${id}`).innerHTML = unitxcost
+ 
   document.getElementById(`mdsubtotal${id}`).innerHTML = unitxcost  
+ 
   buscarenarray ()
 }
+
+// Crea un array que con los subtotales (cantidad x costo) de cada producto.
+// Carga dinamicamente los costos de subtotal sin envio, envio y total.
 function buscarenarray (){
+  
   let arrayunitxcost = []
+  
   for (let i = 0; i < cartstoragesaved.length; i++) {
+    
     const element = cartstoragesaved[i];
+    
     let selector = document.getElementById(`subtotal${element}`).textContent
-    console.log(selector)
+   
     arrayunitxcost.push(parseFloat(selector)).toFixed(2)
     
   }
+
 let total = arrayunitxcost.reduce((a, b) => a + b, 0);
+
 subtotalGeneral.innerHTML=total.toFixed(2)
+
 if(mayor.checked){
-envio.innerHTML= (total*0.15).toFixed(2)
-subtotalMasEnvio()
-}
-if(mediano.checked){
-  envio.innerHTML= (total*0.07).toFixed(2)
+
+  envio.innerHTML= (total*0.15).toFixed(2)
+
   subtotalMasEnvio()
-  } 
-  if(barato.checked){
-    envio.innerHTML= (total*0.05).toFixed(2)
-    subtotalMasEnvio()
-    }  
-
-}
-function borrar(id){
-  let arrayEliminado = cartstoragesaved.filter(element => element != id)
-  localStorage.setItem(`"user_cart"${usuario_name}`, JSON.stringify(arrayEliminado))
-  window.location.reload()
 }
 
-function cargarProductos() {
+if(mediano.checked){
   
-  cartstoragesaved.forEach(idproducto => {
-    getJSONData(`https://japceibal.github.io/emercado-api/products/${idproducto}${EXT_TYPE}`).then(function (respuesta){
-      if(respuesta.status === "ok"){
-        cartOfProducts = respuesta.data
-        celdacarro(cartOfProducts)
-      }
-      if(cartOfProducts.currency === "UYU"){
-        cartOfProducts.currency = "USD"
-        cartOfProducts.cost = parseFloat(cartOfProducts.cost/USDvalue).toFixed(2)
-      }
-      array2.push(parseFloat(cartOfProducts.cost))
-      let subtotal = array2.reduce((a, b) => a + b, 0);
-      subtotalGeneral.innerHTML=parseFloat(subtotal).toFixed(2)
-      envio.innerHTML= parseFloat(subtotal * 0.15).toFixed(2)
-      subtotalMasEnvio()
-    })
-  });
+  envio.innerHTML= (total*0.07).toFixed(2)
+  
+  subtotalMasEnvio()
+ 
+} 
+  
+if(barato.checked){
+    
+  envio.innerHTML= (total*0.05).toFixed(2)
+   
+  subtotalMasEnvio()
+   
+}  
+
 }
-function subtotalMasEnvio () {
-  suma.innerHTML=(parseFloat(envio.textContent)+parseFloat(subtotalGeneral.textContent)).toFixed(2)
-}
+
 mayor.addEventListener("click",function(){
+ 
   let subtotal = subtotalGeneral.textContent
+  
   envio.innerHTML=(subtotal*0.15).toFixed(2)
+ 
   subtotalMasEnvio ()
+
 })
 
 mediano.addEventListener("click",function(){
+ 
   let subtotal = subtotalGeneral.textContent
+ 
   envio.innerHTML=(subtotal*0.07).toFixed(2)
+ 
   subtotalMasEnvio ()
-})
-barato.addEventListener("click",function(){
-  let subtotal = subtotalGeneral.textContent
-  envio.innerHTML=(subtotal*0.05).toFixed(2)
-  subtotalMasEnvio ()
+
 })
 
+barato.addEventListener("click",function(){
+ 
+  let subtotal = subtotalGeneral.textContent
+  
+  envio.innerHTML=(subtotal*0.05).toFixed(2)
+ 
+  subtotalMasEnvio ()
+
+})
+
+
+function subtotalMasEnvio () {
+  
+  suma.innerHTML=(parseFloat(envio.textContent)+parseFloat(subtotalGeneral.textContent)).toFixed(2)
+
+}
+
+function borrar(id){
+  
+  let arrayEliminado = cartstoragesaved.filter(element => element != id)
+  
+  localStorage.setItem(`"user_cart"${usuario_name}`, JSON.stringify(arrayEliminado))
+  
+  window.location.reload()
+
+}
+
+
+// Validaciones de campos obligatorios, especificacion de condiciones necesarias para finalizacion de compra. 
+
+//Modal forma de pago
 
 banco.addEventListener("click", function (){
   if(banco.checked){
@@ -239,20 +307,25 @@ tarjeta.addEventListener("click", function (){
   }
 })
 tarjeta1.addEventListener('input', function(event){
+ 
   if( tarjeta1.value.length != 12){
     tarjeta1.setCustomValidity('invalid');
-  } else {
+  } 
+  else {
     event.target.setCustomValidity('');
   }
 })
+
 tarjeta2.addEventListener('input', function(event){
   
   if( tarjeta2.value.length != 3){
     tarjeta2.setCustomValidity('invalid');
-  } else {
+  } 
+  else {
     event.target.setCustomValidity('');
   }
 })
+
 tarjeta3.addEventListener('input', function(event){
   if(fecha.length === 9){ 
     fecha = fecha.slice(0,8)+"0"+fecha.slice(8,9)
@@ -260,17 +333,48 @@ tarjeta3.addEventListener('input', function(event){
   }
   if((fecha > tarjeta3.value) ){
     tarjeta3.setCustomValidity('invalid');
-  } else {
+  } 
+  else {
     event.target.setCustomValidity('');
   }
 })
+
 transfer.addEventListener('input', function (event){
   if(transfer.value.length <=4) {
     transfer.setCustomValidity('invalid');
-  } else {
+  } 
+  else {
     event.target.setCustomValidity('');
   }
 })
+
+cerrarModal.addEventListener('click', function(){
+  ocultarSpan () 
+})
+cerrarModal2.addEventListener('click', function(){
+  ocultarSpan ()
+})
+
+function ocultarSpan () {
+if(((tarjeta.checked) && (tarjeta1.value.length === 12) && (tarjeta2.value.length === 3) && (tarjeta3.value.length ===10) && (fecha <= tarjeta3.value )) ||
+ 
+((banco.checked) && (transfer.value.length >4))){
+  
+  spanFormaDePago.classList.add('d-none')
+  
+  return true
+}
+
+else {
+  
+  spanFormaDePago.classList.remove('d-none')
+}
+
+}
+
+
+//Inputs de datos de direccion
+
 calle.addEventListener('input', function (event){
   if(calle.value.length ===0) {
     calle.setCustomValidity('invalid');
@@ -278,6 +382,7 @@ calle.addEventListener('input', function (event){
     event.target.setCustomValidity('');
   }
 })
+
 numero.addEventListener('input', function (event){
   if(calle.value.length ===0) {
     calle.setCustomValidity('invalid');
@@ -285,6 +390,7 @@ numero.addEventListener('input', function (event){
     event.target.setCustomValidity('');
   }
 })
+
 esquina.addEventListener('input', function (event){
   if(calle.value.length ===0) {
     calle.setCustomValidity('invalid');
@@ -293,61 +399,74 @@ esquina.addEventListener('input', function (event){
   }
 })
 
+//en el boton comprar se valida que el usuario no ponga 0 en ningun articulo 
+
 comprar.addEventListener("click",function(event){
   arrayinput = []
+  
   event.preventDefault()
+  
   let inputs=document.querySelectorAll('td > input')
+  
   inputs.forEach(element =>
-  validarInput(element))
-  alertaInput ()
-  ocultarSpan ()
-  if ((ocultarSpan(true)) && (((calle.value.length !=0) &&(esquina.value.length !=0) &&(numero.value.length !=0)&&(arrayinput.length ===0)))) {
-    document.getElementById('alerta_carrito').innerHTML = ""
-    msjsCarrito.classList.remove('d-none')
-    msjsCarrito.innerHTML = `
-    <div class="alert alert-success alert-dismissible " id="alertaArticulos" role="alert">
+  
+    validarInput(element))
+  
+    alertaInput ()
+  
+  
+  
+    if ((ocultarSpan(true)) && (((calle.value.length !=0) &&(esquina.value.length !=0) &&(numero.value.length !=0)&&(arrayinput.length ===0)))) {
+    
+      document.getElementById('alerta_carrito').innerHTML = ""
+    
+      msjsCarrito.classList.remove('d-none')
+    
+      msjsCarrito.innerHTML = `
+   
+    
+      <div class="alert alert-success alert-dismissible " id="alertaArticulos" role="alert">
             <strong>Compra realizada!</strong> Su compra ha finalizado.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>`
          
+          
           setTimeout(function(){ msjsCarrito.classList.add('d-none') }, (2500) )
   } 
   })
   
-  cerrarModal.addEventListener('click', function(){
-    ocultarSpan () 
-  })
-  cerrarModal2.addEventListener('click', function(){
-    ocultarSpan ()
-  })
+  
 
-function ocultarSpan () {
-  if(((tarjeta.checked) && (tarjeta1.value.length === 12) && (tarjeta2.value.length === 3) && (tarjeta3.value.length ===10) && (fecha <= tarjeta3.value )) || ((banco.checked) && (transfer.value.length >4))){
-    spanFormaDePago.classList.add('d-none')
-    return true
-  }
-  else {
-    spanFormaDePago.classList.remove('d-none')
-  }
-}
 function validarInput(input){
   if((input.value.length === 0) || (input.value === "0")){
-     arrayinput.push("1")
+     
+    arrayinput.push("1")
      
   } 
 }
+
 function alertaInput(){
   if(arrayinput.length !=0){
+   
     msjsCarrito.classList.remove('d-none')
+   
     msjsCarrito.innerHTML = `
     <div class="alert alert-warning alert-dismissible " id="alertaArticulos" role="alert">
             <strong>Hay articulos cuya cantidad es cero!</strong> Elige una cantidad valida de articulos.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
           </div>`
+   
           setTimeout(function(){ msjsCarrito.classList.add('d-none') }, (3200) )
-  } else {
+  } 
+  else {
+    
     msjsCarrito.innerHTML = ""
+  
   }
 }
 
+function categories(){
+  
+  window.location.replace("categories.html")
 
+}
