@@ -225,7 +225,15 @@ getJSONData(`https://japceibal.github.io/emercado-api/products_comments/${identi
     }
     let promedio = puntuacion
 
-    document.getElementById(`${identificador}`).innerHTML = `<p>${((promedio/(largoComments+1)).toFixed(2))} </p>`
+    if(promedio===0){
+        
+    document.getElementById(`${identificador}`).innerHTML = ""
+    } else {
+
+        document.getElementById(`${identificador}`).innerHTML = `<p><i>Puntuacion promedio   <strong style="color: blue"><u>${((promedio/(largoComments+1)).toFixed(1))}</u></strong></i> </p>`
+
+    }
+
     
    let puntuacionLocalStorage = 0
 
@@ -249,9 +257,9 @@ getJSONData(`https://japceibal.github.io/emercado-api/products_comments/${identi
 
  let textoplano = promedio 
 
- let promedioFinal = ((textoplano+promedioLocalStorage)/((largoCommentsLocalStorage+1)+(largoComments+1))).toFixed(2)
+ let promedioFinal = ((textoplano+promedioLocalStorage)/((largoCommentsLocalStorage+1)+(largoComments+1))).toFixed(1)
 
- document.getElementById(`${identificador}`).innerHTML = `<p>${(promedioFinal)} </p>
+ document.getElementById(`${identificador}`).innerHTML = `<p><i>Puntuacion promedio   <strong style="color: blue"><u>${(promedioFinal)}</u></strong></i> </p>
 `
 }
     
