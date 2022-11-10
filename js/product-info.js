@@ -28,7 +28,7 @@ function HtmlProductosInfo(productos_info) {
   <h2>${productos_info.name}</h2>
   <p class="lead" >${productos_info.description} </p> 
   <h2>Precio ${productos_info.currency} ${productos_info.cost}</h2>
-  small class="text-muted pb-1">Cantidad de vendidos ${productos_info.soldCount}</small>
+  <small  class="text-muted pb-1"><strong style="color: green;"  >Cantidad de vendidos ${productos_info.soldCount}</strong></small>
   </div>
   </div>
   </div>

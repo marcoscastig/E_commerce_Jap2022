@@ -46,6 +46,7 @@ let agregarusuario = function(usuario_name){
   let ShowUser = function(){ 
     navbariul.insertAdjacentHTML("beforeend",agregarusuario(usuario_name)) 
   }
+
   function tipo_de_puntuacion(score) {
     if (score === 5) {
       return `<span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span><span class="fa fa-star checked"></span>
@@ -67,8 +68,7 @@ let agregarusuario = function(usuario_name){
       `
     }
   }
-
-
+  
 let showSpinner = function(){
   document.getElementById("spinner-wrapper").style.display = "block";
 }

@@ -8,7 +8,7 @@ let maxSold = undefined;
 const Lista = document.getElementById("cat-list-container")
 const sector_buscador =document.getElementById("sector_buscador")
 const Lista1 = document.getElementById("Lista1")
-const buscador = document.getElementById("buscador_id")
+
 
 let agregarbarra = function(){
     return `<div class="container-fluid ">
@@ -65,8 +65,9 @@ function HtmlProductos(products) {
     <h4>${products.name} - ${products.currency} ${products.cost} </h4> 
     <p>${products.description} </p> 
     </div>
-    <small class="text-muted">${products.soldCount} vendidos</small> 
+    <small class="text-muted"><strong style="color: green">${products.soldCount} vendidos</strong></small> 
     </div>
+    <div id="${products.id}"> </div>
     </div>
     </div>
     </div>
@@ -78,6 +79,7 @@ function HtmlProductos(products) {
 function showCategoriesListProducts(){
 let htmlContentToAppend = "";
 for(let i = 0; i < productos.products.length; i++){
+  
     let products = productos.products[i];
     
     if (((minSold == undefined) || (minSold != undefined && parseInt(products.cost) >= minSold)) &&
@@ -103,14 +105,20 @@ function sortAndShowCategoriesProducts(sortCriteria, categoriesArray){
 
 
  document.addEventListener("DOMContentLoaded", async function() {
-   
+    const buscador = document.getElementById("buscador_id")
  
     getJSONData(PRODUCTS_URL) .then(function(respuesta){
     if(respuesta.status === "ok"){
         productos = respuesta.data
         showCategoriesListProducts()
-        
+        console.log(productos)
+
+        for(let i = 0; i < productos.products.length; i++){
+            elemento = (productos.products[i].id)
+            traerPuntuacion(elemento)
+        }
     }  
+    
     })
  
 
@@ -158,9 +166,8 @@ document.getElementById("rangeFilterCost").addEventListener("click", function(){
     showCategoriesListProducts();
 });
 
-})
 
-
+//buscador
 const buscar_producto = ()=> {
     const Busca = new FormData(buscador)
     let busqueda= Busca.get('busqueda').toLowerCase()
@@ -183,16 +190,75 @@ const buscar_producto = ()=> {
 }
 
 buscador.addEventListener('submit', (event) => {
-event.preventDefault();
-buscar_producto()
-buscador.reset()
+    event.preventDefault();
+    buscar_producto()
+    buscador.reset()
+    
+    })
+    buscador.addEventListener('keyup', (event) => {
+        event.preventDefault();
+       
+        buscar_producto()
+        
+    })
+    
 
 })
-buscador.addEventListener('keyup', (event) => {
-    event.preventDefault();
+
+
+ function traerPuntuacion(identificador) {
    
-    buscar_producto()
     
-})
+getJSONData(`https://japceibal.github.io/emercado-api/products_comments/${identificador}${EXT_TYPE}`).then(function (respuesta) {
+    let puntuacion = 0
+    let largoComments = 0
+    if (respuesta.status === "ok") {
+        
+      productos_comments = respuesta.data
+  
+
+    for (let e = 0; e < productos_comments.length; e++) {
+        let element = productos_comments[e].score; 
+        largoComments = e
+        
+        puntuacion += element
+    }
+    let promedio = puntuacion
+
+    document.getElementById(`${identificador}`).innerHTML = `<p>${((promedio/(largoComments+1)).toFixed(2))} </p>`
+    
+   let puntuacionLocalStorage = 0
+
+   let largoCommentsLocalStorage = 0
+
+   const myObjarraycomment = JSON.parse(localStorage.getItem(`"comments_user"${identificador}`)) || [];
+
+   if(myObjarraycomment.length != 0){
+ 
+   for (let e = 0; e < myObjarraycomment.length; e++) {
+ 
+   let element = myObjarraycomment[e].score;
+   
+      largoCommentsLocalStorage = e
+   
+      puntuacionLocalStorage += element
+  
+}
+
+ let promedioLocalStorage = puntuacionLocalStorage
+
+ let textoplano = promedio 
+
+ let promedioFinal = ((textoplano+promedioLocalStorage)/((largoCommentsLocalStorage+1)+(largoComments+1))).toFixed(2)
+
+ document.getElementById(`${identificador}`).innerHTML = `<p>${(promedioFinal)} </p>
+`
+}
+    
+  }
+  })
+}
+
+ 
 
 
