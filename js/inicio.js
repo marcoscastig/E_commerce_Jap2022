@@ -21,36 +21,32 @@ console.log(cartstoragesaved.length)
 function bienvenida(){
 if(cartstoragesaved.length ===0){
 containerInicio.innerHTML= `
-<div class="card text-center bg-dark bg-gradient"  style="color: orange" >
+<div class="card text-center">
   <div class="card-header">
-  <strong>Hola ${usuario_name} !</strong>
+  Bienvenid@  ${usuario_name}
   </div>
-  <div class="card-body  ">
+  <div class="card-body">
     <h5 class="card-title"></h5>
-    <p class="card-text"><strong>Recuerda que puedes actualizar tus datos, ver tu carrito de compras o cambiar tu imagen de usuario.</strong></p>
-    
-  <button class="btn btn-secondary " type="button"  aria-expanded="false"><a class="dropdown-item" href="my-profile.html">
-  <strong style="color:orange"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff9300" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <circle cx="12" cy="7" r="4" />
-  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-</svg>  ${usuario_name}</strong></a>
-  </button>
-  <button class="btn btn-secondary " type="button"  aria-expanded="false"><a class="dropdown-item" href="my-profile.html">
-  <strong style="color:orange"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ff9300" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-  <circle cx="12" cy="7" r="4" />
-  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-</svg>  ${usuario_name}</strong></a>
-  </button>
+    <p class="card-text">Recuerda que puedes ir a categorias y agregar al carrito.</p>
+    <a href="categories.html" class="btn btn-primary"><strong>Categorias</strong></a>
   </div>
-  <div class="card-footer text-muted">
-    2 days ago
-  </div>
-  </div>
+  
+</div>
 
 `} else {
-    console.log("nojkhsdajk")
+  containerInicio.innerHTML= `
+  <div class="card text-center">
+    <div class="card-header">
+     Hola de nuevo! ${usuario_name}
+    </div>
+    <div class="card-body">
+      <h5 class="card-title"></h5>
+      <p class="card-text">Personaliza tu carrito y finaliza tu compra.</p>
+      <a href="cart.html" class="btn btn-primary"><strong>Carrito</strong></a>
+    </div>
+  </div>
+  
+  `
 }
 }
 

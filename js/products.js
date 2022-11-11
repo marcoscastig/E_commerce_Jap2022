@@ -83,9 +83,16 @@ for(let i = 0; i < productos.products.length; i++){
     let products = productos.products[i];
     
     if (((minSold == undefined) || (minSold != undefined && parseInt(products.cost) >= minSold)) &&
+    
     ((maxSold == undefined) || (maxSold != undefined && parseInt(products.cost) <= maxSold))){    
-    htmlContentToAppend += HtmlProductos(products)}
+       
+        traerPuntuacion(products.id)
+        
+    htmlContentToAppend += HtmlProductos(products)
+    
+}
  Lista.innerHTML = htmlContentToAppend;
+
 }
 }
 
@@ -169,19 +176,32 @@ document.getElementById("rangeFilterCost").addEventListener("click", function(){
 
 //buscador
 const buscar_producto = ()=> {
+
     const Busca = new FormData(buscador)
+
     let busqueda= Busca.get('busqueda').toLowerCase()
+
     Lista.innerHTML =""
+
     for(let i = 0; i < productos.products.length; i++){
+
         let products = productos.products[i]
+
         let productos_txt = products.name.toLowerCase();
+
         let productos_desc = products.description.toLowerCase()
+
         if((productos_txt.indexOf(busqueda) !== -1 )|| (productos_desc.indexOf(busqueda)!== -1)){
-           
+
             Lista.innerHTML += HtmlProductos(products)
+
+            traerPuntuacion(products.id)
+
+            console.log(products.id)
         }
     }
     if(Lista.innerHTML === ""){
+        
         Lista.innerHTML += `<div class="mb-1">
         <h4 style="color:orange">Sigue navegando, tenemos grandes productos para ti</h4> 
         </div>`
@@ -195,18 +215,16 @@ buscador.addEventListener('submit', (event) => {
     buscador.reset()
     
     })
-    buscador.addEventListener('keyup', (event) => {
+
+buscador.addEventListener('keyup', (event) => {
         event.preventDefault();
-       
         buscar_producto()
         
     })
-    
-
 })
 
 
- function traerPuntuacion(identificador) {
+function traerPuntuacion(identificador) {
    
     
 getJSONData(`https://japceibal.github.io/emercado-api/products_comments/${identificador}${EXT_TYPE}`).then(function (respuesta) {
@@ -224,13 +242,13 @@ getJSONData(`https://japceibal.github.io/emercado-api/products_comments/${identi
         puntuacion += element
     }
     let promedio = puntuacion
+    if(promedio===0){
+        document.getElementById(`${identificador}`).innerHTML = ""
+    }
+    else{
 
-    
-
-        document.getElementById(`${identificador}`).innerHTML = `<p><i>Puntuacion promedio   <strong style="color: blue"><u>${((promedio/(largoComments+1)).toFixed(1))}</u></strong></i> </p>`
-
-    
-
+        document.getElementById(`${identificador}`).innerHTML = `<p><i>Puntuacion promedio ${(promedio/(largoComments+1)).toFixed(1)}  <strong>${htmlProgress((promedio/(largoComments+1)).toFixed(1))}</strong></i> </p>`
+    }
     
    let puntuacionLocalStorage = 0
 
@@ -251,27 +269,33 @@ getJSONData(`https://japceibal.github.io/emercado-api/products_comments/${identi
 }
 
  let promedioLocalStorage = puntuacionLocalStorage
-
- 
  
  let promedioFinal = ((promedio+promedioLocalStorage)/((largoCommentsLocalStorage+1)+(largoComments+1))).toFixed(1)
-console.log(promedio)
- if(promedio===0){
-    promedioFinal= (puntuacionLocalStorage/largoCommentsLocalStorage+1)
-    document.getElementById(`${identificador}`).innerHTML = `<p><i>Puntuacion promedio   <strong style="color: blue"><u>${(promedioFinal)}</u></strong></i> </p>
-`
- } else {
-    document.getElementById(`${identificador}`).innerHTML = `<p><i>Puntuacion promedio   <strong style="color: blue"><u>${(promedioFinal)}</u></strong></i> </p>
-`
- }
 
- 
-}
+ if(promedio===0){
+   
+    promedioFinal= (promedioLocalStorage/(largoCommentsLocalStorage+1))
+   
+    document.getElementById(`${identificador}`).innerHTML = `<p><i>Puntuacion promedio ${promedioFinal}   <strong>${htmlProgress(promedioFinal)}</strong></i> </p>
+`
+ } 
+ else {
+    document.getElementById(`${identificador}`).innerHTML =`<p><i>Puntuacion promedio ${promedioFinal}<strong>${htmlProgress(promedioFinal)}</strong></i> </p>
+    `
     
+ }
+}   
   }
   })
 }
 
- 
+function htmlProgress (x){
+    return `
+    <progress value="${x}" max="5"></progress>
+    
+    `
+}
+
+
 
 
