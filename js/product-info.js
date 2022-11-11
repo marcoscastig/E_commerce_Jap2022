@@ -17,10 +17,20 @@ function HtmlProductosInfo(productos_info) {
   <div class="row">
   <div class= "col " >
   <div class="d-grid d-md-grid  justify-content-lg-end ">
-  <button id="btn_buy" type="button" class="btn btn-success ">Agregar al carrito</button>
+  <button id="btn_buy" type="button" class="btn btn-success ">Agregar al carrito  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shopping-cart-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <circle cx="6" cy="19" r="2" />
+  <circle cx="17" cy="19" r="2" />
+  <path d="M17 17h-11v-14h-2" />
+  <path d="M6 5l6.005 .429m7.138 6.573l-.143 .998h-13" />
+  <path d="M15 6h6m-3 -3v6" />
+</svg></button>
   </div>
   <div class="d-grid d-md-grid mt-2 justify-content-lg-end">
-  <a class="btn btn-secondary btn-block" href="categories.html">Ir a Categorias</a>
+  <a class="btn btn-secondary btn-block" href="categories.html">Ir a Categorias  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-back-up" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 13l-4 -4l4 -4m-4 4h11a4 4 0 0 1 0 8h-1" />
+</svg></a>
   </div>
   <div class="col justify-content-center align-items-center">
   <div class="d-flex w-100 justify-content-between">
@@ -192,3 +202,18 @@ function insertRowEntabla(Obj_form) {
 }
 
   
+function dibujarCategorias () {     
+  let categorias = [
+     1,  2,  3,  4,  5
+  ]
+  categorias.forEach(element => {
+    insertCategory(element)
+  });
+}
+
+function insertCategory(categoryName) {    
+  const selectElement = document.getElementById("selecElement")  
+  let htmltoInsert =`<option>${categoryName}</option>`    
+  selectElement.insertAdjacentHTML("beforeend",htmltoInsert)  
+}
+dibujarCategorias()

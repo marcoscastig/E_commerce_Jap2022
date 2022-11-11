@@ -19,26 +19,43 @@ let ColorFooter = function(Footer){
   Footer.classList.add('text-dark','bg-white')
 }
 
+
+
 //agrega en el navar al usuario logeado
 let agregarusuario = function(usuario_name){
     return `
     <li class="nav-item">
-            <a class="nav-link" href="inicio.html">Inicio</a>
+            <a class="nav-link" href="inicio.html"><strong>Inicio</strong></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="categories.html">Categorías</a>
+            <a class="nav-link" href="categories.html"><strong>Categorías</strong></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="sell.html">Vender</a>
+            <a class="nav-link" href="sell.html"><strong>Vender</strong></a>
           </li>
    <div class="dropdown">
   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-  ${usuario_name}
+  <strong style="color:orange">${usuario_name}</strong>
   </button>
   <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-    <li><a class="dropdown-item" href="cart.html">Mi carrito</a></li>
-    <li><a class="dropdown-item" href="my-profile.html">Mi perfil</a></li>
-    <li><a onclick="resetusuario(id)" class="dropdown-item" href="index.html">Cerrar sesión</a></li>
+    <li><a class="dropdown-item" href="cart.html">  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shopping-cart" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#00abfb" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+    <circle cx="6" cy="19" r="2" />
+    <circle cx="17" cy="19" r="2" />
+    <path d="M17 17h-11v-14h-2" />
+    <path d="M6 5l14 1l-1 7h-13" />
+  </svg> <strong>Mi carrito</strong> </a></li>
+    <li><a class="dropdown-item" href="my-profile.html"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-circle" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#00abfb" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+    <circle cx="12" cy="12" r="9" />
+    <circle cx="12" cy="10" r="3" />
+    <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
+  </svg> <strong>Mi perfil</strong></a> </li>
+    <li><a onclick="resetusuario(id)" class="dropdown-item" href="index.html"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-logout" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#00abfb" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+    <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
+    <path d="M7 12h14l-3 -3m0 6l3 -3" />
+  </svg><strong>Cerrar sesión</strong></a></li>
   </ul>
 </div>`
 }
