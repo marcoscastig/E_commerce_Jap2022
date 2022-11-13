@@ -44,6 +44,16 @@ document.addEventListener('DOMContentLoaded', ()=> {
     telefono: ""
 }
 
+telefono.addEventListener('input', function(event){
+ 
+    if( telefono.value.length < 8){
+        telefono.setCustomValidity('invalid');
+    } 
+    else {
+      event.target.setCustomValidity('');
+    }
+  })
+
 //cuando el usuario da click en guardar cambios se almacenan los datos y la imagen.
 
 formularioPerfil.addEventListener("submit", (event)=>{

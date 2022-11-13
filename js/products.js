@@ -10,17 +10,21 @@ const sector_buscador =document.getElementById("sector_buscador")
 const Lista1 = document.getElementById("Lista1")
 
 
+
 let agregarbarra = function(){
     return `<div class="container-fluid ">
     <form id="buscador_id" class="d-flex mb-4" role="search">
       <input class="form-control me-2"  placeholder="Search" name="busqueda" aria-label="Search">
-      <button class="btn btn-outline-success" type="submit">Search</button>
+      <button class="btn btn-outline-success" type="submit"><strong>Buscar</strong></button>
     </form>
+    <button class="btn btn-outline-warning mb-2" id="botonBorrar" type="submit"><strong>Borrar</strong></button>
   </div>`
   }
+
   let barra_busqueda = function(){ 
     sector_buscador.insertAdjacentHTML("afterbegin",agregarbarra()) 
   }
+
   barra_busqueda()
 
 function sortCategoriesProducts(criteria, array){
@@ -48,6 +52,7 @@ function sortCategoriesProducts(criteria, array){
             return 0;
         });
     }
+    
 
     return result;
 }
@@ -77,7 +82,9 @@ function HtmlProductos(products) {
 
 
 function showCategoriesListProducts(){
-let htmlContentToAppend = "";
+
+    let htmlContentToAppend = "";
+
 for(let i = 0; i < productos.products.length; i++){
   
     let products = productos.products[i];
@@ -86,7 +93,6 @@ for(let i = 0; i < productos.products.length; i++){
     
     ((maxSold == undefined) || (maxSold != undefined && parseInt(products.cost) <= maxSold))){    
        
-        traerPuntuacion(products.id)
         
     htmlContentToAppend += HtmlProductos(products)
     
@@ -100,6 +106,7 @@ function sortAndShowCategoriesProducts(sortCriteria, categoriesArray){
     currentSortCriteriaProducts = sortCriteria;
 
     if(categoriesArray != undefined){
+        
         productos = categoriesArray;
     }
 
@@ -113,32 +120,45 @@ function sortAndShowCategoriesProducts(sortCriteria, categoriesArray){
 
  document.addEventListener("DOMContentLoaded", async function() {
     const buscador = document.getElementById("buscador_id")
+    const botonBorrar =document.getElementById('botonBorrar')
  
     getJSONData(PRODUCTS_URL) .then(function(respuesta){
-    if(respuesta.status === "ok"){
-        productos = respuesta.data
-        showCategoriesListProducts()
-        console.log(productos)
+    
+        if(respuesta.status === "ok"){
+       
+            productos = respuesta.data
+        
+            showCategoriesListProducts()
+      
 
         for(let i = 0; i < productos.products.length; i++){
+           
             elemento = (productos.products[i].id)
+            
             traerPuntuacion(elemento)
+        
         }
     }  
-    
     })
  
 
  document.getElementById("sortAscProd").addEventListener("click", function(){
+
     sortAndShowCategoriesProducts(ORDER_ASC_BY_COST);
+     buscar_producto()
 });
 
 document.getElementById("sortDescProd").addEventListener("click", function(){
+
     sortAndShowCategoriesProducts(ORDER_DESC_BY_COST);
+     buscar_producto()
 });
 
 document.getElementById("sortByCountProd").addEventListener("click", function(){
+
     sortAndShowCategoriesProducts(ORDER_BY_PROD_SOLD);
+     buscar_producto()
+     
 });
 
 document.getElementById("clearRangeFilterCost").addEventListener("click", function(){
@@ -148,7 +168,10 @@ document.getElementById("clearRangeFilterCost").addEventListener("click", functi
     minSold = undefined;
     maxSold = undefined;
 
-    showCategoriesListProducts();
+    showCategoriesListProductsForOtherPorpuses()
+    
+    buscador.reset()
+
 });
 
 document.getElementById("rangeFilterCost").addEventListener("click", function(){
@@ -169,8 +192,12 @@ document.getElementById("rangeFilterCost").addEventListener("click", function(){
     else{
         maxSold = undefined;
     }
+    
 
-    showCategoriesListProducts();
+    showCategoriesListProductsForOtherPorpuses()
+    
+    buscador.reset()
+
 });
 
 
@@ -193,109 +220,70 @@ const buscar_producto = ()=> {
 
         if((productos_txt.indexOf(busqueda) !== -1 )|| (productos_desc.indexOf(busqueda)!== -1)){
 
+            
+
             Lista.innerHTML += HtmlProductos(products)
 
             traerPuntuacion(products.id)
-
-            console.log(products.id)
+            
         }
+        
     }
     if(Lista.innerHTML === ""){
         
         Lista.innerHTML += `<div class="mb-1">
-        <h4 style="color:orange">Sigue navegando, tenemos grandes productos para ti</h4> 
+        <h4 style="color:orange">Sigue navegando, tenemos muchos productos para ti</h4> 
         </div>`
     }
     
 }
 
 buscador.addEventListener('submit', (event) => {
+   
     event.preventDefault();
+   
     buscar_producto()
-    buscador.reset()
-    
     })
 
 buscador.addEventListener('keyup', (event) => {
-        event.preventDefault();
-        buscar_producto()
+    
+    document.getElementById("rangeFilterCostMinProduct").value = "";
+    
+    document.getElementById("rangeFilterCostMaxProduct").value = "";
+     
+    event.preventDefault();
+    
+    buscar_producto()
         
     })
+    
+botonBorrar.addEventListener('click', function (){
+    
+    buscador.reset()
+
+    buscar_producto()
+})
 })
 
 
-function traerPuntuacion(identificador) {
-   
-    
-getJSONData(`https://japceibal.github.io/emercado-api/products_comments/${identificador}${EXT_TYPE}`).then(function (respuesta) {
-    let puntuacion = 0
-    let largoComments = 0
-    if (respuesta.status === "ok") {
+
+
+function showCategoriesListProductsForOtherPorpuses(){
+    let htmlContentToAppend = "";
+    for(let i = 0; i < productos.products.length; i++){
+      
+        let products = productos.products[i];
         
-      productos_comments = respuesta.data
-  
-
-    for (let e = 0; e < productos_comments.length; e++) {
-        let element = productos_comments[e].score; 
-        largoComments = e
+        if (((minSold == undefined) || (minSold != undefined && parseInt(products.cost) >= minSold)) &&
         
-        puntuacion += element
+        ((maxSold == undefined) || (maxSold != undefined && parseInt(products.cost) <= maxSold))){    
+           
+        traerPuntuacion(products.id)
+            
+        htmlContentToAppend += HtmlProductos(products)
+        
     }
-    let promedio = puntuacion
-    if(promedio===0){
-        document.getElementById(`${identificador}`).innerHTML = ""
+     Lista.innerHTML = htmlContentToAppend;
+     
     }
-    else{
-
-        document.getElementById(`${identificador}`).innerHTML = `<p><i>Puntuacion promedio ${(promedio/(largoComments+1)).toFixed(1)}  <strong>${htmlProgress((promedio/(largoComments+1)).toFixed(1))}</strong></i> </p>`
     }
-    
-   let puntuacionLocalStorage = 0
-
-   let largoCommentsLocalStorage = 0
-
-   const myObjarraycomment = JSON.parse(localStorage.getItem(`"comments_user"${identificador}`)) || [];
-
-   if(myObjarraycomment.length != 0){
- 
-   for (let e = 0; e < myObjarraycomment.length; e++) {
- 
-   let element = myObjarraycomment[e].score;
-   
-      largoCommentsLocalStorage = e
-   
-      puntuacionLocalStorage += element
-  
-}
-
- let promedioLocalStorage = puntuacionLocalStorage
- 
- let promedioFinal = ((promedio+promedioLocalStorage)/((largoCommentsLocalStorage+1)+(largoComments+1))).toFixed(1)
-
- if(promedio===0){
-   
-    promedioFinal= (promedioLocalStorage/(largoCommentsLocalStorage+1))
-   
-    document.getElementById(`${identificador}`).innerHTML = `<p><i>Puntuacion promedio ${promedioFinal}   <strong>${htmlProgress(promedioFinal)}</strong></i> </p>
-`
- } 
- else {
-    document.getElementById(`${identificador}`).innerHTML =`<p><i>Puntuacion promedio ${promedioFinal}<strong>${htmlProgress(promedioFinal)}</strong></i> </p>
-    `
-    
- }
-}   
-  }
-  })
-}
-
-function htmlProgress (x){
-    return `
-    <progress value="${x}" max="5"></progress>
-    
-    `
-}
-
-
-
-

@@ -1,5 +1,4 @@
 
-//let cartstoragesaved = (JSON.parse(localStorage.getItem(`"user_cart"${usuario_name}`))) || []
 let containerInicio = document.getElementById('containerInicio')
 
 
@@ -17,7 +16,8 @@ document.addEventListener("DOMContentLoaded", function(){
         window.location = "products.html"
     });
 });
-console.log(cartstoragesaved.length)
+
+//Si el usuario estuvo agregando al carrito hace una cosa sino otra
 function bienvenida(){
 if(cartstoragesaved.length ===0){
 containerInicio.innerHTML= `

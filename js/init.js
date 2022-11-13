@@ -165,3 +165,81 @@ function siempreHayQueLogearse () {
 }
 
 siempreHayQueLogearse()
+
+function traerPuntuacion(identificador) {
+   let selector = document.getElementById(`${identificador}`)
+   
+    
+  getJSONData(`https://japceibal.github.io/emercado-api/products_comments/${identificador}${EXT_TYPE}`).then(function (respuesta) {
+   
+    selector = document.getElementById(`${identificador}`)
+      let puntuacion = 0
+      let largoComments = 0
+      if (respuesta.status === "ok") {
+          
+        productos_comments = respuesta.data
+    
+  
+      for (let e = 0; e < productos_comments.length; e++) {
+          let element = productos_comments[e].score; 
+          largoComments = e
+          
+          puntuacion += element
+      }
+      let promedio = puntuacion
+      if(promedio===0){
+          selector.innerHTML = ""
+      }
+      else{
+  
+          selector.innerHTML = `<p><i>Puntuacion promedio ${(promedio/(largoComments+1)).toFixed(1)}  <strong>${htmlProgress((promedio/(largoComments+1)).toFixed(1))}</strong></i> </p>`
+      }
+      
+     let puntuacionLocalStorage = 0
+  
+     let largoCommentsLocalStorage = 0
+  
+     const myObjarraycomment = JSON.parse(localStorage.getItem(`"comments_user"${identificador}`)) || [];
+  
+     if(myObjarraycomment.length != 0){
+   
+     for (let e = 0; e < myObjarraycomment.length; e++) {
+   
+     let element = myObjarraycomment[e].score;
+     
+        largoCommentsLocalStorage = e
+     
+        puntuacionLocalStorage += element
+    
+  }
+  
+   let promedioLocalStorage = puntuacionLocalStorage
+   
+   let promedioFinal = ((promedio+promedioLocalStorage)/((largoCommentsLocalStorage+1)+(largoComments+1))).toFixed(1)
+  
+   if(promedio===0){
+     
+      promedioFinal= (promedioLocalStorage/(largoCommentsLocalStorage+1))
+     
+      selector.innerHTML = `<p><i>Puntuacion promedio ${promedioFinal.toFixed(1)}   <strong>${htmlProgress(promedioFinal)}</strong></i> </p>
+  `
+   } 
+   else {
+      selector.innerHTML =`<p><i>Puntuacion promedio ${promedioFinal.toFixed(1)}<strong>${htmlProgress(promedioFinal)}</strong></i> </p>
+      `
+      return
+   }
+  
+  }   
+    }
+    })
+  }
+
+
+  function htmlProgress (x){
+      return `
+      <progress value="${x}" max="5"></progress>
+      
+      `
+  }
+  

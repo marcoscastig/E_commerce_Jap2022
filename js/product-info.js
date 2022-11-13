@@ -6,17 +6,19 @@ const Productos_relacionados_div = document.getElementById("contenedor_productos
 const contenedorComentarios = document.getElementById("contenedorComentarios")
 FormComent = document.getElementById("FormComent")
 let userCart = [PRODID]
+let sectorComentarios = document.getElementById('sectorComentarios')
 
 
 function HtmlProductosInfo(productos_info) {
   Productos_info_div.innerHTML += `<div class="text-center ">
-  <h2>Puede ser tuyo</h2> 
-  <p class="lead">Verás aquí toda la informacion sobre ${productos_info.name}</p>
+  <h2><strong>Puede ser tuyo</strong></h2> 
+  <p class="lead"><i><strong>Verás aquí toda la informacion sobre ${productos_info.name}</strong></i></p>
   </div>
   <div  class=" list-group  rounded-0 px-2 ">
   <div class="row">
   <div class= "col " >
   <div class="d-grid d-md-grid  justify-content-lg-end ">
+  <div id="msjCompraRealizada"></div>
   <button id="btn_buy" type="button" class="btn btn-success ">Agregar al carrito  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shopping-cart-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
   <circle cx="6" cy="19" r="2" />
@@ -35,10 +37,10 @@ function HtmlProductosInfo(productos_info) {
   <div class="col justify-content-center align-items-center">
   <div class="d-flex w-100 justify-content-between">
   <div class="mb-1">
-  <h2>${productos_info.name}</h2>
-  <p class="lead" >${productos_info.description} </p> 
-  <h2>Precio ${productos_info.currency} ${productos_info.cost}</h2>
-  <small  class="text-muted pb-1"><strong style="color: green;"  >Cantidad de vendidos ${productos_info.soldCount}</strong></small>
+  <h2><strong>${productos_info.name}</strong></h2>
+  <p class="lead" ><i>${productos_info.description}</i></p> 
+  <h4><strong>Precio: ${productos_info.currency} ${productos_info.cost}</strong></h4>
+  <small  class="text-muted pb-1"><strong style="color: green;">Cantidad de vendidos ${productos_info.soldCount}</strong></small>
   </div>
   </div>
   </div>
@@ -67,6 +69,7 @@ document.addEventListener("DOMContentLoaded", async function () {
       let btn_buy =  document.getElementById('btn_buy')
         
       btn_buy.addEventListener("click", function (){
+        alertaInput()
         if (cartstoragesaved.length === 0){
           localStorage.setItem(`"user_cart"${usuario_name}`, JSON.stringify(userCart))
         }  else {
@@ -143,8 +146,8 @@ document.addEventListener("DOMContentLoaded", async function () {
           <div onclick="setIDProd(${relacionados.id})" class="col-xs-2 col-sm-5 col-md-4 col-lg-3 ">
           <a  href="#"><img  src="${relacionados.image}"class="img-fluid img-thumbnail px-2">
           </a>
-          <p class="text-center">${relacionados.name} </p> 
           </div>
+          <p class="text-center"><strong><i>${relacionados.name}</i></strong> </p> 
           `
       }
         Productos_relacionados.innerHTML += articulos
@@ -163,7 +166,21 @@ FormComent.addEventListener('submit', function (event) {
   FormComent.reset()
   contenedorComentarios.classList.remove("visually-hidden")
 } else {
-  alert ("Esperamos tu comentario, no seas timd@   ; )")
+  function alertaInputDos(){
+  
+   
+    msjCompraRealizada.classList.remove('d-none')
+   
+    msjCompraRealizada.innerHTML = `
+    <div class="alert alert-warning alert-dismissible " id="alertaArticulos" role="alert">
+    <strong>¡Tu comentario esta vacio!</strong> Para calificar tambien debes comentar.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>`
+   
+          setTimeout(function(){ msjCompraRealizada.classList.add('d-none') }, (2500) )
+  
+}
+alertaInputDos()
 }
 })
 
@@ -217,3 +234,20 @@ function insertCategory(categoryName) {
   selectElement.insertAdjacentHTML("beforeend",htmltoInsert)  
 }
 dibujarCategorias()
+
+
+function alertaInput(){
+  
+   
+    msjCompraRealizada.classList.remove('d-none')
+   
+    msjCompraRealizada.innerHTML = `
+    <div class="alert alert-success alert-dismissible " id="alertaArticulos" role="alert">
+    <strong>¡Articulo agregado con exito!</strong> En el carrito puedes personalizar y terminar tu compra.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>`
+   
+          setTimeout(function(){ msjCompraRealizada.classList.add('d-none') }, (3800) )
+  
+}
+
