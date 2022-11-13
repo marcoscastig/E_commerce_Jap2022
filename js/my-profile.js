@@ -10,6 +10,17 @@ let imagenPerfil = document.getElementById('imagenPerfil')
 const inputFile = document.getElementById('formFile');
 const traerImagen = (JSON.parse(localStorage.getItem(`"user_image"${usuario_name}`))) || ""
 
+
+let usuario_datos =  {
+    nombre: "",
+    segundoNombre: "",
+    apellido: "",
+    segundoApellido: "",
+    email: usuario_name,
+    telefono: ""
+}
+
+
 function cargarDatosIniciales (){
 
     if((validarInfo.nombre === undefined)){
@@ -35,14 +46,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
 
 })
 
-  let usuario_datos =  {
-    nombre: "",
-    segundoNombre: "",
-    apellido: "",
-    segundoApellido: "",
-    email: usuario_name,
-    telefono: ""
-}
+ 
 
 telefono.addEventListener('input', function(event){
  
@@ -89,6 +93,7 @@ function cambiarImagenJS(){
   }
 
 // con la Api FileReader, el archivo subido por el usuario se puede transformar a texto para ser utilizado en el src de la imagen.
+
 async function encodeFileAsBase64URL(file) {
 
         return new Promise((resolve) => {
@@ -107,6 +112,7 @@ async function encodeFileAsBase64URL(file) {
    };
 
 //cuando se cargue una imagen al input, la ruta a esa imagen sera codificada en base64 y puesta en la pagina para que el usuario la vea.
+
    inputFile.addEventListener('input', async (event) => {
    
     const base64URL = await encodeFileAsBase64URL(inputFile.files[0]);
