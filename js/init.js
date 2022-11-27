@@ -221,7 +221,7 @@ function traerPuntuacion(identificador) {
      
       promedioFinal= (promedioLocalStorage/(largoCommentsLocalStorage+1))
      
-      selector.innerHTML = `<p><i>Puntuacion promedio ${promedioFinal.toFixed(1)}   <strong>${htmlProgress(promedioFinal)}</strong></i> </p>
+      selector.innerHTML = `<p><i>Puntuacion promedio ${promedioFinal}   <strong>${htmlProgress(promedioFinal)}</strong></i> </p>
   `
    } 
    else {
