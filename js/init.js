@@ -225,7 +225,7 @@ function traerPuntuacion(identificador) {
   `
    } 
    else {
-      selector.innerHTML =`<p><i>Puntuacion promedio ${promedioFinal.toFixed(1)}<strong>${htmlProgress(promedioFinal)}</strong></i> </p>
+      selector.innerHTML =`<p><i>Puntuacion promedio ${promedioFinal}<strong>${htmlProgress(promedioFinal)}</strong></i> </p>
       `
       return
    }

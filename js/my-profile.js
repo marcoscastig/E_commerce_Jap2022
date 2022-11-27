@@ -5,6 +5,7 @@ let segundoApellido = document.getElementById('segundoApellido')
 let email = document.getElementById('email')
 let telefono = document.getElementById('telefono')
 const formularioPerfil = document.getElementById('formularioPerfil')
+let perfilActualizado = document.getElementById('perfilActualizado')
 let validarInfo = (JSON.parse(localStorage.getItem(`"user_data"${usuario_name}`))) || []
 let imagenPerfil = document.getElementById('imagenPerfil')
 const inputFile = document.getElementById('formFile');
@@ -62,7 +63,7 @@ telefono.addEventListener('input', function(event){
 
 formularioPerfil.addEventListener("submit", (event)=>{
     event.preventDefault()
-    
+    alertaInput()
     usuario_datos =  {
         nombre: primerNombre.value,
         segundoNombre: segundoNombre.value,
@@ -122,3 +123,17 @@ async function encodeFileAsBase64URL(file) {
 });
 
 
+function alertaInput(){
+  
+   
+    perfilActualizado.classList.remove('d-none')
+   
+    perfilActualizado.innerHTML = `
+    <div class="alert alert-success alert-dismissible " id="alertaArticulos" role="alert">
+    <strong>¡Perfil modificado!</strong> Tus datos han sido actualizados.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>`
+   
+          setTimeout(function(){ perfilActualizado.classList.add('d-none') }, (3800) )
+  
+}
