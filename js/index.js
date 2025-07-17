@@ -11,7 +11,7 @@ Formulario.addEventListener('submit', (event) => {
   localStorage.setItem("usuario",usuario)
   
   if (password == "" || usuario == "") {
-    alert('Usuario o contraseña incorrecto!!!');
+    alert('Ingresa cualquier dato para ver el sitio!!!');
   } else {
     window.location.replace("inicio.html")
   }
